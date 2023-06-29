@@ -1,4 +1,4 @@
-package items;
+package characters;
 
 public enum Item {
     PLACE_HOLDER(0,0,0,0,0);
