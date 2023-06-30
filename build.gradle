@@ -1,10 +1,11 @@
+import com.github.spotbugs.snom.SpotBugsReport
+
 plugins {
     id 'java'
     id 'jacoco'
     id 'checkstyle'
     id 'com.github.spotbugs' version '5.0.14'
 }
-
 
 repositories {
     mavenCentral()
@@ -40,15 +41,15 @@ checkstyle {
 }
 
 spotbugsMain {
-    reports {
+    reports(({
         xml.required = false
         html.required = true
-    }
+    } as Closure<NamedDomainObjectContainer<? extends SpotBugsReport>>))
 }
 
 spotbugsTest {
-    reports {
+    reports(({
         xml.required = false
         html.required = true
-    }
+    } as Closure<NamedDomainObjectContainer<? extends SpotBugsReport>>))
 }

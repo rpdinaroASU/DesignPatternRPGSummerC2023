@@ -1,5 +1,8 @@
 package characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Attack {
 
     /*
@@ -50,16 +53,18 @@ public enum Attack {
     ELDERS_CURSE("Elder's Curse", 45, 80, 18, 18, 26, false),
     VOID_WAIL("Void Wail", 50, 85, 20, 19, 28, false),
     ABYSSAL_TOUCH("Abyssal Touch", 55, 90, 22, 20, 30, false),
-    AWAKEN_THE_ETERNAL_ONE("Awaken the Eternal One", 60, 100, 25, 25, 35, false),
+    AWAKEN_THE_ETERNAL_ONE("Awaken the Eternal One", 60,
+            100, 25, 25, 35, false),
 
     /*
-     *  Below is a little Easter egg for anyone who makes it to level 100,
+     *  Below is a little Easter egg for anyone who makes it to level 40,
      *  Notice the damage type is not what you would expect,
      *  just wishing death grants physical damage,
-     *  just asking someone politely to stop will cause enough magical damage to kill them.
+     *  just asking someone politely to stop will cause
+     *  enough magical damage to kill them.
      */
-    ASKING_POLITELY("Asking Politely", 0,10000,0,0,100,true),
-    WISHING_DEATH("Wishing Death", 10000,0,0,0,100,false);
+    ASKING_POLITELY("Asking Politely", 0,10000,0,0,40,true),
+    WISHING_DEATH("Wishing Death", 10000,0,0,0,40,false);
     private final String attackName;
     private final double maxAttack;
     private final double maxMagicDamage;
@@ -68,7 +73,19 @@ public enum Attack {
     private final int levelAppears;
     private final boolean isPhysical;
 
-    Attack(String attackName, double maxAttack, double maxMagicDamage, double staminaCost, double manaCost, int levelAppears, boolean isPhysical) {
+    /**
+     * Represents the attack available to Characters.
+     * @param attackName the attack name
+     * @param maxAttack the maximum attack available to the player
+     * @param maxMagicDamage the maximum magic available to the player
+     * @param staminaCost the cost of stamina to use the attack
+     * @param manaCost the cost of mana to use the attack
+     * @param levelAppears the level you can equip the attack
+     * @param isPhysical if the attack is physical or magical
+     */
+    Attack(String attackName, double maxAttack, double maxMagicDamage,
+           double staminaCost, double manaCost, int levelAppears,
+           boolean isPhysical) {
         this.attackName = attackName;
         this.maxAttack = maxAttack;
         this.maxMagicDamage = maxMagicDamage;
@@ -77,32 +94,82 @@ public enum Attack {
         this.levelAppears = levelAppears;
         this.isPhysical = isPhysical;
     }
-
+    /**
+     * Return the maximum attack available to the player.
+     * @return the maximum attack available to the player
+     */
     public double getMaxAttack() {
         return maxAttack;
     }
 
+    /**
+     * Returns the maximum magic available to the player.
+     * @return the maximum magic available to the player
+     */
     public double getMaxMagicDamage() {
         return maxMagicDamage;
     }
 
+    /**
+     * Returns the cost of stamina to use the attack.
+     * @return the cost of stamina to use the attack
+     */
     public double getStaminaCost() {
         return staminaCost;
     }
 
+    /**
+     * Returns the cost of mana to use the attack.
+     * @return the cost of mana to use the attack
+     */
     public double getManaCost() {
         return manaCost;
     }
-
+    /**
+     * Returns the level you can equip the attack.
+     * @return the level you can equip the attack
+     */
     public int getLevelAppears() {
         return levelAppears;
     }
 
+    /**
+     * Returns the attack name.
+     * @return the attack name
+     */
     public String getAttackName() {
         return attackName;
     }
 
+    /**
+     * Returns if the attack is physical or magical.
+     * @return if the attack is physical or magical
+     */
     public boolean isPhysical() {
         return isPhysical;
+    }
+
+    /**
+     * Returns the move pool for a character of a certain level and class
+     * @param characterLevel the characters level
+     * @param isPhysical the class physical or magical
+     * @return the move pool
+     */
+    public static List<Attack> getMovePool(double characterLevel,
+                                           boolean isPhysical) {
+        List<Attack> movePool = new ArrayList<>();
+        for (Attack attack : Attack.values()) {
+            if (attack.getLevelAppears() <= characterLevel
+                    && isPhysical
+                    && attack.isPhysical()) {
+                movePool.add(attack);
+            }
+            if (attack.getLevelAppears() <= characterLevel
+                    && !isPhysical
+                    && !attack.isPhysical()) {
+                movePool.add(attack);
+            }
+        }
+        return movePool;
     }
 }

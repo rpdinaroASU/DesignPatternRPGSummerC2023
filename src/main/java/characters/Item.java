@@ -1,5 +1,8 @@
 package characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Item {
     SHARP_STICK("Sharp Stick", 1, 0, 0, 0, 1, 1),
     WOODEN_SWORD("Wooden Sword", 2, 0, 1, 0, 10, 2),
@@ -67,6 +70,16 @@ public enum Item {
     private final int value;
     private final int levelAppears;
 
+    /**
+     * Represent the Item.
+     * @param name name of item
+     * @param damage physical damage dealt
+     * @param intelligence magic damage dealt
+     * @param defence physical resistance given
+     * @param resist magical resistance given
+     * @param value gold value of item
+     * @param levelAppears the level this item becomes available
+     */
     Item(String name, int damage, int intelligence, int defence, int resist, int value, int levelAppears) {
         this.name = name;
         this.damage = damage;
@@ -77,31 +90,74 @@ public enum Item {
         this.levelAppears = levelAppears;
     }
 
+    /**
+     * Returns the damage dealt.
+     * @return the damage dealt
+     */
     public int getDamage() {
         return damage;
     }
 
+    /**
+     * Returns the defence granted by an item.
+     * @return the defence granted by an item
+     */
     public int getDefence() {
         return defence;
     }
 
+    /**
+     * Returns the resistance given by an item.
+     * @return the resistance given by an item
+     */
     public int getResist() {
         return resist;
     }
 
+    /**
+     * Returns the value of an Item.
+     * @return the value of an Item
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Returns the magical damage increased.
+     * @return the magical damage increased
+     */
     public int getIntelligence() {
         return intelligence;
     }
 
+    /**
+     * Returns the level the item appears on.
+     * @return the level the item appears on
+     */
     public int getLevelAppears() {
         return levelAppears;
     }
 
+    /**
+     * Returns the name of the item.
+     * @return the name of the item
+     */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Return a list of items available to the character.
+     * @param characterLevel the level of the character
+     * @return the list of items available to the character
+     */
+    public static List<Item> getItemPool(double characterLevel) {
+        List<Item> itemPool = new ArrayList<>();
+        for (Item item : Item.values()) {
+            if (item.getLevelAppears() <= characterLevel) {
+                itemPool.add(item);
+            }
+        }
+        return itemPool;
     }
 }
