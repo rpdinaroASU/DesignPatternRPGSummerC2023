@@ -13,13 +13,12 @@ public class CharacterBase implements Character{
     private double staminaCap = 0;
     private double staminaStored = 0;
     private int characterLevel = 0;
-    private final int itemSlotCount = 3;
-    private final int attackSlotCount = 4;
-    private final Item[] itemSlots = new Item[itemSlotCount];
-    private final Attack[] attackSlots = new Attack[attackSlotCount];
+    private static final int ITEMSLOTCOUNT = 3;
+    private static final int ATTACKSLOTCOUNT = 4;
+    private final Item[] itemSlots = new Item[ITEMSLOTCOUNT];
+    private final Attack[] attackSlots = new Attack[ATTACKSLOTCOUNT];
     private boolean magicType;
     private boolean physicalType;
-    private boolean currentType;
 
     /**
      * This default constructor creates an empty object to be modified.
@@ -82,10 +81,10 @@ public class CharacterBase implements Character{
      */
     @Override
     public Item getItemSlots(int slotNumber) throws IllegalArgumentException {
-        if(slotNumber<= this.itemSlotCount) {
-            String message = "You only have " + this.itemSlotCount
+        if(slotNumber<= ITEMSLOTCOUNT) {
+            String message = "You only have " + ITEMSLOTCOUNT
                     + " slots. Pick a number between 1 - "
-                    + this.itemSlotCount + ".";
+                    + ITEMSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
         return itemSlots[slotNumber];
@@ -99,10 +98,10 @@ public class CharacterBase implements Character{
     @Override
     public Attack getAttackSlots(int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= this.attackSlotCount) {
-            String message = "You only have " + this.attackSlotCount
+        if(slotNumber<= ATTACKSLOTCOUNT) {
+            String message = "You only have " + ATTACKSLOTCOUNT
                     + " slots. Pick a number between 1 - "
-                    + this.attackSlotCount + ".";
+                    + ATTACKSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
         return attackSlots[slotNumber];
@@ -116,10 +115,10 @@ public class CharacterBase implements Character{
     @Override
     public void setItemSlot(Item item, int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= this.itemSlotCount) {
-            String message = "You only have " + this.itemSlotCount
+        if(slotNumber<= ITEMSLOTCOUNT) {
+            String message = "You only have " + ITEMSLOTCOUNT
                     + " slots. Pick a number between 1 - "
-                    + this.itemSlotCount + ".";
+                    + ITEMSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
         itemSlots[slotNumber] = item;
@@ -133,9 +132,9 @@ public class CharacterBase implements Character{
     @Override
     public void setAttackSlot(Attack attack, int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= this.attackSlotCount) {
-            String message = "You only have " + this.attackSlotCount
-            + " slots. Pick a number between 1 - " + this.attackSlotCount + ".";
+        if(slotNumber<= ATTACKSLOTCOUNT) {
+            String message = "You only have " + ATTACKSLOTCOUNT
+            + " slots. Pick a number between 1 - " + ATTACKSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
         attackSlots[slotNumber] = attack;
@@ -270,7 +269,7 @@ public class CharacterBase implements Character{
      * @return the number of item slots
      */
     protected int getItemSlotCount() {
-        return this.itemSlotCount;
+        return ITEMSLOTCOUNT;
     }
 
     /**
@@ -278,6 +277,6 @@ public class CharacterBase implements Character{
      * @return Returns the number of attack slots
      */
     protected int getAttackSlotCount() {
-        return this.attackSlotCount;
+        return ATTACKSLOTCOUNT;
     }
 }

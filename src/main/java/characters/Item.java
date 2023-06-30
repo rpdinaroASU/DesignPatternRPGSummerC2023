@@ -34,7 +34,8 @@ public enum Item {
     MYSTIC_TABLET("Mystic Tablet", 0, 14, 1, 0, 250, 14),
     ORNATE_GLYPH("Ornate Glyph", 0, 16, 2, 0, 300, 16),
     ETHEREAL_INCANTATION("Ethereal Incantation", 0, 18, 3, 0, 350, 18),
-    HITCHHIKERS_GUIDE_TO_THE_AFTERLIFE("Hitchhiker's Guide to the Afterlife", 0, 20, 4, 0, 400, 20),
+    HITCHHIKERS_GUIDE_TO_THE_AFTERLIFE("Hitchhiker's Guide to the Afterlife",
+            0, 20, 4, 0, 400, 20),
     ARCANE_CHRONICLE("Arcane Chronicle", 0, 22, 5, 1, 450, 22),
     INFUSED_PAPYRUS("Infused Papyrus", 0, 24, 6, 2, 500, 24),
     SPELLBOUND_VELLUM("Spellbound Vellum", 0, 26, 7, 3, 550, 26),
@@ -80,7 +81,8 @@ public enum Item {
      * @param value gold value of item
      * @param levelAppears the level this item becomes available
      */
-    Item(String name, int damage, int intelligence, int defence, int resist, int value, int levelAppears) {
+    Item(String name, int damage, int intelligence, int defence,
+         int resist, int value, int levelAppears) {
         this.name = name;
         this.damage = damage;
         this.intelligence = intelligence;

@@ -12,19 +12,26 @@ public class Enemy extends CharacterBase{
     private final String enemyName;
     private final double experienceGiven;
     private final double goldGiven;
+    private static final int MAXDIFFICULTY = 3;
+    private final Random rand;
 
     /**
-     * This constructor creates an enemy's name, stats, move pool, and item pool.
+     * This constructor creates an enemy's name, stats,
+     * move pool, and item pool.
      * @param playerLevel the level of the player, must be over 1
      * @param difficulty the level of difficulty 1 - 3
      * @throws IllegalAccessException when params are out of bounds
      */
-    public Enemy(double playerLevel, int difficulty, double goldMultiplier) throws IllegalAccessException {
+    public Enemy(double playerLevel, int difficulty,
+                 double goldMultiplier) throws IllegalAccessException {
         super();
+        rand = new Random();
         this.enemyName = EnemyName.randomEnemyName().toString();
         setStats(playerLevel, difficulty);
-        experienceGiven = .6*this.getCharacterLevel();
-        goldGiven = goldMultiplier*10*this.getCharacterLevel();
+        final double experienceMultiplier = .6;
+        experienceGiven = experienceMultiplier*this.getCharacterLevel();
+        final double goldCoefficient = 10;
+        goldGiven = goldCoefficient*goldMultiplier*this.getCharacterLevel();
     }
 
     /**
@@ -33,12 +40,15 @@ public class Enemy extends CharacterBase{
      * @param difficulty the difficulty of the game 1 - 3
      * @throws IllegalAccessException params do not fall in the correct bounds
      */
-    private void setStats(double playerLevel, int difficulty) throws IllegalAccessException {
-        if(difficulty<=0||difficulty>3) {
-            throw new IllegalAccessException("difficulty must be between 1 - 3");
+    private void setStats(double playerLevel, int difficulty)
+            throws IllegalAccessException {
+        if(difficulty<=0||difficulty>MAXDIFFICULTY) {
+            String message = "difficulty must be between 1 - 3";
+            throw new IllegalAccessException(message);
         }
         if(playerLevel<=0) {
-            throw new IllegalAccessException("Player Level must be greater than 0");
+            String message = "Player Level must be greater than 0";
+            throw new IllegalAccessException(message);
         }
 
         setEnemyLevel(playerLevel, difficulty);
@@ -58,24 +68,42 @@ public class Enemy extends CharacterBase{
      * @param playerLevel the level of the player
      * @param difficulty the difficulty ranging from 1-3
      */
-    private void setEnemyLevel(double playerLevel, int difficulty) {
+    private void setEnemyLevel(double playerLevel, double difficulty) {
         double enemyLevelGrowthRate = 0;
-        final double RATE_ONE = .03 * difficulty;
-        final double RATE_TWO = 1.0 * difficulty * .8;
-        final double RATE_THREE = .03* difficulty;
-        final double RATE_FOUR = .025 * difficulty;
-        if(playerLevel<10) {
-            enemyLevelGrowthRate = RATE_ONE * Math.pow(playerLevel+8,2) - 1.92;
-            enemyLevelGrowthRate =Math.ceil(enemyLevelGrowthRate);
-        }
-        else if(playerLevel<20) {
-            enemyLevelGrowthRate = Math.round(RATE_TWO * playerLevel);
-        }
-        else if(playerLevel<30) {
-            enemyLevelGrowthRate = Math.round(RATE_THREE * (Math.pow(playerLevel,2))+8);
-        }
-        else if(playerLevel>=30) {
-            enemyLevelGrowthRate = Math.round(RATE_FOUR*Math.pow(playerLevel,2)+14);
+        /*
+        The coefficient of enemy level formula is variable based
+        on the difficulty level
+         */
+        final double rateOne = .03 * difficulty;
+        final double rateTwo = 1.0 * difficulty * .8;
+        final double rateThree = .03* difficulty;
+        final double rateFour = .025 * difficulty;
+        /*
+        The level bands between each formula,
+        as the level passes the band the formula
+        switches as a piecewise formula
+         */
+        final int levelBandOne = 10;
+        final int levelBandTwo = 20;
+        final int levelBandThree = 30;
+        final int levelBandFour = 40;
+
+        final double b1HorizontalShift = 8;
+        final double b1VerticalShift = -1.92;
+        final double b3VerticalShift = 8;
+        final double b4VerticalShift = 14;
+
+        if(playerLevel<levelBandOne) {
+            enemyLevelGrowthRate = Math.ceil(rateOne * Math.pow(playerLevel
+                    + b1HorizontalShift,2) + b1VerticalShift);
+        } else if(playerLevel<levelBandTwo) {
+            enemyLevelGrowthRate = Math.round(rateTwo * playerLevel);
+        } else if(playerLevel<levelBandThree) {
+            enemyLevelGrowthRate = Math.round(rateThree
+                    * (Math.pow(playerLevel,2))+b3VerticalShift);
+        } else if(playerLevel>=levelBandFour) {
+            enemyLevelGrowthRate = Math.round(rateFour
+                    *Math.pow(playerLevel,2)+b4VerticalShift);
         }
         this.setCharacterLevel((int) enemyLevelGrowthRate);
     }
@@ -84,7 +112,6 @@ public class Enemy extends CharacterBase{
      * sets the focus of the enemy - physical XOR magical.
      */
     private void setEnemyType(){
-        Random rand = new Random();
         boolean physicalBased = rand.nextBoolean();
         boolean magicalBased = !physicalBased;
         this.setPhysicalType(physicalBased);
@@ -94,10 +121,11 @@ public class Enemy extends CharacterBase{
      * Sets the attacks of this enemy from the available move pool.
      */
     private void setAttacks() {
-        List<Attack> attackPool = Attack.getMovePool(this.getCharacterLevel(), this.isPhysicalType());
-        Random rand = new Random();
+        List<Attack> attackPool = Attack.getMovePool(this.getCharacterLevel(),
+                this.isPhysicalType());
         for(int x = 1; x<=this.getAttackSlotCount(); x++) {
-            this.setAttackSlot(attackPool.get(rand.nextInt(attackPool.size())), x);
+            this.setAttackSlot(attackPool.get(rand.nextInt(attackPool.size())),
+                    x);
         }
     }
 
@@ -106,7 +134,6 @@ public class Enemy extends CharacterBase{
      */
     private void setItems() {
         List<Item> itemPool = Item.getItemPool(this.getCharacterLevel());
-        Random rand = new Random();
         for(int x = 1; x<=this.getItemSlotCount(); x++) {
             this.setItemSlot(itemPool.get(rand.nextInt(itemPool.size())), x);
         }

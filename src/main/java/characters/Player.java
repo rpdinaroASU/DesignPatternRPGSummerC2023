@@ -1,5 +1,7 @@
 package characters;
 
+import java.util.HashSet;
+
 /**
  * {@code @Author} Ryan Dinaro
  * @version 6/29/2023
@@ -10,6 +12,9 @@ public class Player extends CharacterBase {
 
     private int gold = 0;
     private double experiencePoints = 0;
+    private boolean currentType;
+    private final HashSet<Attack> attackPool;
+    private final HashSet<Item> itemPool;
 
 
     /**
@@ -18,11 +23,14 @@ public class Player extends CharacterBase {
      * @param manaCap Maximum mana a Player can have
      * @param staminaCap Maximum stamina a Player can have
      */
-    public Player(double healthCap, double manaCap, double staminaCap) throws IllegalArgumentException {
+    public Player(double healthCap, double manaCap, double staminaCap)
+            throws IllegalArgumentException {
         super(healthCap,manaCap,staminaCap);
         if(healthCap < 0 || manaCap < 0 || staminaCap < 0) {
             throw new IllegalArgumentException("All values must be positive");
         }
+        attackPool = new HashSet<Attack>();
+        itemPool = new HashSet<Item>();
         this.setCharacterLevel(1);
         this.setStatCaps();
     }
@@ -33,7 +41,8 @@ public class Player extends CharacterBase {
      * @return the balance of player gold
      */
     public double addGold(int goldGained){
-        return this.gold += goldGained;
+        this.gold += goldGained;
+        return this.gold;
     }
 
     /**
@@ -42,7 +51,8 @@ public class Player extends CharacterBase {
      * @return the balance of player gold
      */
     public double removeGold(int goldLost){
-        return this.gold -= goldLost;
+        this.gold -= goldLost;
+        return this.gold;
     }
 
     /**
@@ -51,18 +61,28 @@ public class Player extends CharacterBase {
      * @return total experience balance
      */
     public double addExperience(double experiencePoints){
-        return this.experiencePoints += experiencePoints;
+        this.experiencePoints += experiencePoints;
+        return this.experiencePoints;
     }
 
     /**
      * Check if player can level up.
      */
     public void levelUp() {
-        double experienceToLevelFormula = .1 * Math.pow(this.getCharacterLevel(),2) +20;
+        final double curvatureCoefficient = .1;
+        final double verticalShift = 20;
+        double experienceToLevelFormula = curvatureCoefficient
+                * Math.pow(this.getCharacterLevel(),2) + verticalShift;
         if(experienceToLevelFormula<experiencePoints) {
+            attackPool.addAll(Attack.getMovePool(this.getCharacterLevel(),
+                    this.isPhysicalType()));
+            itemPool.addAll(Item.getItemPool(this.getCharacterLevel()));
             experiencePoints-=experienceToLevelFormula;
             setCharacterLevel(getCharacterLevel()+1);
             this.setStatCaps();
+        }
+        if(isMagicType()&&isPhysicalType()) {
+            currentType = !currentType;
         }
 
     }
