@@ -32,13 +32,13 @@ public class NPC implements Character{
     }
 
     @Override
-    public Item[] getItemSlots() {
-        return itemSlots;
+    public Item getItemSlots(int SlotNumber) {
+        return itemSlots[SlotNumber];
     }
 
     @Override
-    public Attack[] getAttackSlots() {
-        return attackSlots;
+    public Attack getAttackSlots(int SlotNumber) {
+        return attackSlots[SlotNumber];
     }
 
     @Override
@@ -74,4 +74,5 @@ public class NPC implements Character{
     public void setStaminaCap(double staminaCap) {
         this.staminaCap = staminaCap;
     }
+
 }
