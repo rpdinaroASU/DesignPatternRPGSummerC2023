@@ -20,10 +20,10 @@ public class Enemy extends CharacterBase{
      * move pool, and item pool.
      * @param playerLevel the level of the player, must be over 1
      * @param difficulty the level of difficulty 1 - 3
-     * @throws IllegalAccessException when params are out of bounds
+     * @throws IllegalArgumentException when params are out of bounds
      */
     public Enemy(double playerLevel, double difficulty,
-                 double goldMultiplier) throws IllegalAccessException {
+                 double goldMultiplier) throws IllegalArgumentException {
         super();
         rand = new Random();
         this.enemyName = EnemyName.randomEnemyName().toString();
@@ -38,17 +38,17 @@ public class Enemy extends CharacterBase{
      * Sets the level of the Enemy based on player level and difficulty.
      * @param playerLevel the players level >= 1
      * @param difficulty the difficulty of the game 1 - 3
-     * @throws IllegalAccessException params do not fall in the correct bounds
+     * @throws IllegalArgumentException params do not fall in the correct bounds
      */
     private void setStats(double playerLevel, double difficulty)
-            throws IllegalAccessException {
+            throws IllegalArgumentException {
         if(difficulty<=0||difficulty>MAXDIFFICULTY) {
             String message = "difficulty must be between 1 - 3";
-            throw new IllegalAccessException(message);
+            throw new IllegalArgumentException(message);
         }
         if(playerLevel<=0) {
             String message = "Player Level must be greater than 0";
-            throw new IllegalAccessException(message);
+            throw new IllegalArgumentException(message);
         }
 
         setEnemyLevel(playerLevel, difficulty);

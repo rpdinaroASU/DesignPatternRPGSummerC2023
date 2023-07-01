@@ -103,13 +103,13 @@ public class CharacterBase implements Character{
     @Override
     public Item getItemSlots(int slotNumber) throws IllegalArgumentException {
         if(slotNumber >= ITEMSLOTCOUNT
-                ||slotNumber <= 0) {
+                ||slotNumber < 0) {
             String message = "You only have " + ITEMSLOTCOUNT
                     + " slots. Pick a number between 1 - "
                     + ITEMSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        return itemSlots[slotNumber-1];
+        return itemSlots[slotNumber];
     }
 
     /**
@@ -121,13 +121,14 @@ public class CharacterBase implements Character{
     public Attack getAttackSlots(int slotNumber)
             throws IllegalArgumentException {
         if(slotNumber >= ATTACKSLOTCOUNT
-            || slotNumber <= 0) {
+            || slotNumber < 0) {
             String message = "You only have " + ATTACKSLOTCOUNT
-                    + " slots. Pick a number between 1 - "
+                    + " slots. You picked " + slotNumber
+                    + "Pick a number between 1 - "
                     + ATTACKSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        return attackSlots[slotNumber-1];
+        return attackSlots[slotNumber];
     }
 
     /**

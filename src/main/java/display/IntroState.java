@@ -6,6 +6,8 @@ import characters.PlayerClasses;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import static display.UI.outputMessage;
+
 public class IntroState implements DisplayState {
     private final Scanner scan;
     private static String name;
@@ -17,7 +19,6 @@ public class IntroState implements DisplayState {
      */
     public IntroState() {
         this.scan = new Scanner(System.in, StandardCharsets.UTF_8);
-        this.player = player;
         displayScene();
     }
 
@@ -61,7 +62,7 @@ public class IntroState implements DisplayState {
                 + "The ones who come back commit themselves to one "
                 + "discipline.\"";
         outputMessage(message);
-        message = "\n\n\"The disciplines of warriors.\"\n\n";
+        message = "\n\n\"The discipline of warriors.\"\n\n";
         outputMessage(message);
         message = "\"The way of the warrior - strong in health and stamina\n"
                 + "The way of the thief - rich and healthy\n"
@@ -78,29 +79,45 @@ public class IntroState implements DisplayState {
                 + "inner magic, and a mindful presence.\"\n\n";
         outputMessage(message);
         getWarriorsClass();
-        message = "\"Ah, the way of the " + playerClass.name()
-                + "You might have a chance. \"\n\n";
+        message = "\"Ah, the way of the " + playerClass.name() + "."
+                + "\nYou might have a chance. \"\n\n";
         outputMessage(message);
         message = "\"Enter now, lest your heart fails you.\" They said\n"
                 + "They opened the door and gave you a final look \n"
                 + "as you close the door on them.\n\n";
         outputMessage(message);
         message = "You are now in the dungeons.\n\n\n";
+        getDifficultyLevel();
         outputMessage(message);
-
-        new BattleState();
-    }
-    private void outputMessage(String message) {
-        System.out.print(message);
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        new FloorState(player);
     }
     private void getWarriorsName() {
         System.out.println("What is the name of your fighter: ");
         name = scan.nextLine();
+    }
+    private void getDifficultyLevel() {
+        String message = "How difficult do you want this journey \n"
+                + "(1-10) 1 is a hard journey, 10 is impossible";
+        System.out.println(message);
+        int difficulty = 0;
+        while(difficulty<=0 || difficulty>10) {
+            String input = scan.nextLine();
+            try {
+                difficulty = Integer.parseInt(input);
+            } catch (Exception e) {
+                System.out.println("1 - 10");
+                difficulty = 0;
+                continue;
+            }
+            if(difficulty<=0 || difficulty>10) {
+                System.out.println("1 - 10");
+            }
+        }
+        System.out.println("So it is decided, " + difficulty + " difficulty");
+        double scaledDifficulty = 1 + (((double) difficulty)/10);
+        player.setDifficulty(scaledDifficulty);
+        player.setStatCaps(playerClass.getHealthBonus(),
+                playerClass.getManaBonus(), playerClass.getStaminaBonus());
     }
     private void getWarriorsClass() {
         String message = "What manner of fighter are you";

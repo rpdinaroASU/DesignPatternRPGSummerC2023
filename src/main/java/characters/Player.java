@@ -17,6 +17,8 @@ public class Player extends CharacterBase {
     private final double manaBonus;
     private final double staminaBonus;
     private final double goldBonus;
+    private final PlayerClasses playerClass;
+    private double playerDifficulty;
 
     /**
      * This initializes a player with the class specification
@@ -24,6 +26,8 @@ public class Player extends CharacterBase {
      * @param classes the player class
      */
     public Player(PlayerClasses classes) {
+        this.setAttackSlot(Attack.getMovePool(1,this.isPhysicalType()).get(0),1);
+        this.playerClass = classes;
         this.goldBonus = classes.getGoldBonus();
         if(classes.getHealthBonus()<1||classes.getHealthBonus()>2
                 ||classes.getManaBonus()<1||classes.getManaBonus()>2
@@ -84,14 +88,14 @@ public class Player extends CharacterBase {
     }
 
     /**
-     * Sets the player name to the argument
+     * Sets the player name to the argument.
      * @param playerName the player name
      */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
     /**
-     * Returns the players name
+     * Returns the players name.
      * @return player name
      */
     public String getPlayerName() {
@@ -99,10 +103,34 @@ public class Player extends CharacterBase {
     }
 
     /**
-     * Returns the gold bonus
+     * Returns the gold bonus.
      * @return the gold bonus
      */
     public double getGoldBonus() {
         return goldBonus;
+    }
+
+    /**
+     * Retrieves the player class.
+     * @return the player class
+     */
+    public PlayerClasses getPlayerClass() {
+        return playerClass;
+    }
+
+    /**
+     * Sets the difficulty level
+     * @param difficulty the difficulty level
+     */
+    public void setDifficulty(double difficulty) {
+        this.playerDifficulty = difficulty;
+    }
+
+    /**
+     * Returns the player difficulty
+     * @return the player difficulty
+     */
+    public double getPlayerDifficulty() {
+        return this.playerDifficulty;
     }
 }
