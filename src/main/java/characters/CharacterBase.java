@@ -6,13 +6,13 @@ package characters;
  * This class represents a base character archetype.
  */
 public class CharacterBase implements Character{
-    private int healthPoints = 0;
+    private double healthPoints = 0;
     private double manaStored = 0;
     private double healthCap = 0;
     private double manaCap = 0;
     private double staminaCap = 0;
     private double staminaStored = 0;
-    private int characterLevel = 0;
+    private int characterLevel = 1;
     private static final int ITEMSLOTCOUNT = 3;
     private static final int ATTACKSLOTCOUNT = 4;
     private final Item[] itemSlots = new Item[ITEMSLOTCOUNT];
@@ -47,8 +47,14 @@ public class CharacterBase implements Character{
      * @return the current health
      */
     @Override
-    public double reduceHealth(double damage) {
+    public double reduceHealth(double damage) throws IllegalArgumentException {
+        if(damage<0) {
+            throw new IllegalArgumentException("Damage cannot be less than 0");
+        }
         healthPoints -= damage;
+        if(healthPoints<0) {
+            healthPoints = 0;
+        }
         return healthPoints;
     }
 
@@ -59,6 +65,13 @@ public class CharacterBase implements Character{
      */
     @Override
     public double reduceMana(double actionCost) {
+        if(actionCost<0) {
+            String message = "Mana cost cannot be less than 0";
+            throw new IllegalArgumentException(message);
+        } else if(actionCost>manaStored) {
+            String message = "Mana cannot cost more than mana stored";
+            throw new IllegalArgumentException(message);
+        }
         manaStored -= actionCost;
         return manaStored;
     }
@@ -70,6 +83,14 @@ public class CharacterBase implements Character{
      */
     @Override
     public double reduceStamina(double actionCost) {
+        String message;
+        if(actionCost<0) {
+            message = "Stamina cost cannot be less than 0";
+            throw new IllegalArgumentException(message);
+        } else if(actionCost>staminaStored) {
+            message = "Stamina cannot cost more than stamina stored";
+            throw new IllegalArgumentException(message);
+        }
         staminaStored -= actionCost;
         return staminaStored;
     }
@@ -81,13 +102,14 @@ public class CharacterBase implements Character{
      */
     @Override
     public Item getItemSlots(int slotNumber) throws IllegalArgumentException {
-        if(slotNumber<= ITEMSLOTCOUNT) {
+        if(slotNumber >= ITEMSLOTCOUNT
+                ||slotNumber <= 0) {
             String message = "You only have " + ITEMSLOTCOUNT
                     + " slots. Pick a number between 1 - "
                     + ITEMSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        return itemSlots[slotNumber];
+        return itemSlots[slotNumber-1];
     }
 
     /**
@@ -98,13 +120,14 @@ public class CharacterBase implements Character{
     @Override
     public Attack getAttackSlots(int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= ATTACKSLOTCOUNT) {
+        if(slotNumber >= ATTACKSLOTCOUNT
+            || slotNumber <= 0) {
             String message = "You only have " + ATTACKSLOTCOUNT
                     + " slots. Pick a number between 1 - "
                     + ATTACKSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        return attackSlots[slotNumber];
+        return attackSlots[slotNumber-1];
     }
 
     /**
@@ -115,13 +138,14 @@ public class CharacterBase implements Character{
     @Override
     public void setItemSlot(Item item, int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= ITEMSLOTCOUNT) {
+        if(slotNumber-1 >= ITEMSLOTCOUNT
+        || slotNumber-1 < 0) {
             String message = "You only have " + ITEMSLOTCOUNT
                     + " slots. Pick a number between 1 - "
                     + ITEMSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        itemSlots[slotNumber] = item;
+        itemSlots[slotNumber-1] = item;
     }
 
     /**
@@ -132,12 +156,12 @@ public class CharacterBase implements Character{
     @Override
     public void setAttackSlot(Attack attack, int slotNumber)
             throws IllegalArgumentException {
-        if(slotNumber<= ATTACKSLOTCOUNT) {
+        if(slotNumber-1>= ATTACKSLOTCOUNT) {
             String message = "You only have " + ATTACKSLOTCOUNT
             + " slots. Pick a number between 1 - " + ATTACKSLOTCOUNT + ".";
             throw new IllegalArgumentException(message);
         }
-        attackSlots[slotNumber] = attack;
+        attackSlots[slotNumber-1] = attack;
     }
 
     /**
@@ -157,19 +181,19 @@ public class CharacterBase implements Character{
     @Override
     public void setStatCaps() throws IllegalArgumentException {
         if(characterLevel < 1) {
-            throw new IllegalArgumentException("Level is negative, "
+            throw new IllegalArgumentException("Level "
                     + "must be greater than 0");
         }
         final double curvatureCoefficient = .047;
         final double shiftHorizontal = 50;
         final double exponent = 2;
         final double healthShiftVertical = 110;
-        this.healthCap = (int) Math.round(curvatureCoefficient
+        this.healthCap = Math.round(curvatureCoefficient
                 * Math.pow(this.getCharacterLevel()+shiftHorizontal,
                         exponent)-healthShiftVertical);
-        final double manaShiftVertical = 110;
+        final double manaShiftVertical = 50;
         this.manaCap = this.getCharacterLevel()+manaShiftVertical;
-        final double staminaShiftVertical = 110;
+        final double staminaShiftVertical = 50;
         this.staminaCap = this.getCharacterLevel()+staminaShiftVertical;
         heal();
     }
@@ -180,9 +204,9 @@ public class CharacterBase implements Character{
      */
     @Override
     public void heal() {
-        this.healthPoints = (int) this.healthCap;
-        this.manaStored = (int) this.manaCap;
-        this.staminaStored = (int) this.staminaCap;
+        this.healthPoints = this.healthCap;
+        this.manaStored = this.manaCap;
+        this.staminaStored = this.staminaCap;
     }
 
     /**
@@ -268,7 +292,8 @@ public class CharacterBase implements Character{
      * Returns the number of item slots.
      * @return the number of item slots
      */
-    protected int getItemSlotCount() {
+    @Override
+    public int getItemSlotCount() {
         return ITEMSLOTCOUNT;
     }
 
@@ -276,7 +301,61 @@ public class CharacterBase implements Character{
      * Returns the number of attack slots.
      * @return Returns the number of attack slots
      */
-    protected int getAttackSlotCount() {
+    @Override
+    public int getAttackSlotCount() {
         return ATTACKSLOTCOUNT;
+    }
+
+    /**
+     * Returns the current health
+     * @return the current health
+     */
+    @Override
+    public double getHealthPoints() {
+        return healthPoints;
+    }
+
+    /**
+     * Sets the current health
+     * @param healthPoints the current health
+     */
+    @Override
+    public void setHealthPoints(double healthPoints) {
+        this.healthPoints = healthPoints;
+    }
+
+    /**
+     * Returns the current mana
+     * @return the current mana
+     */
+    @Override
+    public double getManaPoints() {
+        return manaStored;
+    }
+
+    /**
+     * Sets the current health
+     * @param manaPoints the current health
+     */
+    @Override
+    public void setManaPoints(double manaPoints) {
+        this.manaStored = manaPoints;
+    }
+    /**
+     * Returns the current stamina
+     * @return the current stamina
+     */
+    @Override
+    public double getStaminaPoints() {
+        return staminaStored;
+    }
+
+    /**
+     * Sets the current stamina
+     * @param staminaPoints the current stamina
+     */
+    @Override
+    public void setStaminaPoints(double staminaPoints) {
+        this.staminaStored = staminaPoints;
     }
 }

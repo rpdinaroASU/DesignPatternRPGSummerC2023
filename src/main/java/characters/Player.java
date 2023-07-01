@@ -1,6 +1,5 @@
 package characters;
 
-import java.util.HashSet;
 
 /**
  * {@code @Author} Ryan Dinaro
@@ -13,8 +12,6 @@ public class Player extends CharacterBase {
     private int gold = 0;
     private double experiencePoints = 0;
     private boolean currentType;
-    private final HashSet<Attack> attackPool;
-    private final HashSet<Item> itemPool;
 
 
     /**
@@ -29,8 +26,6 @@ public class Player extends CharacterBase {
         if(healthCap < 0 || manaCap < 0 || staminaCap < 0) {
             throw new IllegalArgumentException("All values must be positive");
         }
-        attackPool = new HashSet<Attack>();
-        itemPool = new HashSet<Item>();
         this.setCharacterLevel(1);
         this.setStatCaps();
     }
@@ -74,9 +69,6 @@ public class Player extends CharacterBase {
         double experienceToLevelFormula = curvatureCoefficient
                 * Math.pow(this.getCharacterLevel(),2) + verticalShift;
         if(experienceToLevelFormula<experiencePoints) {
-            attackPool.addAll(Attack.getMovePool(this.getCharacterLevel(),
-                    this.isPhysicalType()));
-            itemPool.addAll(Item.getItemPool(this.getCharacterLevel()));
             experiencePoints-=experienceToLevelFormula;
             setCharacterLevel(getCharacterLevel()+1);
             this.setStatCaps();
@@ -84,6 +76,5 @@ public class Player extends CharacterBase {
         if(isMagicType()&&isPhysicalType()) {
             currentType = !currentType;
         }
-
     }
 }

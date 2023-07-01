@@ -1,7 +1,7 @@
 package characters;
 
 public interface Character {
-    double reduceHealth(double damage);
+    double reduceHealth(double damage) throws IllegalArgumentException;
     double reduceMana(double actionCost);
     double reduceStamina(double actionCost);
     Item getItemSlots(int slotNumber) throws IllegalArgumentException;
@@ -20,4 +20,15 @@ public interface Character {
     void setPhysicalType(boolean physicalType);
     void setStatCaps() throws IllegalArgumentException;
     void heal();
+    int getItemSlotCount();
+    int getAttackSlotCount();
+    double getHealthPoints();
+    void setHealthPoints(double healthPoints);
+    double getStaminaPoints();
+
+    double getManaPoints();
+
+    void setManaPoints(double manaPoints);
+    void setStaminaPoints(double staminaPoints);
+
 }

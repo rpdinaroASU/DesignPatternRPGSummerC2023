@@ -22,7 +22,7 @@ public class Enemy extends CharacterBase{
      * @param difficulty the level of difficulty 1 - 3
      * @throws IllegalAccessException when params are out of bounds
      */
-    public Enemy(double playerLevel, int difficulty,
+    public Enemy(double playerLevel, double difficulty,
                  double goldMultiplier) throws IllegalAccessException {
         super();
         rand = new Random();
@@ -40,7 +40,7 @@ public class Enemy extends CharacterBase{
      * @param difficulty the difficulty of the game 1 - 3
      * @throws IllegalAccessException params do not fall in the correct bounds
      */
-    private void setStats(double playerLevel, int difficulty)
+    private void setStats(double playerLevel, double difficulty)
             throws IllegalAccessException {
         if(difficulty<=0||difficulty>MAXDIFFICULTY) {
             String message = "difficulty must be between 1 - 3";
