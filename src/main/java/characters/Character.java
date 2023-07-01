@@ -32,4 +32,5 @@ public interface Character {
     void setManaPoints(double manaPoints);
     void setStaminaPoints(double staminaPoints);
 
+    int getMoveCount();
 }

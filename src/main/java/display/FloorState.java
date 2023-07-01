@@ -8,7 +8,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static display.UI.displayPlayerInfo;
-import static display.UI.outputMessage;
 
 public class FloorState implements DisplayState{
     private final Player playerCharacter;
@@ -35,7 +34,29 @@ public class FloorState implements DisplayState{
         chooseEnemy();
     }
 
+    private void healOption() {
+        UI.displayPlayerInfo(playerCharacter);
+        int costOfHeal = playerCharacter.getCharacterLevel() * 5;
+        String message = "Would you like to heal for "
+                + costOfHeal + " gold? \nYou have " + playerCharacter.getGold()
+                + " gold.";
+        System.out.println(message);
+        String response = "";
+        while(!response.equalsIgnoreCase("yes")
+                && !response.equalsIgnoreCase("no")) {
+            response = scan.nextLine();
+            if(!response.equalsIgnoreCase("yes")
+                    && !response.equalsIgnoreCase("no")) {
+                System.out.println("Sorry didn't catch that");
+            } else if(response.equalsIgnoreCase("yes")
+                    && playerCharacter.getGold()<costOfHeal) {
+                System.out.println("You don't have enough gold");
+            }
+        }
+    }
+
     private void chooseEnemy() {
+        healOption();
         int choiceNumber = 0;
         System.out.println("Which do you want to face first?");
         listEnemy();
@@ -53,7 +74,7 @@ public class FloorState implements DisplayState{
                 if (enemies[x].getHealthPoints() > 0
                     && choiceNumber-1 == x) {
                     worked = true;
-                    new BattleState(playerCharacter, enemies[choiceNumber-1]);
+                    new PlayerBattleState(playerCharacter, enemies[choiceNumber-1]);
                 }
             }
             if(!worked) {
@@ -62,8 +83,8 @@ public class FloorState implements DisplayState{
         }
         for (Enemy enemy : enemies) {
             if (enemy.getHealthPoints() > 0) {
-                listEnemy();
                 chooseEnemy();
+                break;
             }
         }
 
@@ -84,7 +105,12 @@ public class FloorState implements DisplayState{
             }
         }
         if(count==0) {
-            new NewFloorState();
+            if(playerCharacter.getGold()>1000000) {
+                new VictoryState(playerCharacter);
+            } else {
+                new FloorState(playerCharacter);
+            }
+
         }
     }
 }

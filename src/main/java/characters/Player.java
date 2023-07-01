@@ -44,7 +44,7 @@ public class Player extends CharacterBase {
      * @param goldGained the amount gained
      * @return the balance of player gold
      */
-    public double addGold(int goldGained){
+    public double addGold(double goldGained){
         this.gold += goldGained;
         return this.gold;
     }
@@ -60,28 +60,47 @@ public class Player extends CharacterBase {
     }
 
     /**
-     * Adds experience to players account.
-     * @param experiencePoints the amount of experience to be added
-     * @return total experience balance
+     * Return the gold amount of the character
+     * @return gold banked
      */
-    public double addExperience(double experiencePoints){
+    public double getGold() {
+        return gold;
+    }
+
+    /**
+     * Adds experience to players account.
+     *
+     * @param experiencePoints the amount of experience to be added
+     */
+    public void addExperience(double experiencePoints){
         this.experiencePoints += experiencePoints;
-        return this.experiencePoints;
+    }
+
+    /**
+     * Returns the experience needed to level up.
+     * @return the experience needed to level up
+     */
+    public double getExperienceCap() {
+        final double curvatureCoefficient = .1;
+        final double verticalShift = 20;
+        double experienceToLevelFormula = curvatureCoefficient
+                * Math.pow(this.getCharacterLevel(),2) + verticalShift;
+        return experienceToLevelFormula;
     }
 
     /**
      * Check if player can level up.
      */
     public void levelUp() {
-        final double curvatureCoefficient = .1;
-        final double verticalShift = 20;
-        double experienceToLevelFormula = curvatureCoefficient
-                * Math.pow(this.getCharacterLevel(),2) + verticalShift;
-        if(experienceToLevelFormula<experiencePoints) {
-            experiencePoints-=experienceToLevelFormula;
+        if(getExperienceCap()<=experiencePoints) {
+            experiencePoints-=getExperienceCap();
             setCharacterLevel(getCharacterLevel()+1);
             this.setStatCaps(healthBonus, manaBonus, staminaBonus);
         }
+        /*
+         * Swap type learned every battle to effectively randomize
+         * attack learned for mixed classes
+         */
         if(isMagicType()&&isPhysicalType()) {
             currentType = !currentType;
         }
@@ -132,5 +151,13 @@ public class Player extends CharacterBase {
      */
     public double getPlayerDifficulty() {
         return this.playerDifficulty;
+    }
+
+    /**
+     * Returns the experience points in bank
+     * @return the experience points in bank
+     */
+    public double getExperiencePoints() {
+        return experiencePoints;
     }
 }

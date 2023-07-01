@@ -203,6 +203,8 @@ public class CharacterBase implements Character{
         heal();
     }
 
+
+
     /**
      * Heals the player to full health.
      * Used after a floor is cleared and level ups.
@@ -362,5 +364,19 @@ public class CharacterBase implements Character{
     @Override
     public void setStaminaPoints(double staminaPoints) {
         this.staminaStored = staminaPoints;
+    }
+
+    /**
+     * Returns how many attacks are in the slot
+     * @return how many attacks are in the slot
+     */
+    public int getMoveCount() {
+        int moveCount = 0;
+        for(int x = 0; x < ATTACKSLOTCOUNT; x++) {
+            if(this.getAttackSlots(x) !=null) {
+                moveCount++;
+            }
+        }
+        return moveCount;
     }
 }

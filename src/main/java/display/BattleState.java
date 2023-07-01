@@ -1,65 +1,56 @@
 package display;
 
-import characters.Enemy;
-import characters.Player;
+import characters.*;
+import characters.Character;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.Scanner;
 
-import static display.UI.displayPlayerInfo;
+public class BattleState {
+    private final static double attackPowerVariance = .25;
+    protected static Random rand;
+    protected final Scanner scan;
 
-public class BattleState implements DisplayState{
-    private final Player playerCharacter;
-    private final Enemy enemyCharacter;
-    private int moveCount;
-    private final Scanner scan;
     public BattleState(Player player, Enemy enemy) {
-        this.scan = new Scanner(System.in, StandardCharsets.UTF_8);
-        playerCharacter = player;
-        enemyCharacter = enemy;
-        displayScene();
+        rand = new Random();
+        scan = new Scanner(System.in, StandardCharsets.UTF_8);
     }
-
-    @Override
-    public void displayScene() {
-        displayCombatInfo();
-    }
-    private void displayCombatInfo() {
-        System.out.println("Player info: ");
-        displayPlayerInfo(playerCharacter);
-        String message;
-        moveCount = 0;
-        for(int x = 0; x < playerCharacter.getAttackSlotCount(); x++) {
-            if(playerCharacter.getAttackSlots(x) !=null) {
-                message = "Attack: (" + x + ") "
-                        + playerCharacter.getAttackSlots(x).getAttackName();
-                System.out.println(message);
-                moveCount++;
-            }
-        }
-        displayEnemyInfo();
-        getPlayerMove();
-    }
-
-    private void getPlayerMove() {
-        int choiceNumber = 0;
-        while(choiceNumber<=0 || choiceNumber>moveCount) {
-            String input = scan.nextLine();
-            try {
-                choiceNumber = Integer.parseInt(input);
-            } catch (Exception e) {
-                System.out.println("Choose your attack ");
-                choiceNumber = 0;
-            }
+    /**
+     * A method to damage a character.
+     * In this method especially the decorator class gets to shine.
+     * There is no need to separate the enemy and character damage
+     * @param character the character to be damaged
+     * @param attack the attack used
+     */
+    protected double doDamage(CharacterBase character, Attack attack) {
+        int lowerMagicDamageAmount = (int) Math.ceil(attack.getMaxMagicDamage()
+                * (1-attackPowerVariance));
+        int upperMagicDamageAmount = (int) Math.ceil(attack.getMaxMagicDamage()
+                - lowerMagicDamageAmount);
+        double magicDamage;
+        if(upperMagicDamageAmount!=0) {
+            magicDamage = rand.nextInt(upperMagicDamageAmount)
+                    + lowerMagicDamageAmount;
+        } else {
+            magicDamage = lowerMagicDamageAmount;
         }
 
-
+        int lowerPhysicalDamageAmount = (int) Math.ceil(attack.getMaxAttack()
+                * (1-attackPowerVariance));
+        int upperPhysicalDamageAmount = (int) Math.ceil(attack.getMaxAttack()
+                - lowerPhysicalDamageAmount);
+        double physicalDamage;
+        if(upperMagicDamageAmount!=0) {
+            physicalDamage = rand.nextInt(upperPhysicalDamageAmount)
+                    + lowerPhysicalDamageAmount;
+        } else {
+            physicalDamage = lowerPhysicalDamageAmount;
+        }
+        character.reduceHealth(magicDamage);
+        character.reduceHealth(physicalDamage);
+        double damage = magicDamage + physicalDamage;
+        return damage;
     }
 
-    private void displayEnemyInfo() {
-        String message = "Enemy: " + enemyCharacter.getEnemyName()
-                + "\nHealth: " + (int) enemyCharacter.getHealthPoints()
-                + " / " + (int) enemyCharacter.getHealthCap();
-        System.out.println(message);
-    }
 }
