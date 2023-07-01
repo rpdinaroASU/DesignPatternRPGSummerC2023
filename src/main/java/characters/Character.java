@@ -18,7 +18,8 @@ public interface Character {
     boolean isMagicType();
     void setMagicType(boolean magicType);
     void setPhysicalType(boolean physicalType);
-    void setStatCaps() throws IllegalArgumentException;
+    void setStatCaps(double healthBonus, double manaBonus, double staminaBonus)
+            throws IllegalArgumentException;
     void heal();
     int getItemSlotCount();
     int getAttackSlotCount();

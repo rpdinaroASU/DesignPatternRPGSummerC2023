@@ -53,7 +53,7 @@ public class Enemy extends CharacterBase{
 
         setEnemyLevel(playerLevel, difficulty);
         setEnemyType();
-        this.setStatCaps();
+        this.setStatCaps(1,1,1);
         setAttacks();
         setItems();
     }

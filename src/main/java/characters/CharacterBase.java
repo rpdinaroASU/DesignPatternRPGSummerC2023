@@ -179,7 +179,9 @@ public class CharacterBase implements Character{
      * @throws IllegalArgumentException if level is invalid
      */
     @Override
-    public void setStatCaps() throws IllegalArgumentException {
+    public void setStatCaps(double healthBonus, double manaBonus,
+                            double staminaBonus)
+            throws IllegalArgumentException {
         if(characterLevel < 1) {
             throw new IllegalArgumentException("Level "
                     + "must be greater than 0");
@@ -188,13 +190,15 @@ public class CharacterBase implements Character{
         final double shiftHorizontal = 50;
         final double exponent = 2;
         final double healthShiftVertical = 110;
-        this.healthCap = Math.round(curvatureCoefficient
+        this.healthCap = Math.round(healthBonus*Math.round(curvatureCoefficient
                 * Math.pow(this.getCharacterLevel()+shiftHorizontal,
-                        exponent)-healthShiftVertical);
+                        exponent)-healthShiftVertical));
         final double manaShiftVertical = 50;
-        this.manaCap = this.getCharacterLevel()+manaShiftVertical;
+        this.manaCap = Math.round(manaBonus*this.getCharacterLevel()
+                +manaShiftVertical);
         final double staminaShiftVertical = 50;
-        this.staminaCap = this.getCharacterLevel()+staminaShiftVertical;
+        this.staminaCap = Math.round(staminaBonus*this.getCharacterLevel()
+                + staminaShiftVertical);
         heal();
     }
 

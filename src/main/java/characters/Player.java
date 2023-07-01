@@ -12,22 +12,27 @@ public class Player extends CharacterBase {
     private int gold = 0;
     private double experiencePoints = 0;
     private boolean currentType;
-
+    private String playerName = "";
+    private final double healthBonus;
+    private final double manaBonus;
+    private final double staminaBonus;
+    private final double goldBonus;
 
     /**
-     * This constructor initiates a player object with stat caps.
-     * @param healthCap Maximum health a Player can have
-     * @param manaCap Maximum mana a Player can have
-     * @param staminaCap Maximum stamina a Player can have
+     * This initializes a player with the class specification
+     *
+     * @param classes the player class
      */
-    public Player(double healthCap, double manaCap, double staminaCap)
-            throws IllegalArgumentException {
-        super(healthCap,manaCap,staminaCap);
-        if(healthCap < 0 || manaCap < 0 || staminaCap < 0) {
-            throw new IllegalArgumentException("All values must be positive");
+    public Player(PlayerClasses classes) {
+        this.goldBonus = classes.getGoldBonus();
+        if(classes.getHealthBonus()<1||classes.getHealthBonus()>2
+                ||classes.getManaBonus()<1||classes.getManaBonus()>2
+                ||classes.getStaminaBonus()<1||classes.getStaminaBonus()>2) {
+            throw new IllegalArgumentException("Invalid arguments");
         }
-        this.setCharacterLevel(1);
-        this.setStatCaps();
+        this.healthBonus = classes.getHealthBonus();
+        this.manaBonus = classes.getManaBonus();
+        this.staminaBonus = classes.getStaminaBonus();
     }
 
     /**
@@ -71,10 +76,33 @@ public class Player extends CharacterBase {
         if(experienceToLevelFormula<experiencePoints) {
             experiencePoints-=experienceToLevelFormula;
             setCharacterLevel(getCharacterLevel()+1);
-            this.setStatCaps();
+            this.setStatCaps(healthBonus, manaBonus, staminaBonus);
         }
         if(isMagicType()&&isPhysicalType()) {
             currentType = !currentType;
         }
+    }
+
+    /**
+     * Sets the player name to the argument
+     * @param playerName the player name
+     */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+    /**
+     * Returns the players name
+     * @return player name
+     */
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
+     * Returns the gold bonus
+     * @return the gold bonus
+     */
+    public double getGoldBonus() {
+        return goldBonus;
     }
 }
