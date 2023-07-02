@@ -67,7 +67,7 @@ public class FloorState extends UIStates{
      */
     public String listEnemy(Player playerCharacter) {
         String message = "Player Stats: \n";
-        message += displayPlayerInfo(playerCharacter);
+        message += getPlayerInfo(playerCharacter);
         message += "\nGold: " + (int) playerCharacter.getGold();
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {

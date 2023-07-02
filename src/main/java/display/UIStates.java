@@ -1,7 +1,6 @@
 package display;
 
 import characters.CharacterBase;
-import characters.Player;
 
 import javax.swing.*;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +55,7 @@ public class UIStates {
      * Displays player stats
      * @param character the Character
      */
-    public static String displayPlayerInfo(CharacterBase character) {
+    public static String getPlayerInfo(CharacterBase character) {
         String message = "Health: " + (int) character.getHealthPoints()
                 + " / " + (int) character.getHealthCap() + "\t\t"
                 + " Mana: " + (int) character.getManaPoints()

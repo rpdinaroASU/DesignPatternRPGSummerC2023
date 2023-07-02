@@ -1,6 +1,8 @@
 package display;
 import characters.Player;
 
+import javax.swing.JOptionPane;
+
 /**
  * Heals the user for a price proportional to level.
  * @author Ryan Dinaro
@@ -13,24 +15,20 @@ public class HealState extends UIStates{
      * @param playerCharacter the player character
      */
     public HealState(Player playerCharacter) {
-        UIStates.displayPlayerInfo(playerCharacter);
         final int costMultiplier = 5;
         int costOfHeal = playerCharacter.getCharacterLevel() * costMultiplier;
-        String message = "Would you like to heal for "
+        String message = getPlayerInfo(playerCharacter)
+                + "\nWould you like to heal for "
                 + costOfHeal + " gold? \nYou have " + playerCharacter.getGold()
                 + " gold.";
-        String response = "";
-        while(!response.equalsIgnoreCase("yes")
-                && !response.equalsIgnoreCase("no")) {
-            response = inputScan(message);
-            if(!response.equalsIgnoreCase("yes")
-                    && !response.equalsIgnoreCase("no")) {
-                outputMessage("Sorry didn't catch that");
-            } else if(response.equalsIgnoreCase("yes")
-                    && playerCharacter.getGold()<costOfHeal) {
+
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(null,
+                message, "Heal", dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            if(playerCharacter.getGold()<costOfHeal) {
                 outputMessage("You don't have enough gold");
-            } else if(response.equalsIgnoreCase("yes")
-                    && playerCharacter.getGold()>costOfHeal) {
+            } else if(playerCharacter.getGold()>costOfHeal) {
                 playerCharacter.removeGold(costOfHeal);
                 playerCharacter.heal();
                 outputMessage("You pour the gold into your trusty"

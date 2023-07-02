@@ -28,9 +28,9 @@ public class PlayerBattleState extends BattleState{
     private String combatHeader(Player playerCharacter,
                               Enemy enemyCharacter) {
         String message = (playerCharacter.getPlayerName() +" info: \n");
-        message += displayPlayerInfo(playerCharacter);
+        message += getPlayerInfo(playerCharacter);
         message += "\n" + enemyCharacter.getEnemyName() + " info: \n";
-        message += displayPlayerInfo(enemyCharacter);
+        message += getPlayerInfo(enemyCharacter);
         return message;
     }
 
