@@ -3,16 +3,13 @@ package display;
 import characters.Attack;
 import characters.Player;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Scanner;
 
-public class LevelUpState {
+public class LevelUpState extends UIStates{
     public LevelUpState(Player playerCharacter) {
         System.out.println("\n\nYou leveled up\n\n");
         if(Attack.getMovePool(playerCharacter.getCharacterLevel()-1,playerCharacter.isPhysicalType()).size()
             !=Attack.getMovePool(playerCharacter.getCharacterLevel(),playerCharacter.isPhysicalType()).size()) {
-            Scanner scan = new Scanner(System.in, StandardCharsets.UTF_8);
             List<Attack> attackPool = Attack.getMovePool(
                     playerCharacter.getCharacterLevel(),
                     playerCharacter.isPhysicalType());

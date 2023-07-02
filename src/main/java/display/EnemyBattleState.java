@@ -5,7 +5,7 @@ import characters.Player;
 
 import java.util.Random;
 
-public class EnemyBattleState extends BattleState implements DisplayState{
+public class EnemyBattleState extends BattleState{
     private final int enemyMoveCount;
     private final Enemy enemy;
     private final Player player;
@@ -17,7 +17,7 @@ public class EnemyBattleState extends BattleState implements DisplayState{
         displayScene();
     }
 
-    @Override
+
     public void displayScene() {
         getAttack();
     }

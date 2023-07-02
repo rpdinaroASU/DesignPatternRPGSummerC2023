@@ -3,13 +3,8 @@ package display;
 import characters.Player;
 import characters.PlayerClasses;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
-import static display.UI.outputMessage;
-
-public class IntroState implements DisplayState {
-    private final Scanner scan;
+public class IntroState extends UIStates{
     private static String name;
     private static PlayerClasses playerClass;
     private Player player;
@@ -18,14 +13,12 @@ public class IntroState implements DisplayState {
      * Starting state of display
      */
     public IntroState() {
-        this.scan = new Scanner(System.in, StandardCharsets.UTF_8);
         displayScene();
     }
 
     /**
      * Displays the intro scene
      */
-    @Override
     public void displayScene() {
         String message = "You've heard tales of the dungeon "
                 + "at the center of town since you were a child. \n"

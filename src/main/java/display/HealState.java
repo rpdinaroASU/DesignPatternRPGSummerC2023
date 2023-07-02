@@ -1,13 +1,10 @@
 package display;
 import characters.Player;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
-public class HealState {
+public class HealState extends UIStates{
     public HealState(Player playerCharacter) {
-        Scanner scan = new Scanner(System.in, StandardCharsets.UTF_8);
-        UI.displayPlayerInfo(playerCharacter);
+        UIStates.displayPlayerInfo(playerCharacter);
         int costOfHeal = playerCharacter.getCharacterLevel() * 5;
         String message = "Would you like to heal for "
                 + costOfHeal + " gold? \nYou have " + playerCharacter.getGold()

@@ -1,6 +1,6 @@
 package util;
 
-import display.UI;
+import display.UIStates;
 
 public class Main {
     /**
@@ -8,7 +8,7 @@ public class Main {
      * @param args System args
      */
     public static void main(String[] args) {
-        new UI();
+        new UIStates();
     }
 
     /**

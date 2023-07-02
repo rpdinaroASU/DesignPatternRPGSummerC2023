@@ -1,21 +1,10 @@
 package display;
 
-import characters.*;
-import characters.Character;
+import characters.CharacterBase;
+import characters.Attack;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
-import java.util.Scanner;
 
-public class BattleState {
-    private final static double attackPowerVariance = .25;
-    protected static Random rand;
-    protected final Scanner scan;
-
-    public BattleState(Player player, Enemy enemy) {
-        rand = new Random();
-        scan = new Scanner(System.in, StandardCharsets.UTF_8);
-    }
+public class BattleState extends UIStates{
     /**
      * A method to damage a character.
      * In this method especially the decorator class gets to shine.

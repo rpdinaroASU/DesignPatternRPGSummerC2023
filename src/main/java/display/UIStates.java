@@ -2,14 +2,32 @@ package display;
 
 import characters.Player;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
+import java.util.Scanner;
 
-public class UI {
-    private static final int sleepTime = 6000;
+/**
+ * @author Ryan Dinaro
+ * @version 7/1/23
+ */
+public class UIStates {
     private static final int sleepTimeTemp = 0;
-    public UI(){
-        Player player = null;
+    protected final Random rand;
+    protected final Scanner scan;
+
+    /**
+     * Initiates the FSM for display control
+     */
+    public UIStates(){
+        rand = new Random();
+        scan = new Scanner(System.in, StandardCharsets.UTF_8);
         new IntroState();
     }
+
+    /**
+     * Outputs a message and pauses for time to read
+     * @param message the message to be outputted
+     */
     public static void outputMessage(String message) {
         System.out.print(message);
         try {
@@ -18,6 +36,11 @@ public class UI {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Displays player stats
+     * @param playerCharacter the player Character
+     */
     public static void displayPlayerInfo(Player playerCharacter) {
         String message = "Health: " + (int) playerCharacter.getHealthPoints()
                 + " / " + (int) playerCharacter.getHealthCap() + "\t\t"
@@ -29,4 +52,5 @@ public class UI {
 
         System.out.println(message);
     }
+
 }

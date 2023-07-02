@@ -4,42 +4,53 @@ import characters.Attack;
 import characters.Enemy;
 import characters.Player;
 
-
-import static display.UI.displayPlayerInfo;
-
-public class PlayerBattleState extends BattleState implements DisplayState{
+/**
+ * @author Ryan Dinaro
+ * @version 7/1/23
+ * This state represents a players turn while in a battle
+ */
+public class PlayerBattleState extends BattleState{
     private final Player playerCharacter;
     private final Enemy enemyCharacter;
 
+    /**
+     * This object will initiate a players turn
+     * @param player the player
+     * @param enemy the single enemy to fight
+     */
     public PlayerBattleState(Player player, Enemy enemy) {
-        super(player, enemy);
         playerCharacter = player;
         enemyCharacter = enemy;
-        displayScene();
+        displayCombatHeader();
+        listAttacks();
+        getPlayerMove();
     }
 
-    @Override
-    public void displayScene() {
-        displayCombatInfo();
-    }
-    private void displayCombatInfo() {
+    /**
+     * Displays the header of combat
+     */
+    private void displayCombatHeader() {
         System.out.println("Player info: ");
         displayPlayerInfo(playerCharacter);
         System.out.println("===========================================================");
         displayEnemyInfo();
-        System.out.println("===========================================================");
-        getPlayerMove();
+        System.out.println("===========================================================\n");
     }
 
-    private void getPlayerMove() {
+    /**
+     * This method will list all attacks a player can use in combat.
+     */
+    private void listAttacks() {
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
                 String message = "Attack: (" + (x+1) + ") "
-                        + playerCharacter.getAttackSlots(x).getAttackName() + "\t";
+                        + playerCharacter.getAttackSlots(x).getAttackName() + "\t\n";
                 System.out.print(message);
             }
         }
-        System.out.println();
+    }
+
+    private void getPlayerMove() {
         int choiceNumber = -1;
         while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
             String input = scan.nextLine();
@@ -72,10 +83,7 @@ public class PlayerBattleState extends BattleState implements DisplayState{
         doDamage(enemyCharacter, playerAttack);
 
         if(enemyCharacter.getHealthPoints()!=0) {
-            System.out.println("===========================================================");
-            displayPlayerInfo(playerCharacter);
-            System.out.println("===========================================================");
-            displayEnemyInfo();
+            displayCombatHeader();
             new EnemyBattleState(playerCharacter, enemyCharacter);
         } else {
             defeatedEnemy();
@@ -92,7 +100,6 @@ public class PlayerBattleState extends BattleState implements DisplayState{
         System.out.println("You have been awarded " + experienceRewarded + " experience.");
         System.out.println((int) (playerCharacter.getExperienceCap() - playerCharacter.getExperiencePoints())
                 + " experience needed to improve\n\n");
-        new ItemEquipState(playerCharacter, enemyCharacter);
         if(playerCharacter.levelUp()) {
             new LevelUpState(playerCharacter);
         } else {

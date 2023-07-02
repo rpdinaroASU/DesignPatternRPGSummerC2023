@@ -7,18 +7,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
 
-import static display.UI.displayPlayerInfo;
 
-public class FloorState implements DisplayState{
+public class FloorState extends UIStates{
     private final Player playerCharacter;
-    private final Scanner scan;
-    private final Random rand;
-    private Enemy[] enemies;
+    private final Enemy[] enemies;
     private static final int maxEnemies = 5;
     public FloorState(Player player) {
-        this.scan = new Scanner(System.in, StandardCharsets.UTF_8);
         playerCharacter = player;
-        rand = new Random();
         int enemyCount = rand.nextInt(maxEnemies-2) + 2 ;
         enemies = new Enemy[enemyCount];
         for(int x = 0; x < enemyCount; x++) {
@@ -34,7 +29,7 @@ public class FloorState implements DisplayState{
         }
     }
 
-    @Override
+
     public void displayScene() {
         chooseEnemy();
     }
