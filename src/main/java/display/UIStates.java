@@ -13,9 +13,7 @@ import java.util.Scanner;
  * @version 7/1/23
  */
 public class UIStates {
-    private static final int SLEEP_TIME_TEMP = 10;
     private final Random rand;
-    private final Scanner scan;
     protected static final int GOLD_GOAL = 1000000;
 
     /**
@@ -23,7 +21,6 @@ public class UIStates {
      */
     public UIStates(){
         rand = new Random();
-        scan = new Scanner(System.in, StandardCharsets.UTF_8);
     }
 
     /**
