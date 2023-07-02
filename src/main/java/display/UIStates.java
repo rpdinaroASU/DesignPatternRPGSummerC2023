@@ -11,7 +11,7 @@ import java.util.Scanner;
  * @version 7/1/23
  */
 public class UIStates {
-    private static final int SLEEP_TIME_TEMP = 0;
+    private static final int SLEEP_TIME_TEMP = 6000;
     private final Random rand;
     private final Scanner scan;
     protected static final int GOLD_GOAL = 1000000;
