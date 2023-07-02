@@ -27,7 +27,7 @@ public class EnemyBattleState extends BattleState{
     public void getAttack(Player player, Enemy enemy) {
         int choiceNumber = -1;
         while(choiceNumber<0) {
-            choiceNumber = rand.nextInt(enemyMoveCount);
+            choiceNumber = getRandomInt(enemyMoveCount);
             if(choiceNumber<=enemyMoveCount-1
                     && enemy.getAttackSlots(choiceNumber)
                     != null) {

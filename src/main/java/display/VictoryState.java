@@ -33,8 +33,10 @@ public class VictoryState extends UIStates{
         UIStates.outputMessage(message);
         message = "This will feel good\n\n";
         UIStates.outputMessage(message);
-        message = "You spend your time tending the garden and helping your mother\n"
-                + "around the house. \n Often times the children stop by to hear"
+        message = "You spend your time tending the "
+                + "garden and helping your mother\n"
+                + "around the house. "
+                + "\n Often times the children stop by to hear"
                 + " the story of " + playerCharacter.getPlayerName() + " the "
                 + "warrior.";
         UIStates.outputMessage(message);

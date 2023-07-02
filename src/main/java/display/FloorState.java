@@ -20,7 +20,7 @@ public class FloorState extends UIStates{
      * @param playerCharacter the player character
      */
     public FloorState(Player playerCharacter) {
-        int enemyCount = rand.nextInt(MAX_ENEMIES-2) + 2 ;
+        int enemyCount = getRandomInt(MAX_ENEMIES-2) + 2;
         enemies = new Enemy[enemyCount];
         for(int x = 0; x < enemyCount; x++) {
             enemies[x] = new Enemy(playerCharacter.getCharacterLevel(),
@@ -28,7 +28,7 @@ public class FloorState extends UIStates{
                     playerCharacter.getGoldBonus());
         }
         chooseEnemy(playerCharacter);
-        if(playerCharacter.getGold()>1000000) {
+        if(playerCharacter.getGold()>GOLD_GOAL) {
             new VictoryState(playerCharacter);
         } else {
             new FloorState(playerCharacter);
@@ -43,7 +43,7 @@ public class FloorState extends UIStates{
         System.out.println("Which do you want to face first?");
         listEnemy(playerCharacter);
         while(choiceNumber<=0 || choiceNumber>enemies.length) {
-            String input = scan.nextLine();
+            String input = inputScan();
             try {
                 choiceNumber = Integer.parseInt(input);
             } catch (Exception e) {
@@ -56,7 +56,8 @@ public class FloorState extends UIStates{
                 if (enemies[x].getHealthPoints() > 0
                     && choiceNumber-1 == x) {
                     worked = true;
-                    new PlayerBattleState(playerCharacter, enemies[choiceNumber-1]);
+                    new PlayerBattleState(playerCharacter,
+                            enemies[choiceNumber-1]);
                 }
             }
             if(!worked) {
@@ -81,7 +82,8 @@ public class FloorState extends UIStates{
         displayPlayerInfo(playerCharacter);
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {
-                String message = "( " + (x+1) + " ) " + enemies[x].getEnemyName()
+                String message = "( " + (x+1) + " ) "
+                        + enemies[x].getEnemyName()
                         + "\nHealth: " + (int) enemies[x].getHealthPoints()
                         + " / " + (int) enemies[x].getHealthCap();
                 System.out.println(message);

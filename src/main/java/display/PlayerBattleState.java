@@ -25,12 +25,15 @@ public class PlayerBattleState extends BattleState{
     /**
      * Displays the header of combat
      */
-    private void displayCombatHeader(Player playerCharacter, Enemy enemyCharacter) {
+    private void displayCombatHeader(Player playerCharacter,
+                                     Enemy enemyCharacter) {
         System.out.println("Player info: ");
         displayPlayerInfo(playerCharacter);
-        System.out.println("===========================================================");
+        System.out.println("========================="
+                + "==================================");
         displayEnemyInfo(enemyCharacter);
-        System.out.println("===========================================================\n");
+        System.out.println("============================"
+                + "===============================\n");
     }
 
     /**
@@ -40,7 +43,8 @@ public class PlayerBattleState extends BattleState{
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
                 String message = "Attack: (" + (x+1) + ") "
-                        + playerCharacter.getAttackSlots(x).getAttackName() + "\t\n";
+                        + playerCharacter.getAttackSlots(x).getAttackName()
+                        + "\t\n";
                 System.out.print(message);
             }
         }
@@ -53,7 +57,7 @@ public class PlayerBattleState extends BattleState{
     private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
         int choiceNumber = -1;
         while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
-            String input = scan.nextLine();
+            String input = inputScan();
             try {
                 choiceNumber = Integer.parseInt(input);
                 choiceNumber--;
@@ -62,7 +66,8 @@ public class PlayerBattleState extends BattleState{
                 choiceNumber = -1;
                 continue;
             }
-            if((choiceNumber>=0 && choiceNumber<=playerCharacter.getMoveCount()-1)
+            if((choiceNumber>=0
+                    && choiceNumber<=playerCharacter.getMoveCount()-1)
                     && playerCharacter.getAttackSlots(choiceNumber)
                     != null) {
                 doPlayerAttack(choiceNumber,playerCharacter,enemyCharacter);
@@ -100,15 +105,20 @@ public class PlayerBattleState extends BattleState{
      * The informative  exit message for the FSM to go back to the
      * levelUp state or the Heal State.
      */
-    private void defeatedEnemy(Player playerCharacter, Enemy enemyCharacter) {
-        System.out.println("You have defeated the " + enemyCharacter.getEnemyName() + ".");
-        double goldRewarded = playerCharacter.getGoldBonus()*enemyCharacter.getGoldGiven();
+    private void defeatedEnemy(Player playerCharacter,
+                               Enemy enemyCharacter) {
+        System.out.println("You have defeated the "
+                + enemyCharacter.getEnemyName() + ".");
+        double goldRewarded = playerCharacter.getGoldBonus()
+                *enemyCharacter.getGoldGiven();
         playerCharacter.addGold(goldRewarded);
         System.out.println("You have been awarded " + goldRewarded + " gold.");
         double experienceRewarded = enemyCharacter.getExperienceGiven();
         playerCharacter.addExperience(experienceRewarded);
-        System.out.println("You have been awarded " + experienceRewarded + " experience.");
-        System.out.println((int) (playerCharacter.getExperienceCap() - playerCharacter.getExperiencePoints())
+        System.out.println("You have been awarded " + experienceRewarded
+                + " experience.");
+        System.out.println((int) (playerCharacter.getExperienceCap()
+                - playerCharacter.getExperiencePoints())
                 + " experience needed to improve\n\n");
         if(playerCharacter.levelUp()) {
             new LevelUpState(playerCharacter);

@@ -94,7 +94,7 @@ public class IntroState extends UIStates{
      */
     private void getWarriorsName() {
         System.out.println("What is the name of your fighter: ");
-        name = scan.nextLine();
+        name = inputScan();
     }
 
     /**
@@ -105,9 +105,10 @@ public class IntroState extends UIStates{
         String message = "How difficult do you want this journey \n"
                 + "(1-10) 1 is a hard journey, 10 is impossible";
         System.out.println(message);
+        final int upperBoundsDifficulty = 10;
         int difficulty = 0;
-        while(difficulty<=0 || difficulty>10) {
-            String input = scan.nextLine();
+        while(difficulty<=0 || difficulty>upperBoundsDifficulty) {
+            String input = inputScan();
             try {
                 difficulty = Integer.parseInt(input);
             } catch (Exception e) {
@@ -115,12 +116,13 @@ public class IntroState extends UIStates{
                 difficulty = 0;
                 continue;
             }
-            if(difficulty<=0 || difficulty>10) {
+            if(difficulty<=0 || difficulty>upperBoundsDifficulty) {
                 System.out.println("1 - 10");
             }
         }
         System.out.println("So it is decided, " + difficulty + " difficulty");
-        double scaledDifficulty = 1 + (((double) difficulty)/10);
+        double scaledDifficulty = 1
+                + (((double) difficulty)/upperBoundsDifficulty);
         player.setDifficulty(scaledDifficulty);
         player.setStatCaps(playerClass.getHealthBonus(),
                 playerClass.getManaBonus(), playerClass.getStaminaBonus());
@@ -140,7 +142,7 @@ public class IntroState extends UIStates{
         System.out.println(message);
         int classChoice = 0;
         while(classChoice<=0 || classChoice>pClasses.length) {
-            String input = scan.nextLine();
+            String input = inputScan();
             try {
                 classChoice = Integer.parseInt(input);
             } catch (Exception e) {

@@ -11,9 +11,10 @@ import java.util.Scanner;
  * @version 7/1/23
  */
 public class UIStates {
-    private static final int sleepTimeTemp = 0;
-    protected final Random rand;
-    protected final Scanner scan;
+    private static final int SLEEP_TIME_TEMP = 0;
+    private final Random rand;
+    private final Scanner scan;
+    protected static final int GOLD_GOAL = 1000000;
 
     /**
      * Initiates the FSM for display control
@@ -25,13 +26,30 @@ public class UIStates {
     }
 
     /**
+     * Calls for an input from the user
+     * @return the input received
+     */
+    public String inputScan() {
+        return scan.nextLine();
+    }
+
+    /**
+     * Returns a random int bounded by param
+     * @param bound the upper bound of random
+     * @return random int bounded by param
+     */
+    public int getRandomInt(int bound) {
+        return rand.nextInt(bound);
+    }
+
+    /**
      * Outputs a message and pauses for time to read
      * @param message the message to be outputted
      */
     public static void outputMessage(String message) {
         System.out.print(message);
         try {
-            Thread.sleep(sleepTimeTemp);
+            Thread.sleep(SLEEP_TIME_TEMP);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

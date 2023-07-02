@@ -14,7 +14,8 @@ public class HealState extends UIStates{
      */
     public HealState(Player playerCharacter) {
         UIStates.displayPlayerInfo(playerCharacter);
-        int costOfHeal = playerCharacter.getCharacterLevel() * 5;
+        final int costMultiplier = 5;
+        int costOfHeal = playerCharacter.getCharacterLevel() * costMultiplier;
         String message = "Would you like to heal for "
                 + costOfHeal + " gold? \nYou have " + playerCharacter.getGold()
                 + " gold.";
@@ -22,7 +23,7 @@ public class HealState extends UIStates{
         String response = "";
         while(!response.equalsIgnoreCase("yes")
                 && !response.equalsIgnoreCase("no")) {
-            response = scan.nextLine();
+            response = inputScan();
             if(!response.equalsIgnoreCase("yes")
                     && !response.equalsIgnoreCase("no")) {
                 System.out.println("Sorry didn't catch that");
@@ -34,7 +35,8 @@ public class HealState extends UIStates{
                 playerCharacter.removeGold(costOfHeal);
                 playerCharacter.heal();
                 System.out.println("You pour the gold into your trusty"
-                        + " Gold-To-Health-O'Matic \nThat has no canonical reason"
+                        + " Gold-To-Health-O'Matic "
+                        + "\nThat has no canonical reason"
                         + " to exist.");
             }
         }

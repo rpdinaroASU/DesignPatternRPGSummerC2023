@@ -32,21 +32,26 @@ public class LevelUpState extends UIStates{
             for (int x = attackPool.size() - 1; x >= 0; x--) {
                 String message = "Attack: (" + (attackPool.size() - x) + ") - "
                         + attackPool.get(x).getAttackName() + "\t"
-                        + " Physical Attack: " + (int) attackPool.get(x).getMaxAttack() + "\t"
-                        + " Magical Attack: " + (int) attackPool.get(x).getMaxMagicDamage() + "\t"
-                        + " Stamina Cost: " + (int) attackPool.get(x).getStaminaCost() + "\t"
-                        + " Mana Cost: " + (int) attackPool.get(x).getManaCost();
+                        + " Physical Attack: "
+                        + (int) attackPool.get(x).getMaxAttack() + "\t"
+                        + " Magical Attack: "
+                        + (int) attackPool.get(x).getMaxMagicDamage() + "\t"
+                        + " Stamina Cost: "
+                        + (int) attackPool.get(x).getStaminaCost() + "\t"
+                        + " Mana Cost: "
+                        + (int) attackPool.get(x).getManaCost();
                 System.out.println(message);
             }
             //minimize the number of attack placements
-            int maxSlot = (attackPool.size() < playerCharacter.getAttackSlotCount())
+            int maxSlot = (attackPool.size()
+                    < playerCharacter.getAttackSlotCount())
                     ? attackPool.size() : playerCharacter.getAttackSlotCount();
             //solicits a move for each attack slot
             for (int y = 0; y < maxSlot; y++) {
                 int choiceNumber = -1;
                 System.out.println("Select an attack for slot #" + (y + 1));
                 while (choiceNumber < 0 || choiceNumber > attackPool.size()) {
-                    String input = scan.nextLine();
+                    String input = inputScan();
                     try {
                         choiceNumber = Integer.parseInt(input);
                     } catch (Exception e) {
