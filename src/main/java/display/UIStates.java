@@ -1,5 +1,6 @@
 package display;
 
+import characters.CharacterBase;
 import characters.Player;
 
 import javax.swing.*;
@@ -53,17 +54,15 @@ public class UIStates {
 
     /**
      * Displays player stats
-     * @param playerCharacter the player Character
+     * @param character the Character
      */
-    public static String displayPlayerInfo(Player playerCharacter) {
-        String message = "Health: " + (int) playerCharacter.getHealthPoints()
-                + " / " + (int) playerCharacter.getHealthCap() + "\t\t"
-                + " Mana: " + (int) playerCharacter.getManaPoints()
-                + " / " + (int) playerCharacter.getManaCap() + "\t\t"
-                + " \nStamina: " + (int) playerCharacter.getStaminaPoints()
-                + " / " + (int) playerCharacter.getStaminaCap() + "\t\t"
-                + " Gold: " + (int) playerCharacter.getGold() + "\n";
-
+    public static String displayPlayerInfo(CharacterBase character) {
+        String message = "Health: " + (int) character.getHealthPoints()
+                + " / " + (int) character.getHealthCap() + "\t\t"
+                + " Mana: " + (int) character.getManaPoints()
+                + " / " + (int) character.getManaCap() + "\t\t"
+                + " \nStamina: " + (int) character.getStaminaPoints()
+                + " / " + (int) character.getStaminaCap();
         return message;
     }
 

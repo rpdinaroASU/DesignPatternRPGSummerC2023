@@ -2,6 +2,9 @@ package display;
 
 import characters.CharacterBase;
 import characters.Attack;
+import characters.Enemy;
+
+import java.util.ArrayList;
 
 /**
  * This class allows the two Battle states to share a generic
@@ -23,5 +26,14 @@ public class BattleState extends UIStates{
         double damage = attack.getMaxMagicDamage() + attack.getMaxAttack();
         return damage;
     }
-
+    protected Attack[] getCharacterAttacks(CharacterBase character) {
+        ArrayList<Attack> characterAttacks = new ArrayList<Attack>();
+        Attack[] characterArr;
+        for(int x = 0; x < character.getAttackSlotCount(); x++) {
+            if(character.getAttackSlots(x)!=null)
+                characterAttacks.add(character.getAttackSlots(x));
+        }
+        characterArr = characterAttacks.toArray(new Attack[0]);
+        return characterArr;
+    }
 }

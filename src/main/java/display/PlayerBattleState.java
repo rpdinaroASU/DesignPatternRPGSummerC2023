@@ -4,6 +4,8 @@ import characters.Attack;
 import characters.Enemy;
 import characters.Player;
 
+import javax.swing.JOptionPane;
+
 /**
  * @author Ryan Dinaro
  * @version 7/1/23
@@ -17,23 +19,19 @@ public class PlayerBattleState extends BattleState{
      * @param enemy the single enemy to fight
      */
     public PlayerBattleState(Player player, Enemy enemy) {
-        displayCombatHeader(player,enemy);
-        listAttacks(player);
         getPlayerMove(player,enemy);
     }
 
     /**
      * Displays the header of combat
      */
-    private void displayCombatHeader(Player playerCharacter,
-                                     Enemy enemyCharacter) {
-        outputMessage("Player info: ");
-        displayPlayerInfo(playerCharacter);
-        outputMessage("========================="
-                + "==================================");
-        displayEnemyInfo(enemyCharacter);
-        outputMessage("============================"
-                + "===============================\n");
+    private String combatHeader(Player playerCharacter,
+                              Enemy enemyCharacter) {
+        String message = (playerCharacter.getPlayerName() +" info: \n");
+        message += displayPlayerInfo(playerCharacter);
+        message += "\n" + enemyCharacter.getEnemyName() + " info: \n";
+        message += displayPlayerInfo(enemyCharacter);
+        return message;
     }
 
     /**
@@ -56,46 +54,31 @@ public class PlayerBattleState extends BattleState{
      * Parses only results that remain in bounds of FSM
      */
     private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
-        int choiceNumber = -1;
-        while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
-            String input = inputScan(listAttacks(playerCharacter));
-            try {
-                choiceNumber = Integer.parseInt(input);
-                choiceNumber--;
-            } catch (Exception e) {
-                outputMessage("Enter a valid input.");
-                choiceNumber = -1;
-                continue;
-            }
-            if((choiceNumber>=0
-                    && choiceNumber<=playerCharacter.getMoveCount()-1)
-                    && playerCharacter.getAttackSlots(choiceNumber)
-                    != null) {
-                doPlayerAttack(choiceNumber,playerCharacter,enemyCharacter);
-                if(enemyCharacter.getHealthPoints()!=0) {
-                    doPlayerAttack(choiceNumber,playerCharacter,enemyCharacter);
-                    choiceNumber = -1;
-                }
-            } else {
-                outputMessage("You do not have an attack in that slot");
-                choiceNumber = -1;
-            }
+        String message = combatHeader(playerCharacter,enemyCharacter);
+        message += listAttacks(playerCharacter);
+
+        Attack input = null;
+        while(input==null) {
+            Attack[] arr = getCharacterAttacks(playerCharacter);
+            input = (Attack) JOptionPane.showInputDialog(null, message,
+                    "Choose Attack", JOptionPane.QUESTION_MESSAGE, null, arr, arr[0]);
         }
+        doPlayerAttack(input,playerCharacter,enemyCharacter);
+
     }
 
     /**
      * Attacks the enemy with the attack slot number specified
-     * @param slotNumber the attack slot number
+     * @param playerAttack the attack
      */
-    private void doPlayerAttack(int slotNumber, Player playerCharacter,
+    private void doPlayerAttack(Attack playerAttack, Player playerCharacter,
                                 Enemy enemyCharacter) {
-        Attack playerAttack = playerCharacter.getAttackSlots(slotNumber);
         playerCharacter.reduceMana(playerAttack.getManaCost());
         playerCharacter.reduceStamina(playerAttack.getStaminaCost());
         doDamage(enemyCharacter, playerAttack);
 
         if(enemyCharacter.getHealthPoints()!=0) {
-            displayCombatHeader(playerCharacter, enemyCharacter);
+            combatHeader(playerCharacter, enemyCharacter);
             new EnemyBattleState(playerCharacter, enemyCharacter);
         } else {
             defeatedEnemy(playerCharacter,enemyCharacter);
@@ -130,13 +113,4 @@ public class PlayerBattleState extends BattleState{
         }
     }
 
-    /**
-     * Display the information for enemies in combat.
-     */
-    private void displayEnemyInfo(Enemy enemyCharacter) {
-        String message = "Enemy: " + enemyCharacter.getEnemyName()
-                + "\nHealth: " + (int) enemyCharacter.getHealthPoints()
-                + " / " + (int) enemyCharacter.getHealthCap();
-        outputMessage(message);
-    }
 }

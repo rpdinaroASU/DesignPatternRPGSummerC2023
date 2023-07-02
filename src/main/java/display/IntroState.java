@@ -84,6 +84,7 @@ public class IntroState extends UIStates{
                 + "The way of the Monk - a perfect blend of physical might, "
                 + "inner magic, and a mindful presence.";
         getWarriorsClass(message);
+        player.setPlayerName(name);
         message = "\"Ah, the way of the " + player.getPlayerClass().name() + ".\n"
                 + "\nYou might have a chance. \"\n";
         outputMessage(message);
