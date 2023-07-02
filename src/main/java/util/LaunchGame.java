@@ -1,7 +1,6 @@
 package util;
 
 import display.IntroState;
-import display.UIStates;
 
 /**
  * This class launches the game as it is called.
