@@ -55,8 +55,11 @@ public class FloorState extends UIStates{
             Enemy[] enemyArr = enemyList.toArray(new Enemy[0]);
             String message = "Which do you want to face first?\n";
             message += listEnemy(playerCharacter);
+
             Enemy input = (Enemy) JOptionPane.showInputDialog(null, message,
-                    "Choose Class", JOptionPane.QUESTION_MESSAGE, null, enemyArr, enemyArr[0]);
+                    "Choose Class", JOptionPane.QUESTION_MESSAGE,
+                    null, enemyArr, enemyArr[0]);
+
             new PlayerBattleState(playerCharacter, input);
             chooseEnemy(playerCharacter);
         }

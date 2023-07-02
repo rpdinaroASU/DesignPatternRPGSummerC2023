@@ -47,7 +47,8 @@ public class LevelUpState extends UIStates{
                     Attack[] attackArr = attackPool.toArray(new Attack[0]);
                     input = (Attack) JOptionPane.showInputDialog(
                             null, message, "Choose Attack",
-                            JOptionPane.QUESTION_MESSAGE, null, attackArr, attackArr[0]);
+                            JOptionPane.QUESTION_MESSAGE, null,
+                            attackArr, attackArr[0]);
                 }
                 attackPool.remove(input);
             }

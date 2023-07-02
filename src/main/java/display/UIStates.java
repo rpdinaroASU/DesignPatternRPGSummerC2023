@@ -2,7 +2,8 @@ package display;
 
 import characters.CharacterBase;
 
-import javax.swing.*;
+
+import javax.swing.JOptionPane;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;

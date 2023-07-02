@@ -85,7 +85,8 @@ public class IntroState extends UIStates{
                 + "inner magic, and a mindful presence.";
         getWarriorsClass(message);
         player.setPlayerName(name);
-        message = "\"Ah, the way of the " + player.getPlayerClass().name() + ".\n"
+        message = "\"Ah, the way of the "
+                + player.getPlayerClass().name() + ".\n"
                 + "\nYou might have a chance. \"\n";
         outputMessage(message);
         message = "\"Enter now, lest your heart fails you.\" They said\n"
@@ -133,7 +134,8 @@ public class IntroState extends UIStates{
         JDialog dialog = optionPane.createDialog("Choose Difficulty");
         dialog.setVisible(true);
 
-        if (optionPane.getValue() != null && (int) optionPane.getValue() == JOptionPane.OK_OPTION) {
+        if (optionPane.getValue() != null
+                && (int) optionPane.getValue() == JOptionPane.OK_OPTION) {
             difficulty = slider.getValue();
         } else {
             Runtime.getRuntime().exit(0);
@@ -153,8 +155,12 @@ public class IntroState extends UIStates{
      */
     private void getWarriorsClass(String message) {
         PlayerClasses[] choices = PlayerClasses.values();
-        PlayerClasses playerClass = (PlayerClasses) JOptionPane.showInputDialog(null, message,
-                "Choose Class", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+
+        PlayerClasses playerClass = (PlayerClasses)
+                JOptionPane.showInputDialog(null, message,
+                "Choose Class", JOptionPane.QUESTION_MESSAGE,
+                        null, choices, choices[0]);
+
         player = new Player(playerClass);
     }
 

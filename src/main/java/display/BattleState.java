@@ -36,8 +36,9 @@ public class BattleState extends UIStates{
         ArrayList<Attack> characterAttacks = new ArrayList<Attack>();
         Attack[] characterArr;
         for(int x = 0; x < character.getAttackSlotCount(); x++) {
-            if(character.getAttackSlots(x)!=null)
+            if(character.getAttackSlots(x)!=null) {
                 characterAttacks.add(character.getAttackSlots(x));
+            }
         }
         characterArr = characterAttacks.toArray(new Attack[0]);
         return characterArr;

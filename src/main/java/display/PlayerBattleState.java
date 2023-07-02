@@ -61,7 +61,8 @@ public class PlayerBattleState extends BattleState{
         while(input==null) {
             Attack[] arr = getCharacterAttacks(playerCharacter);
             input = (Attack) JOptionPane.showInputDialog(null, message,
-                    "Choose Attack", JOptionPane.QUESTION_MESSAGE, null, arr, arr[0]);
+                    "Choose Attack", JOptionPane.QUESTION_MESSAGE,
+                    null, arr, arr[0]);
         }
         doPlayerAttack(input,playerCharacter,enemyCharacter);
 

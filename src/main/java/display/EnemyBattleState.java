@@ -27,7 +27,8 @@ public class EnemyBattleState extends BattleState{
         int choiceNumber = -1;
         Attack[] enemyMoveArr = getCharacterAttacks(enemy);
         choiceNumber = getRandomInt(enemyMoveArr.length) - 1;
-        double damage = this.doDamage(player, enemy.getAttackSlots(choiceNumber));
+        double damage = this.doDamage(player,
+                enemy.getAttackSlots(choiceNumber));
         String message = enemy.getEnemyName() + " attacked with "
                 + enemy.getAttackSlots(choiceNumber) + ".\nThey did "
                 + damage + " damage.";
