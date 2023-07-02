@@ -10,7 +10,7 @@ class EnemyTest {
     @BeforeAll
     static void setUp() throws IllegalAccessException {
         enemy = new Enemy(10,1,1);
-        System.out.println(enemy.getEnemyName());
+        outputMessage(enemy.getEnemyName());
     }
 
     @Test

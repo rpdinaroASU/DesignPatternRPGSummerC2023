@@ -2,6 +2,7 @@ package display;
 
 import characters.Player;
 
+import javax.swing.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ import java.util.Scanner;
  * @version 7/1/23
  */
 public class UIStates {
-    private static final int SLEEP_TIME_TEMP = 6000;
+    private static final int SLEEP_TIME_TEMP = 10;
     private final Random rand;
     private final Scanner scan;
     protected static final int GOLD_GOAL = 1000000;
@@ -28,8 +29,9 @@ public class UIStates {
      * Calls for an input from the user
      * @return the input received
      */
-    public String inputScan() {
-        return scan.nextLine();
+    public String inputScan(String message) {
+        String input = JOptionPane.showInputDialog(null, message);
+        return input;
     }
 
     /**
@@ -46,28 +48,23 @@ public class UIStates {
      * @param message the message to be outputted
      */
     public static void outputMessage(String message) {
-        System.out.print(message);
-        try {
-            Thread.sleep(SLEEP_TIME_TEMP);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        JOptionPane.showMessageDialog(null, message);
     }
 
     /**
      * Displays player stats
      * @param playerCharacter the player Character
      */
-    public static void displayPlayerInfo(Player playerCharacter) {
+    public static String displayPlayerInfo(Player playerCharacter) {
         String message = "Health: " + (int) playerCharacter.getHealthPoints()
                 + " / " + (int) playerCharacter.getHealthCap() + "\t\t"
                 + "Mana: " + (int) playerCharacter.getManaPoints()
                 + " / " + (int) playerCharacter.getManaCap() + "\t\t"
                 + "Stamina: " + (int) playerCharacter.getStaminaPoints()
                 + " / " + (int) playerCharacter.getStaminaCap() + "\t\t"
-                + "Gold: " + (int) playerCharacter.getGold();
+                + "Gold: " + (int) playerCharacter.getGold() + "\n";
 
-        System.out.println(message);
+        return message;
     }
 
 }

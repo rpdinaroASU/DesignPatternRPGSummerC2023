@@ -31,7 +31,7 @@ public class VictoryState extends UIStates{
                 + "Before you lie three villains weaker than anything you saw\n"
                 + "in the dungeon\nYou smile to yourself as they approach\n";
         UIStates.outputMessage(message);
-        message = "This will feel good\n\n";
+        message = "This will feel good\n";
         UIStates.outputMessage(message);
         message = "You spend your time tending the "
                 + "garden and helping your mother\n"

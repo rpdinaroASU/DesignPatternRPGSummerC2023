@@ -27,27 +27,28 @@ public class PlayerBattleState extends BattleState{
      */
     private void displayCombatHeader(Player playerCharacter,
                                      Enemy enemyCharacter) {
-        System.out.println("Player info: ");
+        outputMessage("Player info: ");
         displayPlayerInfo(playerCharacter);
-        System.out.println("========================="
+        outputMessage("========================="
                 + "==================================");
         displayEnemyInfo(enemyCharacter);
-        System.out.println("============================"
+        outputMessage("============================"
                 + "===============================\n");
     }
 
     /**
      * This method will list all attacks a player can use in combat.
      */
-    private void listAttacks(Player playerCharacter) {
+    private String listAttacks(Player playerCharacter) {
+        String message = "";
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
-                String message = "Attack: (" + (x+1) + ") "
+               message = "Attack: (" + (x+1) + ") "
                         + playerCharacter.getAttackSlots(x).getAttackName()
                         + "\t\n";
-                System.out.print(message);
             }
         }
+        return message;
     }
 
     /**
@@ -57,12 +58,12 @@ public class PlayerBattleState extends BattleState{
     private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
         int choiceNumber = -1;
         while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
-            String input = inputScan();
+            String input = inputScan(listAttacks(playerCharacter));
             try {
                 choiceNumber = Integer.parseInt(input);
                 choiceNumber--;
             } catch (Exception e) {
-                System.out.println("Enter a valid input.");
+                outputMessage("Enter a valid input.");
                 choiceNumber = -1;
                 continue;
             }
@@ -76,7 +77,7 @@ public class PlayerBattleState extends BattleState{
                     choiceNumber = -1;
                 }
             } else {
-                System.out.println("You do not have an attack in that slot");
+                outputMessage("You do not have an attack in that slot");
                 choiceNumber = -1;
             }
         }
@@ -107,19 +108,21 @@ public class PlayerBattleState extends BattleState{
      */
     private void defeatedEnemy(Player playerCharacter,
                                Enemy enemyCharacter) {
-        System.out.println("You have defeated the "
-                + enemyCharacter.getEnemyName() + ".");
+        String message = ("You have defeated the "
+                + enemyCharacter.getEnemyName() + ".\n");
         double goldRewarded = playerCharacter.getGoldBonus()
                 *enemyCharacter.getGoldGiven();
         playerCharacter.addGold(goldRewarded);
-        System.out.println("You have been awarded " + goldRewarded + " gold.");
+        message += ("You have been awarded "
+                + goldRewarded + " gold.\n");
         double experienceRewarded = enemyCharacter.getExperienceGiven();
         playerCharacter.addExperience(experienceRewarded);
-        System.out.println("You have been awarded " + experienceRewarded
-                + " experience.");
-        System.out.println((int) (playerCharacter.getExperienceCap()
+        message += ("You have been awarded " + experienceRewarded
+                + " experience.\n");
+        message += ((int) (playerCharacter.getExperienceCap()
                 - playerCharacter.getExperiencePoints())
-                + " experience needed to improve\n\n");
+                + " experience needed to improve\n");
+        outputMessage(message);
         if(playerCharacter.levelUp()) {
             new LevelUpState(playerCharacter);
         } else {
@@ -134,6 +137,6 @@ public class PlayerBattleState extends BattleState{
         String message = "Enemy: " + enemyCharacter.getEnemyName()
                 + "\nHealth: " + (int) enemyCharacter.getHealthPoints()
                 + " / " + (int) enemyCharacter.getHealthCap();
-        System.out.println(message);
+        outputMessage(message);
     }
 }

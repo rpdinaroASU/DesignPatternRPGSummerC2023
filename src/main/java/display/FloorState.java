@@ -40,14 +40,14 @@ public class FloorState extends UIStates{
      */
     private void chooseEnemy(Player playerCharacter) {
         int choiceNumber = 0;
-        System.out.println("Which do you want to face first?");
-        listEnemy(playerCharacter);
+        String message = "Which do you want to face first?";
+        message += listEnemy(playerCharacter);
         while(choiceNumber<=0 || choiceNumber>enemies.length) {
-            String input = inputScan();
+            String input = inputScan(message);
             try {
                 choiceNumber = Integer.parseInt(input);
             } catch (Exception e) {
-                System.out.println("Choose your enemy ");
+                outputMessage("Choose your enemy ");
                 choiceNumber = 0;
                 continue;
             }
@@ -61,7 +61,7 @@ public class FloorState extends UIStates{
                 }
             }
             if(!worked) {
-                System.out.println("That is an invalid number");
+                outputMessage("That is an invalid number");
             }
         }
         for (Enemy enemy : enemies) {
@@ -77,17 +77,17 @@ public class FloorState extends UIStates{
     /**
      * Lists all enemies that are alive on the floor.
      */
-    public void listEnemy(Player playerCharacter) {
-        System.out.println("Player Stats: ");
-        displayPlayerInfo(playerCharacter);
+    public String listEnemy(Player playerCharacter) {
+        String message = "Player Stats: \n";
+        message += displayPlayerInfo(playerCharacter);
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {
-                String message = "( " + (x+1) + " ) "
+                message += "( " + (x+1) + " ) "
                         + enemies[x].getEnemyName()
                         + "\nHealth: " + (int) enemies[x].getHealthPoints()
                         + " / " + (int) enemies[x].getHealthCap();
-                System.out.println(message);
             }
         }
+        return message;
     }
 }

@@ -17,7 +17,7 @@ public class LevelUpState extends UIStates{
      * @param playerCharacter the player to level up
      */
     public LevelUpState(Player playerCharacter) {
-        System.out.println("\n\nYou leveled up\n\n");
+        outputMessage("\nYou leveled up\n");
         //This condition checks that the move pool changed in size
         //before making the user rebuild the move pool.
         if(Attack.getMovePool(playerCharacter.getCharacterLevel()-1,
@@ -29,8 +29,9 @@ public class LevelUpState extends UIStates{
                     playerCharacter.getCharacterLevel(),
                     playerCharacter.isPhysicalType());
             //This lists all attacks and stats behind the attacks
+            String message = "";
             for (int x = attackPool.size() - 1; x >= 0; x--) {
-                String message = "Attack: (" + (attackPool.size() - x) + ") - "
+                message = "Attack: (" + (attackPool.size() - x) + ") - "
                         + attackPool.get(x).getAttackName() + "\t"
                         + " Physical Attack: "
                         + (int) attackPool.get(x).getMaxAttack() + "\t"
@@ -40,7 +41,6 @@ public class LevelUpState extends UIStates{
                         + (int) attackPool.get(x).getStaminaCost() + "\t"
                         + " Mana Cost: "
                         + (int) attackPool.get(x).getManaCost();
-                System.out.println(message);
             }
             //minimize the number of attack placements
             int maxSlot = (attackPool.size()
@@ -49,13 +49,13 @@ public class LevelUpState extends UIStates{
             //solicits a move for each attack slot
             for (int y = 0; y < maxSlot; y++) {
                 int choiceNumber = -1;
-                System.out.println("Select an attack for slot #" + (y + 1));
+                outputMessage("Select an attack for slot #" + (y + 1));
                 while (choiceNumber < 0 || choiceNumber > attackPool.size()) {
-                    String input = inputScan();
+                    String input = inputScan(message);
                     try {
                         choiceNumber = Integer.parseInt(input);
                     } catch (Exception e) {
-                        System.out.println("Enter a valid input.");
+                        outputMessage("Enter a valid input.");
                         choiceNumber = -1;
                         y--;
                         continue;
@@ -64,7 +64,7 @@ public class LevelUpState extends UIStates{
                         playerCharacter.setAttackSlot(attackPool.get(
                                 attackPool.size() - (choiceNumber)), y + 1);
                     } else {
-                        System.out.println("You do not have that slot");
+                        outputMessage("You do not have that slot");
                         y--;
                         choiceNumber = -1;
                     }

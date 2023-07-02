@@ -33,12 +33,12 @@ public class EnemyBattleState extends BattleState{
                     != null) {
                 double damage = this.doDamage(player,
                         enemy.getAttackSlots(choiceNumber));
-                String message = "\n\n\n\t\t\t"+enemy.getEnemyName()
+                String message = "\n\n\t\t\t"+enemy.getEnemyName()
                         + " attacked with "
                         + enemy.getAttackSlots(choiceNumber)
                         + ". \n\t\t\t\tThey did "
                         + damage + " damage.";
-                System.out.println(message);
+                outputMessage(message);
                 if(player.getHealthPoints()!=0) {
                     new PlayerBattleState(player, enemy);
                     break;
