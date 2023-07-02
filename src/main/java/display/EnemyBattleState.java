@@ -35,7 +35,8 @@ public class EnemyBattleState extends BattleState{
                 + damage + " damage.";
         outputMessage(message);
         enemy.reduceMana(enemy.getAttackSlots(choiceNumber).getManaCost());
-        enemy.reduceStamina(enemy.getAttackSlots(choiceNumber).getStaminaCost());
+        enemy.reduceStamina(
+                enemy.getAttackSlots(choiceNumber).getStaminaCost());
         if(player.getHealthPoints()!=0) {
             new PlayerBattleState(player, enemy);
         } else {

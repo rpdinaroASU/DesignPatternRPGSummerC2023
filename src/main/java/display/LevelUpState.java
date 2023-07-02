@@ -4,7 +4,6 @@ import characters.Attack;
 import characters.Player;
 
 import javax.swing.JOptionPane;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

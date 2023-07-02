@@ -38,14 +38,15 @@ public class PlayerBattleState extends BattleState{
      * This method will list all attacks a player can use in combat.
      */
     private String listAttacks(Player playerCharacter) {
-        String message = "Attack:\n";
+        StringBuilder message = new StringBuilder("Attack:\n");
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
-               message += playerCharacter.getAttackSlots(x).getAttackName()
-                        + "\n";
+               message.append(playerCharacter
+                       .getAttackSlots(x)
+                       .getAttackName()).append("\n");
             }
         }
-        return message;
+        return message.toString();
     }
 
     /**
