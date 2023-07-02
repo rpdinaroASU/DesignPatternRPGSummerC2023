@@ -30,7 +30,6 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
-
     }
 
     dependsOn test
