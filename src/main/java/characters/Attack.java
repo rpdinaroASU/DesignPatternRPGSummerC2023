@@ -63,8 +63,8 @@ public enum Attack {
      *  just asking someone politely to stop will cause
      *  enough magical damage to kill them.
      */
-    ASKING_POLITELY("Asking Politely", 0,10000,0,0,40,true),
-    WISHING_DEATH("Wishing Death", 10000,0,0,0,40,false);
+    ASKING_POLITELY("Asking Politely", 0,1000,0,0,40,true),
+    WISHING_DEATH("Wishing Death", 1000,0,0,0,40,false);
     private final String attackName;
     private final double maxAttack;
     private final double maxMagicDamage;

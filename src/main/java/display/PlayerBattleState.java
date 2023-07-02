@@ -90,8 +90,14 @@ public class PlayerBattleState extends BattleState implements DisplayState{
         double experienceRewarded = enemyCharacter.getExperienceGiven();
         playerCharacter.addExperience(experienceRewarded);
         System.out.println("You have been awarded " + experienceRewarded + " experience.");
-        System.out.println(playerCharacter.getExperienceCap() - playerCharacter.getExperiencePoints()
+        System.out.println((int) (playerCharacter.getExperienceCap() - playerCharacter.getExperiencePoints())
                 + " experience needed to improve\n\n");
+        new ItemEquipState(playerCharacter, enemyCharacter);
+        if(playerCharacter.levelUp()) {
+            new LevelUpState(playerCharacter);
+        } else {
+            new HealState(playerCharacter);
+        }
     }
     private void displayEnemyInfo() {
         String message = "Enemy: " + enemyCharacter.getEnemyName()

@@ -24,7 +24,9 @@ public class UI {
                 + "Mana: " + (int) playerCharacter.getManaPoints()
                 + " / " + (int) playerCharacter.getManaCap() + "\t\t"
                 + "Stamina: " + (int) playerCharacter.getStaminaPoints()
-                + " / " + (int) playerCharacter.getStaminaCap();
+                + " / " + (int) playerCharacter.getStaminaCap() + "\t\t"
+                + "Gold: " + (int) playerCharacter.getGold();
+
         System.out.println(message);
     }
 }

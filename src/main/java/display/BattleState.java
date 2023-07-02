@@ -24,32 +24,9 @@ public class BattleState {
      * @param attack the attack used
      */
     protected double doDamage(CharacterBase character, Attack attack) {
-        int lowerMagicDamageAmount = (int) Math.ceil(attack.getMaxMagicDamage()
-                * (1-attackPowerVariance));
-        int upperMagicDamageAmount = (int) Math.ceil(attack.getMaxMagicDamage()
-                - lowerMagicDamageAmount);
-        double magicDamage;
-        if(upperMagicDamageAmount!=0) {
-            magicDamage = rand.nextInt(upperMagicDamageAmount)
-                    + lowerMagicDamageAmount;
-        } else {
-            magicDamage = lowerMagicDamageAmount;
-        }
-
-        int lowerPhysicalDamageAmount = (int) Math.ceil(attack.getMaxAttack()
-                * (1-attackPowerVariance));
-        int upperPhysicalDamageAmount = (int) Math.ceil(attack.getMaxAttack()
-                - lowerPhysicalDamageAmount);
-        double physicalDamage;
-        if(upperMagicDamageAmount!=0) {
-            physicalDamage = rand.nextInt(upperPhysicalDamageAmount)
-                    + lowerPhysicalDamageAmount;
-        } else {
-            physicalDamage = lowerPhysicalDamageAmount;
-        }
-        character.reduceHealth(magicDamage);
-        character.reduceHealth(physicalDamage);
-        double damage = magicDamage + physicalDamage;
+        character.reduceHealth(attack.getMaxMagicDamage());
+        character.reduceHealth(attack.getMaxAttack());
+        double damage = attack.getMaxMagicDamage() + attack.getMaxAttack();
         return damage;
     }
 

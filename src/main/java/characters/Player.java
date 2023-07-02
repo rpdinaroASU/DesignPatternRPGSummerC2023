@@ -90,9 +90,12 @@ public class Player extends CharacterBase {
 
     /**
      * Check if player can level up.
+     * @return if leveled up
      */
-    public void levelUp() {
+    public boolean levelUp() {
+        boolean flag = false;
         if(getExperienceCap()<=experiencePoints) {
+            flag = true;
             experiencePoints-=getExperienceCap();
             setCharacterLevel(getCharacterLevel()+1);
             this.setStatCaps(healthBonus, manaBonus, staminaBonus);
@@ -104,6 +107,7 @@ public class Player extends CharacterBase {
         if(isMagicType()&&isPhysicalType()) {
             currentType = !currentType;
         }
+        return flag;
     }
 
     /**

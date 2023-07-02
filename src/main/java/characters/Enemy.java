@@ -74,9 +74,9 @@ public class Enemy extends CharacterBase{
         The coefficient of enemy level formula is variable based
         on the difficulty level
          */
-        final double rateOne = .03 * difficulty;
-        final double rateTwo = 1.0 * difficulty * .8;
-        final double rateThree = .03* difficulty;
+        final double rateOne = .03;
+        final double rateTwo = 1.0 * difficulty *.25 * .8;
+        final double rateThree = .03* difficulty *.75;
         final double rateFour = .025 * difficulty;
         /*
         The level bands between each formula,
@@ -101,7 +101,7 @@ public class Enemy extends CharacterBase{
         } else if(playerLevel<levelBandThree) {
             enemyLevelGrowthRate = Math.round(rateThree
                     * (Math.pow(playerLevel,2))+b3VerticalShift);
-        } else if(playerLevel>=levelBandFour) {
+        } else {
             enemyLevelGrowthRate = Math.round(rateFour
                     *Math.pow(playerLevel,2)+b4VerticalShift);
         }

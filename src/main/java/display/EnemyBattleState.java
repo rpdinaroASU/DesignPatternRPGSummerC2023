@@ -29,13 +29,15 @@ public class EnemyBattleState extends BattleState implements DisplayState{
                     && enemy.getAttackSlots(choiceNumber)
                     != null) {
                 double damage = this.doDamage(player, enemy.getAttackSlots(choiceNumber));
-                String message = enemy.getEnemyName() + " attacked with "
-                        + enemy.getAttackSlots(choiceNumber) + ". \nThey did "
+                String message = "\n\n\n\t\t\t"+enemy.getEnemyName() + " attacked with "
+                        + enemy.getAttackSlots(choiceNumber) + ". \n\t\t\t\tThey did "
                         + damage + " damage.";
                 System.out.println(message);
                 if(player.getHealthPoints()!=0) {
                     new PlayerBattleState(player, enemy);
                     break;
+                } else {
+                    new DeathState();
                 }
             } else {
                 choiceNumber = -1;

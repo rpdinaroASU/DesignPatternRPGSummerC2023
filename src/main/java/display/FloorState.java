@@ -27,6 +27,11 @@ public class FloorState implements DisplayState{
                     playerCharacter.getGoldBonus());
         }
         displayScene();
+        if(playerCharacter.getGold()>1000000) {
+            new VictoryState(playerCharacter);
+        } else {
+            new FloorState(playerCharacter);
+        }
     }
 
     @Override
@@ -34,29 +39,7 @@ public class FloorState implements DisplayState{
         chooseEnemy();
     }
 
-    private void healOption() {
-        UI.displayPlayerInfo(playerCharacter);
-        int costOfHeal = playerCharacter.getCharacterLevel() * 5;
-        String message = "Would you like to heal for "
-                + costOfHeal + " gold? \nYou have " + playerCharacter.getGold()
-                + " gold.";
-        System.out.println(message);
-        String response = "";
-        while(!response.equalsIgnoreCase("yes")
-                && !response.equalsIgnoreCase("no")) {
-            response = scan.nextLine();
-            if(!response.equalsIgnoreCase("yes")
-                    && !response.equalsIgnoreCase("no")) {
-                System.out.println("Sorry didn't catch that");
-            } else if(response.equalsIgnoreCase("yes")
-                    && playerCharacter.getGold()<costOfHeal) {
-                System.out.println("You don't have enough gold");
-            }
-        }
-    }
-
     private void chooseEnemy() {
-        healOption();
         int choiceNumber = 0;
         System.out.println("Which do you want to face first?");
         listEnemy();
@@ -94,23 +77,13 @@ public class FloorState implements DisplayState{
     public void listEnemy() {
         System.out.println("Player Stats: ");
         displayPlayerInfo(playerCharacter);
-        int count = 0;
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {
                 String message = "( " + (x+1) + " ) " + enemies[x].getEnemyName()
                         + "\nHealth: " + (int) enemies[x].getHealthPoints()
                         + " / " + (int) enemies[x].getHealthCap();
                 System.out.println(message);
-                count++;
             }
-        }
-        if(count==0) {
-            if(playerCharacter.getGold()>1000000) {
-                new VictoryState(playerCharacter);
-            } else {
-                new FloorState(playerCharacter);
-            }
-
         }
     }
 }
