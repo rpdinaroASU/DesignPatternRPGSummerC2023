@@ -17,6 +17,7 @@ public class IntroState extends UIStates{
      * Starting state of FSM
      */
     public IntroState() {
+        super();
         displayScene();
     }
 

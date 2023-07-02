@@ -1,5 +1,6 @@
-package main.java.util;
+package util;
 
+import display.IntroState;
 import display.UIStates;
 
 /**
@@ -28,7 +29,7 @@ public final class LaunchGame {
      * This constructor will initialize the game.
      */
     private LaunchGame() {
-        new UIStates();
+        new IntroState();
     }
 
 }

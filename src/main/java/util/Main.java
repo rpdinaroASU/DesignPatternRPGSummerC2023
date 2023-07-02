@@ -8,7 +8,7 @@ public class Main {
      * @param args System args
      */
     public static void main(String[] args) {
-        main.java.util.LaunchGame.getInstance();
+        LaunchGame.getInstance();
     }
 
     /**

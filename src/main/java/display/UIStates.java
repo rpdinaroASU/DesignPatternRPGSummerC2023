@@ -22,7 +22,6 @@ public class UIStates {
     public UIStates(){
         rand = new Random();
         scan = new Scanner(System.in, StandardCharsets.UTF_8);
-        new IntroState();
     }
 
     /**

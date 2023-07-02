@@ -5,6 +5,11 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id 'com.github.spotbugs' version '5.0.14'
+    id 'application'
+}
+
+application {
+    mainClassName = "util.Main"
 }
 
 repositories {
@@ -18,7 +23,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-
     finalizedBy jacocoTestReport
 }
 
@@ -31,7 +35,6 @@ jacocoTestReport {
         xml.required = true
         csv.required = false
     }
-
     dependsOn test
 }
 
@@ -41,15 +44,15 @@ checkstyle {
 }
 
 spotbugsMain {
-    reports(({
+    reports {
         xml.required = false
         html.required = true
-    } as Closure<NamedDomainObjectContainer<? extends SpotBugsReport>>))
+    }
 }
 
 spotbugsTest {
-    reports(({
+    reports {
         xml.required = false
         html.required = true
-    } as Closure<NamedDomainObjectContainer<? extends SpotBugsReport>>))
+    }
 }
