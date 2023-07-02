@@ -3,7 +3,12 @@ package display;
 import characters.CharacterBase;
 import characters.Attack;
 
-
+/**
+ * This class allows the two Battle states to share a generic
+ * method.
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
 public class BattleState extends UIStates{
     /**
      * A method to damage a character.

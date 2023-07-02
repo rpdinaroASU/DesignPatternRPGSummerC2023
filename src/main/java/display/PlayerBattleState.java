@@ -50,6 +50,10 @@ public class PlayerBattleState extends BattleState{
         }
     }
 
+    /**
+     * Solicits the players desired move.
+     * Parses only results that remain in bounds of FSM
+     */
     private void getPlayerMove() {
         int choiceNumber = -1;
         while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
@@ -76,6 +80,11 @@ public class PlayerBattleState extends BattleState{
             }
         }
     }
+
+    /**
+     * Attacks the enemy with the attack slot number specified
+     * @param slotNumber the attack slot number
+     */
     private void doPlayerAttack(int slotNumber) {
         Attack playerAttack = playerCharacter.getAttackSlots(slotNumber);
         playerCharacter.reduceMana(playerAttack.getManaCost());
@@ -90,6 +99,10 @@ public class PlayerBattleState extends BattleState{
         }
     }
 
+    /**
+     * The informative  exit message for the FSM to go back to the
+     * levelUp state or the Heal State.
+     */
     private void defeatedEnemy() {
         System.out.println("You have defeated the " + enemyCharacter.getEnemyName() + ".");
         double goldRewarded = playerCharacter.getGoldBonus()*enemyCharacter.getGoldGiven();
@@ -106,6 +119,10 @@ public class PlayerBattleState extends BattleState{
             new HealState(playerCharacter);
         }
     }
+
+    /**
+     * Display the information for enemies in combat.
+     */
     private void displayEnemyInfo() {
         String message = "Enemy: " + enemyCharacter.getEnemyName()
                 + "\nHealth: " + (int) enemyCharacter.getHealthPoints()

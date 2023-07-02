@@ -7,7 +7,7 @@ import characters.Player;
  * @version 7/1/23
  * This state represents a victory
  */
-public class VictoryState {
+public class VictoryState extends UIStates{
     /**
      * The state that comes from reaching 1,000,000 gold
      * @param playerCharacter the player character

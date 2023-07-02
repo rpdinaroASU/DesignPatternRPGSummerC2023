@@ -5,22 +5,32 @@ import characters.Player;
 
 import java.util.Random;
 
+/**
+ * Enemy attack state.
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
 public class EnemyBattleState extends BattleState{
     private final int enemyMoveCount;
     private final Enemy enemy;
     private final Player player;
+
+    /**
+     * The enemy attack State.
+     * Moves to Death state or Player Battle State
+     * @param playerCharacter player character
+     * @param enemyCharacter enemy characters
+     */
     public EnemyBattleState(Player playerCharacter, Enemy enemyCharacter) {
-        super(playerCharacter, enemyCharacter);
         enemy = enemyCharacter;
         player = playerCharacter;
         enemyMoveCount = enemyCharacter.getMoveCount();
-        displayScene();
-    }
-
-
-    public void displayScene() {
         getAttack();
     }
+
+    /**
+     * Chooses the enemy attack and makes it
+     */
     public void getAttack() {
         int choiceNumber = -1;
         while(choiceNumber<0) {

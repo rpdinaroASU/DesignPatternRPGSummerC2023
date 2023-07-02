@@ -1,8 +1,17 @@
 package display;
 import characters.Player;
 
-
+/**
+ * Heals the user for a price proportional to level.
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
 public class HealState extends UIStates{
+    /**
+     * Solicits the user for healing services.
+     * Moves back to Floor State after.
+     * @param playerCharacter the player character
+     */
     public HealState(Player playerCharacter) {
         UIStates.displayPlayerInfo(playerCharacter);
         int costOfHeal = playerCharacter.getCharacterLevel() * 5;

@@ -7,11 +7,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
 
-
+/**
+ * This state generates and hosts list of floor enemies
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
 public class FloorState extends UIStates{
     private final Player playerCharacter;
     private final Enemy[] enemies;
     private static final int maxEnemies = 5;
+
+    /**
+     * Initiates the floor state of the FSM.
+     * Generates an array of enemies, displays them and
+     * solicits user to fight one.
+     * Moves to Victory state, a new Battle state, or a new floor
+     * @param player the player character
+     */
     public FloorState(Player player) {
         playerCharacter = player;
         int enemyCount = rand.nextInt(maxEnemies-2) + 2 ;
@@ -21,7 +33,7 @@ public class FloorState extends UIStates{
                     playerCharacter.getPlayerDifficulty(),
                     playerCharacter.getGoldBonus());
         }
-        displayScene();
+        chooseEnemy();
         if(playerCharacter.getGold()>1000000) {
             new VictoryState(playerCharacter);
         } else {
@@ -29,11 +41,9 @@ public class FloorState extends UIStates{
         }
     }
 
-
-    public void displayScene() {
-        chooseEnemy();
-    }
-
+    /**
+     * Solicits users to select which alive enemy they want.
+     */
     private void chooseEnemy() {
         int choiceNumber = 0;
         System.out.println("Which do you want to face first?");
@@ -69,6 +79,9 @@ public class FloorState extends UIStates{
 
     }
 
+    /**
+     * Lists all enemies that are alive on the floor.
+     */
     public void listEnemy() {
         System.out.println("Player Stats: ");
         displayPlayerInfo(playerCharacter);

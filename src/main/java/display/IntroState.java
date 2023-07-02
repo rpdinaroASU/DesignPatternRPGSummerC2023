@@ -3,21 +3,25 @@ package display;
 import characters.Player;
 import characters.PlayerClasses;
 
-
+/**
+ * This is the initial state of the FSM
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
 public class IntroState extends UIStates{
     private static String name;
     private static PlayerClasses playerClass;
     private Player player;
 
     /**
-     * Starting state of display
+     * Starting state of FSM
      */
     public IntroState() {
         displayScene();
     }
 
     /**
-     * Displays the intro scene
+     * Displays the intro scene. Moves to Floor State after execution
      */
     public void displayScene() {
         String message = "You've heard tales of the dungeon "
@@ -84,10 +88,19 @@ public class IntroState extends UIStates{
         outputMessage(message);
         new FloorState(player);
     }
+
+    /**
+     * Solicits the name of the player
+     */
     private void getWarriorsName() {
         System.out.println("What is the name of your fighter: ");
         name = scan.nextLine();
     }
+
+    /**
+     * Solicits and parses the difficulty level.
+     * On a scale from 1 to 10
+     */
     private void getDifficultyLevel() {
         String message = "How difficult do you want this journey \n"
                 + "(1-10) 1 is a hard journey, 10 is impossible";
@@ -112,6 +125,10 @@ public class IntroState extends UIStates{
         player.setStatCaps(playerClass.getHealthBonus(),
                 playerClass.getManaBonus(), playerClass.getStaminaBonus());
     }
+
+    /**
+     * Lists and solicits the player classes
+     */
     private void getWarriorsClass() {
         String message = "What manner of fighter are you";
         int x = 1;
