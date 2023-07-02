@@ -163,4 +163,12 @@ public class Enemy extends CharacterBase{
     public double getGoldGiven() {
         return goldGiven;
     }
+
+    /**
+     * Returns the String representation of Enemy
+     */
+    @Override
+    public String toString() {
+        return this.getEnemyName();
+    }
 }

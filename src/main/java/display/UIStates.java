@@ -58,11 +58,11 @@ public class UIStates {
     public static String displayPlayerInfo(Player playerCharacter) {
         String message = "Health: " + (int) playerCharacter.getHealthPoints()
                 + " / " + (int) playerCharacter.getHealthCap() + "\t\t"
-                + "Mana: " + (int) playerCharacter.getManaPoints()
+                + " Mana: " + (int) playerCharacter.getManaPoints()
                 + " / " + (int) playerCharacter.getManaCap() + "\t\t"
-                + "Stamina: " + (int) playerCharacter.getStaminaPoints()
+                + " \nStamina: " + (int) playerCharacter.getStaminaPoints()
                 + " / " + (int) playerCharacter.getStaminaCap() + "\t\t"
-                + "Gold: " + (int) playerCharacter.getGold() + "\n";
+                + " Gold: " + (int) playerCharacter.getGold() + "\n";
 
         return message;
     }

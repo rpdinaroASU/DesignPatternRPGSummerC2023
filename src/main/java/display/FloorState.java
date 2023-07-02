@@ -3,6 +3,9 @@ package display;
 import characters.Enemy;
 import characters.Player;
 
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
 /**
  * This state generates and hosts list of floor enemies
  * @author Ryan Dinaro
@@ -40,38 +43,23 @@ public class FloorState extends UIStates{
      */
     private void chooseEnemy(Player playerCharacter) {
         int choiceNumber = 0;
-        String message = "Which do you want to face first?";
-        message += listEnemy(playerCharacter);
-        while(choiceNumber<=0 || choiceNumber>enemies.length) {
-            String input = inputScan(message);
-            try {
-                choiceNumber = Integer.parseInt(input);
-            } catch (Exception e) {
-                outputMessage("Choose your enemy ");
-                choiceNumber = 0;
-                continue;
-            }
-            boolean worked = false;
-            for (int x = 0; x < enemies.length; x++) {
-                if (enemies[x].getHealthPoints() > 0
-                    && choiceNumber-1 == x) {
-                    worked = true;
-                    new PlayerBattleState(playerCharacter,
-                            enemies[choiceNumber-1]);
-                }
-            }
-            if(!worked) {
-                outputMessage("That is an invalid number");
-            }
-        }
+        ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
         for (Enemy enemy : enemies) {
             if (enemy.getHealthPoints() > 0) {
-                chooseEnemy(playerCharacter);
-                break;
+                enemyList.add(enemy);
             }
         }
-
-
+        if(enemyList.size()==0) {
+            new FloorState(playerCharacter);
+        } else {
+            Enemy[] enemyArr = enemyList.toArray(new Enemy[0]);
+            String message = "Which do you want to face first?\n";
+            message += listEnemy(playerCharacter);
+            Enemy input = (Enemy) JOptionPane.showInputDialog(null, message,
+                    "Choose Class", JOptionPane.QUESTION_MESSAGE, null, enemyArr, enemyArr[0]);
+            new PlayerBattleState(playerCharacter, input);
+            chooseEnemy(playerCharacter);
+        }
     }
 
     /**
@@ -82,10 +70,9 @@ public class FloorState extends UIStates{
         message += displayPlayerInfo(playerCharacter);
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {
-                message += "( " + (x+1) + " ) "
-                        + enemies[x].getEnemyName()
+                message += enemies[x].getEnemyName()
                         + "\nHealth: " + (int) enemies[x].getHealthPoints()
-                        + " / " + (int) enemies[x].getHealthCap();
+                        + " / " + (int) enemies[x].getHealthCap() + "\n";
             }
         }
         return message;
