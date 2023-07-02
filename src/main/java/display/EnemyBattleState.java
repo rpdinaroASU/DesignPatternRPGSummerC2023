@@ -10,9 +10,6 @@ import characters.Player;
  */
 public class EnemyBattleState extends BattleState{
     private final int enemyMoveCount;
-    private final Enemy enemy;
-    private final Player player;
-
     /**
      * The enemy attack State.
      * Moves to Death state or Player Battle State
@@ -20,16 +17,14 @@ public class EnemyBattleState extends BattleState{
      * @param enemyCharacter enemy characters
      */
     public EnemyBattleState(Player playerCharacter, Enemy enemyCharacter) {
-        enemy = enemyCharacter;
-        player = playerCharacter;
         enemyMoveCount = enemyCharacter.getMoveCount();
-        getAttack();
+        getAttack(playerCharacter,enemyCharacter);
     }
 
     /**
      * Chooses the enemy attack and makes it
      */
-    public void getAttack() {
+    public void getAttack(Player player, Enemy enemy) {
         int choiceNumber = -1;
         while(choiceNumber<0) {
             choiceNumber = rand.nextInt(enemyMoveCount);

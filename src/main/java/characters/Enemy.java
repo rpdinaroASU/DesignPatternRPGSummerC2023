@@ -28,9 +28,9 @@ public class Enemy extends CharacterBase{
         rand = new Random();
         this.enemyName = EnemyName.randomEnemyName().toString();
         setStats(playerLevel, difficulty);
-        final double experienceMultiplier = .6;
-        experienceGiven = experienceMultiplier*this.getCharacterLevel()*10;
-        final double goldCoefficient = 10;
+        final double experienceMultiplier = .6*10;
+        experienceGiven = experienceMultiplier*this.getCharacterLevel();
+        final double goldCoefficient = 100;
         goldGiven = goldCoefficient*goldMultiplier*this.getCharacterLevel();
     }
 

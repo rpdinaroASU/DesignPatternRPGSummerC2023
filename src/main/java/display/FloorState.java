@@ -9,7 +9,6 @@ import characters.Player;
  * @version 7/1/2023
  */
 public class FloorState extends UIStates{
-    private final Player playerCharacter;
     private final Enemy[] enemies;
     private static final int MAX_ENEMIES = 5;
 
@@ -18,18 +17,17 @@ public class FloorState extends UIStates{
      * Generates an array of enemies, displays them and
      * solicits user to fight one.
      * Moves to Victory state, a new Battle state, or a new floor
-     * @param player the player character
+     * @param playerCharacter the player character
      */
-    public FloorState(Player player) {
-        playerCharacter = player;
-        int enemyCount = rand.nextInt(maxEnemies-2) + 2 ;
+    public FloorState(Player playerCharacter) {
+        int enemyCount = rand.nextInt(MAX_ENEMIES-2) + 2 ;
         enemies = new Enemy[enemyCount];
         for(int x = 0; x < enemyCount; x++) {
             enemies[x] = new Enemy(playerCharacter.getCharacterLevel(),
                     playerCharacter.getPlayerDifficulty(),
                     playerCharacter.getGoldBonus());
         }
-        chooseEnemy();
+        chooseEnemy(playerCharacter);
         if(playerCharacter.getGold()>1000000) {
             new VictoryState(playerCharacter);
         } else {
@@ -40,10 +38,10 @@ public class FloorState extends UIStates{
     /**
      * Solicits users to select which alive enemy they want.
      */
-    private void chooseEnemy() {
+    private void chooseEnemy(Player playerCharacter) {
         int choiceNumber = 0;
         System.out.println("Which do you want to face first?");
-        listEnemy();
+        listEnemy(playerCharacter);
         while(choiceNumber<=0 || choiceNumber>enemies.length) {
             String input = scan.nextLine();
             try {
@@ -67,7 +65,7 @@ public class FloorState extends UIStates{
         }
         for (Enemy enemy : enemies) {
             if (enemy.getHealthPoints() > 0) {
-                chooseEnemy();
+                chooseEnemy(playerCharacter);
                 break;
             }
         }
@@ -78,7 +76,7 @@ public class FloorState extends UIStates{
     /**
      * Lists all enemies that are alive on the floor.
      */
-    public void listEnemy() {
+    public void listEnemy(Player playerCharacter) {
         System.out.println("Player Stats: ");
         displayPlayerInfo(playerCharacter);
         for (int x = 0; x < enemies.length; x++) {

@@ -10,8 +10,6 @@ import characters.Player;
  * This state represents a players turn while in a battle
  */
 public class PlayerBattleState extends BattleState{
-    private final Player playerCharacter;
-    private final Enemy enemyCharacter;
 
     /**
      * This object will initiate a players turn
@@ -19,28 +17,26 @@ public class PlayerBattleState extends BattleState{
      * @param enemy the single enemy to fight
      */
     public PlayerBattleState(Player player, Enemy enemy) {
-        playerCharacter = player;
-        enemyCharacter = enemy;
-        displayCombatHeader();
-        listAttacks();
-        getPlayerMove();
+        displayCombatHeader(player,enemy);
+        listAttacks(player);
+        getPlayerMove(player,enemy);
     }
 
     /**
      * Displays the header of combat
      */
-    private void displayCombatHeader() {
+    private void displayCombatHeader(Player playerCharacter, Enemy enemyCharacter) {
         System.out.println("Player info: ");
         displayPlayerInfo(playerCharacter);
         System.out.println("===========================================================");
-        displayEnemyInfo();
+        displayEnemyInfo(enemyCharacter);
         System.out.println("===========================================================\n");
     }
 
     /**
      * This method will list all attacks a player can use in combat.
      */
-    private void listAttacks() {
+    private void listAttacks(Player playerCharacter) {
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
                 String message = "Attack: (" + (x+1) + ") "
@@ -54,7 +50,7 @@ public class PlayerBattleState extends BattleState{
      * Solicits the players desired move.
      * Parses only results that remain in bounds of FSM
      */
-    private void getPlayerMove() {
+    private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
         int choiceNumber = -1;
         while(choiceNumber<0 || choiceNumber>playerCharacter.getMoveCount()) {
             String input = scan.nextLine();
@@ -69,9 +65,9 @@ public class PlayerBattleState extends BattleState{
             if((choiceNumber>=0 && choiceNumber<=playerCharacter.getMoveCount()-1)
                     && playerCharacter.getAttackSlots(choiceNumber)
                     != null) {
-                doPlayerAttack(choiceNumber);
+                doPlayerAttack(choiceNumber,playerCharacter,enemyCharacter);
                 if(enemyCharacter.getHealthPoints()!=0) {
-                    doPlayerAttack(choiceNumber);
+                    doPlayerAttack(choiceNumber,playerCharacter,enemyCharacter);
                     choiceNumber = -1;
                 }
             } else {
@@ -85,17 +81,18 @@ public class PlayerBattleState extends BattleState{
      * Attacks the enemy with the attack slot number specified
      * @param slotNumber the attack slot number
      */
-    private void doPlayerAttack(int slotNumber) {
+    private void doPlayerAttack(int slotNumber, Player playerCharacter,
+                                Enemy enemyCharacter) {
         Attack playerAttack = playerCharacter.getAttackSlots(slotNumber);
         playerCharacter.reduceMana(playerAttack.getManaCost());
         playerCharacter.reduceStamina(playerAttack.getStaminaCost());
         doDamage(enemyCharacter, playerAttack);
 
         if(enemyCharacter.getHealthPoints()!=0) {
-            displayCombatHeader();
+            displayCombatHeader(playerCharacter, enemyCharacter);
             new EnemyBattleState(playerCharacter, enemyCharacter);
         } else {
-            defeatedEnemy();
+            defeatedEnemy(playerCharacter,enemyCharacter);
         }
     }
 
@@ -103,7 +100,7 @@ public class PlayerBattleState extends BattleState{
      * The informative  exit message for the FSM to go back to the
      * levelUp state or the Heal State.
      */
-    private void defeatedEnemy() {
+    private void defeatedEnemy(Player playerCharacter, Enemy enemyCharacter) {
         System.out.println("You have defeated the " + enemyCharacter.getEnemyName() + ".");
         double goldRewarded = playerCharacter.getGoldBonus()*enemyCharacter.getGoldGiven();
         playerCharacter.addGold(goldRewarded);
@@ -123,7 +120,7 @@ public class PlayerBattleState extends BattleState{
     /**
      * Display the information for enemies in combat.
      */
-    private void displayEnemyInfo() {
+    private void displayEnemyInfo(Enemy enemyCharacter) {
         String message = "Enemy: " + enemyCharacter.getEnemyName()
                 + "\nHealth: " + (int) enemyCharacter.getHealthPoints()
                 + " / " + (int) enemyCharacter.getHealthCap();
