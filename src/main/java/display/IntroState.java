@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  * @version 7/1/2023
  */
 public class IntroState extends UIStates{
-    private static String name;
+    private static String name = "";
     private Player player;
 
     /**
@@ -103,7 +103,9 @@ public class IntroState extends UIStates{
      * Solicits the name of the player
      */
     private void getWarriorsName() {
-        name = inputScan("What is the name of your fighter");
+        while(name.length()==0) {
+            name = inputScan("What is the name of your fighter");
+        }
     }
 
     /**

@@ -69,13 +69,13 @@ public class FloorState extends UIStates{
      * Lists all enemies that are alive on the floor.
      */
     public String listEnemy(Player playerCharacter) {
-        String message = "Player Stats: \n";
+        String message = playerCharacter.getPlayerName() + " Stats: \n";
         message += getPlayerInfo(playerCharacter);
-        message += "\nGold: " + (int) playerCharacter.getGold()+"\n";
+        message += " Gold: " + (int) playerCharacter.getGold()+"\n\n";
         for (int x = 0; x < enemies.length; x++) {
             if(enemies[x].getHealthPoints()>0) {
                 message += enemies[x].getEnemyName()
-                        + "\tHealth: " + (int) enemies[x].getHealthPoints()
+                        + " - Health: " + (int) enemies[x].getHealthPoints()
                         + " / " + (int) enemies[x].getHealthCap() + "\n";
             }
         }

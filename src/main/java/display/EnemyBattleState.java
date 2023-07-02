@@ -24,15 +24,18 @@ public class EnemyBattleState extends BattleState{
      * Chooses the enemy attack and makes it
      */
     public void getAttack(Player player, Enemy enemy) {
-        int choiceNumber = -1;
+        int choiceNumber = 0;
         Attack[] enemyMoveArr = getCharacterAttacks(enemy);
-        choiceNumber = getRandomInt(enemyMoveArr.length) - 1;
+        choiceNumber = getRandomInt(enemyMoveArr.length);
+
         double damage = this.doDamage(player,
                 enemy.getAttackSlots(choiceNumber));
         String message = enemy.getEnemyName() + " attacked with "
                 + enemy.getAttackSlots(choiceNumber) + ".\nThey did "
                 + damage + " damage.";
         outputMessage(message);
+        enemy.reduceMana(enemy.getAttackSlots(choiceNumber).getManaCost());
+        enemy.reduceStamina(enemy.getAttackSlots(choiceNumber).getStaminaCost());
         if(player.getHealthPoints()!=0) {
             new PlayerBattleState(player, enemy);
         } else {

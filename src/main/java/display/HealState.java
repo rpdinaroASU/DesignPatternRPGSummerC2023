@@ -15,7 +15,7 @@ public class HealState extends UIStates{
      * @param playerCharacter the player character
      */
     public HealState(Player playerCharacter) {
-        final int costMultiplier = 5;
+        final int costMultiplier = 225;
         int costOfHeal = playerCharacter.getCharacterLevel() * costMultiplier;
         String message = getPlayerInfo(playerCharacter)
                 + "\nWould you like to heal for "

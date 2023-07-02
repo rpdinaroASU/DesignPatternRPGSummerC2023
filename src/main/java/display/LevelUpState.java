@@ -4,6 +4,8 @@ import characters.Attack;
 import characters.Player;
 
 import javax.swing.JOptionPane;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,10 +36,9 @@ public class LevelUpState extends UIStates{
                     < playerCharacter.getAttackSlotCount())
                     ? attackPool.size() : playerCharacter.getAttackSlotCount();
 
-
+            Collections.reverse(attackPool); //Put strongest on top
             //solicits a move for each attack slot
             for (int y = 0; y < maxSlot; y++) {
-                int choiceNumber = -1;
                 String message = "";
                 message += ("Select an attack for slot #" + (y + 1) +"\n")
                     +getAttackPoolList(attackPool);
@@ -63,8 +64,7 @@ public class LevelUpState extends UIStates{
         //This lists all attacks and stats behind the attacks
         String message = "";
         for (int x = attackPool.size() - 1; x >= 0; x--) {
-            message += "Attack: (" + (attackPool.size() - x) + ") - "
-                    + attackPool.get(x).getAttackName() + "\t"
+            message += "\n" +attackPool.get(x).getAttackName() + " | \t"
                     + " Physical Attack: "
                     + (int) attackPool.get(x).getMaxAttack() + "\t"
                     + " Magical Attack: "

@@ -29,8 +29,8 @@ public class PlayerBattleState extends BattleState{
                               Enemy enemyCharacter) {
         String message = (playerCharacter.getPlayerName() +" info: \n");
         message += getPlayerInfo(playerCharacter);
-        message += "\n" + enemyCharacter.getEnemyName() + " info: \n";
-        message += getPlayerInfo(enemyCharacter);
+        message += "\n\n" + enemyCharacter.getEnemyName() + " info: \n";
+        message += getPlayerInfo(enemyCharacter) + "\n\n";
         return message;
     }
 
@@ -38,12 +38,11 @@ public class PlayerBattleState extends BattleState{
      * This method will list all attacks a player can use in combat.
      */
     private String listAttacks(Player playerCharacter) {
-        String message = "";
+        String message = "Attack:\n";
         for(int x = 0; x < playerCharacter.getMoveCount(); x++) {
             if(playerCharacter.getAttackSlots(x) !=null) {
-               message = "Attack: (" + (x+1) + ") "
-                        + playerCharacter.getAttackSlots(x).getAttackName()
-                        + "\t\n";
+               message += playerCharacter.getAttackSlots(x).getAttackName()
+                        + "\n";
             }
         }
         return message;
@@ -54,7 +53,7 @@ public class PlayerBattleState extends BattleState{
      * Parses only results that remain in bounds of FSM
      */
     private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
-        String message = combatHeader(playerCharacter,enemyCharacter);
+        String message = combatHeader(playerCharacter,enemyCharacter) +"\n";
         message += listAttacks(playerCharacter);
 
         Attack input = null;
@@ -63,6 +62,7 @@ public class PlayerBattleState extends BattleState{
             input = (Attack) JOptionPane.showInputDialog(null, message,
                     "Choose Attack", JOptionPane.QUESTION_MESSAGE,
                     null, arr, arr[0]);
+
         }
         doPlayerAttack(input,playerCharacter,enemyCharacter);
 
@@ -74,6 +74,9 @@ public class PlayerBattleState extends BattleState{
      */
     private void doPlayerAttack(Attack playerAttack, Player playerCharacter,
                                 Enemy enemyCharacter) {
+        outputMessage("You attacked with " + playerAttack.name()+ " and did "
+                + ((int) playerAttack.getMaxAttack()
+                +playerAttack.getMaxMagicDamage()) + " damage.");
         playerCharacter.reduceMana(playerAttack.getManaCost());
         playerCharacter.reduceStamina(playerAttack.getStaminaCost());
         doDamage(enemyCharacter, playerAttack);
