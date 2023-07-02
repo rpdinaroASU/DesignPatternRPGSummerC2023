@@ -3,6 +3,7 @@ package display;
 import characters.Attack;
 import characters.Player;
 
+import javax.swing.JOptionPane;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class LevelUpState extends UIStates{
      * @param playerCharacter the player to level up
      */
     public LevelUpState(Player playerCharacter) {
-        outputMessage("\nYou leveled up\n");
+        outputMessage("You leveled up");
         //This condition checks that the move pool changed in size
         //before making the user rebuild the move pool.
         if(Attack.getMovePool(playerCharacter.getCharacterLevel()-1,
@@ -28,48 +29,50 @@ public class LevelUpState extends UIStates{
             List<Attack> attackPool = Attack.getMovePool(
                     playerCharacter.getCharacterLevel(),
                     playerCharacter.isPhysicalType());
-            //This lists all attacks and stats behind the attacks
-            String message = "";
-            for (int x = attackPool.size() - 1; x >= 0; x--) {
-                message = "Attack: (" + (attackPool.size() - x) + ") - "
-                        + attackPool.get(x).getAttackName() + "\t"
-                        + " Physical Attack: "
-                        + (int) attackPool.get(x).getMaxAttack() + "\t"
-                        + " Magical Attack: "
-                        + (int) attackPool.get(x).getMaxMagicDamage() + "\t"
-                        + " Stamina Cost: "
-                        + (int) attackPool.get(x).getStaminaCost() + "\t"
-                        + " Mana Cost: "
-                        + (int) attackPool.get(x).getManaCost();
-            }
             //minimize the number of attack placements
             int maxSlot = (attackPool.size()
                     < playerCharacter.getAttackSlotCount())
                     ? attackPool.size() : playerCharacter.getAttackSlotCount();
+
+
             //solicits a move for each attack slot
             for (int y = 0; y < maxSlot; y++) {
                 int choiceNumber = -1;
-                outputMessage("Select an attack for slot #" + (y + 1));
-                while (choiceNumber < 0 || choiceNumber > attackPool.size()) {
-                    String input = inputScan(message);
-                    try {
-                        choiceNumber = Integer.parseInt(input);
-                    } catch (Exception e) {
-                        outputMessage("Enter a valid input.");
-                        choiceNumber = -1;
-                        y--;
-                        continue;
-                    }
-                    if (choiceNumber > 0 && choiceNumber <= attackPool.size()) {
-                        playerCharacter.setAttackSlot(attackPool.get(
-                                attackPool.size() - (choiceNumber)), y + 1);
-                    } else {
-                        outputMessage("You do not have that slot");
-                        y--;
-                        choiceNumber = -1;
-                    }
+                String message = "";
+                message += ("Select an attack for slot #" + (y + 1) +"\n")
+                    +getAttackPoolList(attackPool);
+                Attack input = null;
+                while (input==null) {
+                    getAttackPoolList(attackPool);
+                    Attack[] attackArr = attackPool.toArray(new Attack[0]);
+                    input = (Attack) JOptionPane.showInputDialog(
+                            null, message, "Choose Attack",
+                            JOptionPane.QUESTION_MESSAGE, null, attackArr, attackArr[0]);
                 }
+                attackPool.remove(input);
             }
         }
+    }
+
+    /**
+     * Lists all attacks and stats behind the attacks
+     * @return all attacks and stats
+     */
+    private String getAttackPoolList(List<Attack> attackPool) {
+        //This lists all attacks and stats behind the attacks
+        String message = "";
+        for (int x = attackPool.size() - 1; x >= 0; x--) {
+            message += "Attack: (" + (attackPool.size() - x) + ") - "
+                    + attackPool.get(x).getAttackName() + "\t"
+                    + " Physical Attack: "
+                    + (int) attackPool.get(x).getMaxAttack() + "\t"
+                    + " Magical Attack: "
+                    + (int) attackPool.get(x).getMaxMagicDamage() + "\t"
+                    + " Stamina Cost: "
+                    + (int) attackPool.get(x).getStaminaCost() + "\t"
+                    + " Mana Cost: "
+                    + (int) attackPool.get(x).getManaCost() + "\n";
+        }
+        return message;
     }
 }

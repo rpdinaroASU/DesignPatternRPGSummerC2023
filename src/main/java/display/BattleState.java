@@ -2,7 +2,6 @@ package display;
 
 import characters.CharacterBase;
 import characters.Attack;
-import characters.Enemy;
 
 import java.util.ArrayList;
 
@@ -26,6 +25,13 @@ public class BattleState extends UIStates{
         double damage = attack.getMaxMagicDamage() + attack.getMaxAttack();
         return damage;
     }
+
+    /**
+     * This method returns a list of attacks available for characters
+     * to use. This again allows for the Decorator Class to shine
+     * @param character The character to inquire attacks
+     * @return the array of attacks available
+     */
     protected Attack[] getCharacterAttacks(CharacterBase character) {
         ArrayList<Attack> characterAttacks = new ArrayList<Attack>();
         Attack[] characterArr;
