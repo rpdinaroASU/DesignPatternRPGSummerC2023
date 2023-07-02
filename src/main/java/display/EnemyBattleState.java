@@ -3,8 +3,6 @@ package display;
 import characters.Enemy;
 import characters.Player;
 
-import java.util.Random;
-
 /**
  * Enemy attack state.
  * @author Ryan Dinaro
@@ -38,9 +36,12 @@ public class EnemyBattleState extends BattleState{
             if(choiceNumber<=enemyMoveCount-1
                     && enemy.getAttackSlots(choiceNumber)
                     != null) {
-                double damage = this.doDamage(player, enemy.getAttackSlots(choiceNumber));
-                String message = "\n\n\n\t\t\t"+enemy.getEnemyName() + " attacked with "
-                        + enemy.getAttackSlots(choiceNumber) + ". \n\t\t\t\tThey did "
+                double damage = this.doDamage(player,
+                        enemy.getAttackSlots(choiceNumber));
+                String message = "\n\n\n\t\t\t"+enemy.getEnemyName()
+                        + " attacked with "
+                        + enemy.getAttackSlots(choiceNumber)
+                        + ". \n\t\t\t\tThey did "
                         + damage + " damage.";
                 System.out.println(message);
                 if(player.getHealthPoints()!=0) {

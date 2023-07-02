@@ -3,10 +3,6 @@ package display;
 import characters.Enemy;
 import characters.Player;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
-import java.util.Scanner;
-
 /**
  * This state generates and hosts list of floor enemies
  * @author Ryan Dinaro
@@ -15,7 +11,7 @@ import java.util.Scanner;
 public class FloorState extends UIStates{
     private final Player playerCharacter;
     private final Enemy[] enemies;
-    private static final int maxEnemies = 5;
+    private static final int MAX_ENEMIES = 5;
 
     /**
      * Initiates the floor state of the FSM.

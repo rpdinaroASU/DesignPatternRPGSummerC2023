@@ -26,7 +26,8 @@ public class Player extends CharacterBase {
      * @param classes the player class
      */
     public Player(PlayerClasses classes) {
-        this.setAttackSlot(Attack.getMovePool(1,this.isPhysicalType()).get(0),1);
+        this.setAttackSlot(Attack.getMovePool(1,
+                this.isPhysicalType()).get(0),1);
         this.playerClass = classes;
         this.goldBonus = classes.getGoldBonus();
         if(classes.getHealthBonus()<1||classes.getHealthBonus()>2
