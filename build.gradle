@@ -21,21 +21,21 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
 }
 
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
 
+
+
+test {
+    finalizedBy jacocoTestReport // let's you call 'gradle test jacocoTestReport' as one command
+}
 jacoco {
     toolVersion = '0.8.10'
 }
-
 jacocoTestReport {
     reports {
-        xml.required = true
+        xml.required = false
         csv.required = false
+        html.required = true // generate HTML report
     }
-    dependsOn test
 }
 
 checkstyle {

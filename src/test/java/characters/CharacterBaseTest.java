@@ -1,4 +1,5 @@
 
+import characters.CharacterBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,11 +61,6 @@ class CharacterBaseTest {
     }
 
     @Test
-    void getItemSlots() {
-        base.setItemSlot(Item.MITHRIL_CUIRASS, 1);
-        assertEquals(base.getItemSlots(1), Item.MITHRIL_CUIRASS);
-    }
-    @Test
     void getItemBellowSlots() {
         assertThrows(IllegalArgumentException.class, () -> {
             base.getItemSlots(0);
@@ -79,7 +75,7 @@ class CharacterBaseTest {
 
     @Test
     void setStatCaps() {
-        base.setStatCaps();
+        base.setStatCaps(1,1,1);
         assertEquals(12,base.getHealthCap());
         assertEquals(51,base.getStaminaCap());
         assertEquals(51,base.getManaCap());

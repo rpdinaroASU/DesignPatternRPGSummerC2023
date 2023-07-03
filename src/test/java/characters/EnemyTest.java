@@ -1,7 +1,7 @@
-package characters;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import characters.Enemy;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +10,6 @@ class EnemyTest {
     @BeforeAll
     static void setUp() throws IllegalAccessException {
         enemy = new Enemy(10,1,1);
-        outputMessage(enemy.getEnemyName());
     }
 
     @Test

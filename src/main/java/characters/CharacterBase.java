@@ -13,9 +13,7 @@ public class CharacterBase implements Character{
     private double staminaCap = 0;
     private double staminaStored = 0;
     private int characterLevel = 1;
-    private static final int ITEMSLOTCOUNT = 3;
     private static final int ATTACKSLOTCOUNT = 4;
-    private final Item[] itemSlots = new Item[ITEMSLOTCOUNT];
     private final Attack[] attackSlots = new Attack[ATTACKSLOTCOUNT];
     private boolean magicType;
     private boolean physicalType;
@@ -96,23 +94,6 @@ public class CharacterBase implements Character{
     }
 
     /**
-     * Returns the item in the slot number.
-     * @param slotNumber the slot number being retrieved
-     * @return the item in the item slot
-     */
-    @Override
-    public Item getItemSlots(int slotNumber) throws IllegalArgumentException {
-        if(slotNumber >= ITEMSLOTCOUNT
-                ||slotNumber < 0) {
-            String message = "You only have " + ITEMSLOTCOUNT
-                    + " slots. Pick a number between 1 - "
-                    + ITEMSLOTCOUNT + ".";
-            throw new IllegalArgumentException(message);
-        }
-        return itemSlots[slotNumber];
-    }
-
-    /**
      * Return the attack in the attack slot.
      * @param slotNumber the slot number being retrieved
      * @return the attack in the attack slot
@@ -129,24 +110,6 @@ public class CharacterBase implements Character{
             throw new IllegalArgumentException(message);
         }
         return attackSlots[slotNumber];
-    }
-
-    /**
-     * set the slot to the item specified.
-     * @param item the item to set
-     * @param slotNumber the slot to set it too
-     */
-    @Override
-    public void setItemSlot(Item item, int slotNumber)
-            throws IllegalArgumentException {
-        if(slotNumber-1 >= ITEMSLOTCOUNT
-        || slotNumber-1 < 0) {
-            String message = "You only have " + ITEMSLOTCOUNT
-                    + " slots. Pick a number between 1 - "
-                    + ITEMSLOTCOUNT + ".";
-            throw new IllegalArgumentException(message);
-        }
-        itemSlots[slotNumber-1] = item;
     }
 
     /**
@@ -295,14 +258,6 @@ public class CharacterBase implements Character{
         this.physicalType = physicalType;
     }
 
-    /**
-     * Returns the number of item slots.
-     * @return the number of item slots
-     */
-    @Override
-    public int getItemSlotCount() {
-        return ITEMSLOTCOUNT;
-    }
 
     /**
      * Returns the number of attack slots.

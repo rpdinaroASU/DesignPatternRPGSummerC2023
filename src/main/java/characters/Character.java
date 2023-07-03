@@ -4,9 +4,8 @@ public interface Character {
     double reduceHealth(double damage) throws IllegalArgumentException;
     double reduceMana(double actionCost);
     double reduceStamina(double actionCost);
-    Item getItemSlots(int slotNumber) throws IllegalArgumentException;
+
     Attack getAttackSlots(int slotNumber) throws IllegalArgumentException;
-    void setItemSlot(Item item, int slotNumber) throws IllegalArgumentException;
     void setAttackSlot(Attack attack, int slotNumber)
             throws IllegalArgumentException;
     double getHealthCap();
@@ -21,7 +20,6 @@ public interface Character {
     void setStatCaps(double healthBonus, double manaBonus, double staminaBonus)
             throws IllegalArgumentException;
     void heal();
-    int getItemSlotCount();
     int getAttackSlotCount();
     double getHealthPoints();
     void setHealthPoints(double healthPoints);

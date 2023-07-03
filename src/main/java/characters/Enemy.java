@@ -55,7 +55,6 @@ public class Enemy extends CharacterBase{
         setEnemyType();
         this.setStatCaps(1,1,1);
         setAttacks();
-        setItems();
     }
 
     /**
@@ -126,17 +125,6 @@ public class Enemy extends CharacterBase{
         for(int x = 1; x<=this.getAttackSlotCount(); x++) {
             this.setAttackSlot(attackPool.get(rand.nextInt(attackPool.size())),
                     x);
-        }
-    }
-
-    /**
-     * Sets the items of this enemy from the available item pool.
-     *
-     */
-    private void setItems() {
-        List<Item> itemPool = Item.getItemPool(this.getCharacterLevel());
-        for(int x = 1; x<=this.getItemSlotCount(); x++) {
-            this.setItemSlot(itemPool.get(rand.nextInt(itemPool.size())), x);
         }
     }
 
