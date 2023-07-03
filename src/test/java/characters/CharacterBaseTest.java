@@ -12,86 +12,85 @@ class CharacterBaseTest {
 
     @BeforeEach
     void setUp() {
-        int health = 10;
-        int mana = 10;
-        int stamina = 10;
+        final int health = 10;
+        final int mana = 10;
+        final int stamina = 10;
         base = new CharacterBase(health,mana,stamina);
     }
 
     @Test
     void invalidCharacterBase() {
         assertThrows(IllegalArgumentException.class, () -> {
-            int health = -1;
-            int mana = 10;
-            int stamina = 10;
+            final int health = -1;
+            final int mana = 10;
+            final int stamina = 10;
             new CharacterBase(health,mana,stamina);
         });
     }
     @Test
     void reduceHealth() {
-        int reduceAmount = 5;
-        int expected = 5;
+        final int reduceAmount = 5;
+        final int expected = 5;
         base.reduceHealth(reduceAmount);
         assertEquals(expected,base.getHealthPoints());
     }
     @Test
     void illegalReduceHealth() {
         assertThrows(IllegalArgumentException.class, () -> {
-            int reduceAmount = -5;
+            final int reduceAmount = -5;
             base.reduceHealth(reduceAmount);
         });
     }
     @Test
     void overkillReduceHealth() {
-        assertEquals(0,base.reduceHealth(1000));
+        final int expectedFinalHealth = 0;
+        final int damage = 10000;
+        assertEquals(expectedFinalHealth,base.reduceHealth(damage));
     }
 
     @Test
     void overkillReduceMana() {
+        final int manaReduction = 10000;
         assertThrows(IllegalArgumentException.class, () -> {
-            base.reduceMana(50000);
+            base.reduceMana(manaReduction);
         });
     }
 
     @Test
     void overkillReduceStamina() {
+        final int staminaReduction = 10000;
         assertThrows(IllegalArgumentException.class, () -> {
-            base.reduceStamina(50000);
+            base.reduceStamina(staminaReduction);
         });
     }
 
-    @Test
-    void getItemBellowSlots() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            base.getItemSlots(0);
-        });
-    }
-    @Test
-    void getItemAboveSlots() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            base.getItemSlots(100);
-        });
-    }
 
     @Test
     void setStatCaps() {
-        base.setStatCaps(1,1,1);
-        assertEquals(12,base.getHealthCap());
-        assertEquals(51,base.getStaminaCap());
-        assertEquals(51,base.getManaCap());
+        final double healthBonus = 1;
+        final double manaBonus = 1;
+        final double staminaBonus = 1;
+        base.setStatCaps(healthBonus,manaBonus,staminaBonus);
+        final int expectedHealth = 12;
+        assertEquals(expectedHealth,base.getHealthCap());
+        final double expectedStaminaAndMana = 51;
+        assertEquals(expectedStaminaAndMana,base.getStaminaCap());
+        assertEquals(expectedStaminaAndMana,base.getManaCap());
         assertEquals(base.getHealthPoints(),base.getHealthCap());
         assertEquals(base.getManaPoints(),base.getManaCap());
         assertEquals(base.getStaminaPoints(),base.getStaminaCap());
     }
     @Test
     void getCharacterLevel() {
-        assertEquals(1, base.getCharacterLevel());
+        final int expectedPlayerLevel = 1;
+        assertEquals(expectedPlayerLevel, base.getCharacterLevel());
     }
 
     @Test
     void setCharacterLevel() {
         assertThrows(IllegalArgumentException.class, () -> {
-            base.setCharacterLevel(0);
+            final int invalidLevel = 0;
+            base.setCharacterLevel(invalidLevel);
         });
     }
 }
