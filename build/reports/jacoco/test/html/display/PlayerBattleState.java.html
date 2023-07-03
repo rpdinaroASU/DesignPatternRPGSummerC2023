@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerBattleState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">display</a> &gt; <span class="el_source">PlayerBattleState.java</span></div><h1>PlayerBattleState.java</h1><pre class="source lang-java linenums">package display;
+
+import characters.Attack;
+import characters.Enemy;
+import characters.Player;
+
+import javax.swing.JOptionPane;
+
+/**
+ * @author Ryan Dinaro
+ * @version 7/1/23
+ * This state represents a players turn while in a battle
+ */
+public class PlayerBattleState extends BattleState{
+
+    /**
+     * This object will initiate a players turn
+     * @param player the player
+     * @param enemy the single enemy to fight
+     */
+<span class="nc" id="L21">    public PlayerBattleState(Player player, Enemy enemy) {</span>
+<span class="nc" id="L22">        getPlayerMove(player,enemy);</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * Displays the header of combat
+     */
+    private String combatHeader(Player playerCharacter,
+                              Enemy enemyCharacter) {
+<span class="nc" id="L30">        String message = (playerCharacter.getPlayerName() +&quot; info: \n&quot;);</span>
+<span class="nc" id="L31">        message += getPlayerInfo(playerCharacter);</span>
+<span class="nc" id="L32">        message += &quot;\n\n&quot; + enemyCharacter.getEnemyName() + &quot; info: \n&quot;;</span>
+<span class="nc" id="L33">        message += getPlayerInfo(enemyCharacter) + &quot;\n\n&quot;;</span>
+<span class="nc" id="L34">        return message;</span>
+    }
+
+    /**
+     * This method will list all attacks a player can use in combat.
+     */
+    private String listAttacks(Player playerCharacter) {
+<span class="nc" id="L41">        StringBuilder message = new StringBuilder(&quot;Attack:\n&quot;);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        for(int x = 0; x &lt; playerCharacter.getMoveCount(); x++) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if(playerCharacter.getAttackSlots(x) !=null) {</span>
+<span class="nc" id="L44">               message.append(playerCharacter</span>
+<span class="nc" id="L45">                       .getAttackSlots(x)</span>
+<span class="nc" id="L46">                       .getAttackName()).append(&quot;\n&quot;);</span>
+            }
+        }
+<span class="nc" id="L49">        return message.toString();</span>
+    }
+
+    /**
+     * Solicits the players desired move.
+     * Parses only results that remain in bounds of FSM
+     */
+    private void getPlayerMove(Player playerCharacter, Enemy enemyCharacter) {
+<span class="nc" id="L57">        String message = combatHeader(playerCharacter,enemyCharacter) +&quot;\n&quot;;</span>
+<span class="nc" id="L58">        message += listAttacks(playerCharacter);</span>
+
+<span class="nc" id="L60">        Attack input = null;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        while(input==null) {</span>
+<span class="nc" id="L62">            Attack[] arr = getCharacterAttacks(playerCharacter);</span>
+<span class="nc" id="L63">            input = (Attack) JOptionPane.showInputDialog(null, message,</span>
+                    &quot;Choose Attack&quot;, JOptionPane.QUESTION_MESSAGE,
+                    null, arr, arr[0]);
+
+<span class="nc" id="L67">        }</span>
+<span class="nc" id="L68">        doPlayerAttack(input,playerCharacter,enemyCharacter);</span>
+
+<span class="nc" id="L70">    }</span>
+
+    /**
+     * Attacks the enemy with the attack slot number specified
+     * @param playerAttack the attack
+     */
+    private void doPlayerAttack(Attack playerAttack, Player playerCharacter,
+                                Enemy enemyCharacter) {
+<span class="nc" id="L78">        outputMessage(&quot;You attacked with &quot; + playerAttack.name()+ &quot; and did &quot;</span>
+<span class="nc" id="L79">                + ((int) playerAttack.getMaxAttack()</span>
+<span class="nc" id="L80">                +playerAttack.getMaxMagicDamage()) + &quot; damage.&quot;);</span>
+<span class="nc" id="L81">        playerCharacter.reduceMana(playerAttack.getManaCost());</span>
+<span class="nc" id="L82">        playerCharacter.reduceStamina(playerAttack.getStaminaCost());</span>
+<span class="nc" id="L83">        doDamage(enemyCharacter, playerAttack);</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if(enemyCharacter.getHealthPoints()!=0) {</span>
+<span class="nc" id="L86">            combatHeader(playerCharacter, enemyCharacter);</span>
+<span class="nc" id="L87">            new EnemyBattleState(playerCharacter, enemyCharacter);</span>
+        } else {
+<span class="nc" id="L89">            defeatedEnemy(playerCharacter,enemyCharacter);</span>
+        }
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * The informative  exit message for the FSM to go back to the
+     * levelUp state or the Heal State.
+     */
+    private void defeatedEnemy(Player playerCharacter,
+                               Enemy enemyCharacter) {
+<span class="nc" id="L99">        String message = (&quot;You have defeated the &quot;</span>
+<span class="nc" id="L100">                + enemyCharacter.getEnemyName() + &quot;.\n&quot;);</span>
+<span class="nc" id="L101">        double goldRewarded = playerCharacter.getGoldBonus()</span>
+<span class="nc" id="L102">                *enemyCharacter.getGoldGiven();</span>
+<span class="nc" id="L103">        playerCharacter.addGold(goldRewarded);</span>
+<span class="nc" id="L104">        message += (&quot;You have been awarded &quot;</span>
+                + goldRewarded + &quot; gold.\n&quot;);
+<span class="nc" id="L106">        double experienceRewarded = enemyCharacter.getExperienceGiven();</span>
+<span class="nc" id="L107">        playerCharacter.addExperience(experienceRewarded);</span>
+<span class="nc" id="L108">        message += (&quot;You have been awarded &quot; + experienceRewarded</span>
+                + &quot; experience.\n&quot;);
+<span class="nc" id="L110">        message += ((int) (playerCharacter.getExperienceCap()</span>
+<span class="nc" id="L111">                - playerCharacter.getExperiencePoints())</span>
+                + &quot; experience needed to improve\n&quot;);
+<span class="nc" id="L113">        outputMessage(message);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if(playerCharacter.levelUp()) {</span>
+<span class="nc" id="L115">            new LevelUpState(playerCharacter);</span>
+        } else {
+<span class="nc" id="L117">            new HealState(playerCharacter);</span>
+        }
+<span class="nc" id="L119">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Attack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">Attack.java</span></div><h1>Attack.java</h1><pre class="source lang-java linenums">package characters;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L6">public enum Attack {</span>
+
+    /*
+     * The enums that follow are the physical attacks learned.
+     */
+<span class="nc" id="L11">    SWIPE(&quot;Swipe&quot;, 2, 0, 1, 1, 1, true),</span>
+<span class="nc" id="L12">    BASH(&quot;Bash&quot;, 5, 0, 2, 1, 2,true),</span>
+<span class="nc" id="L13">    STING(&quot;Sting&quot;, 8, 0, 2, 2, 3,true),</span>
+<span class="nc" id="L14">    PUMMEL(&quot;Pummel&quot;, 15, 0, 3, 2, 5,true),</span>
+<span class="nc" id="L15">    THRUST(&quot;Thrust&quot;, 18, 0, 4, 3, 7,true),</span>
+<span class="nc" id="L16">    CLOBBER(&quot;Clobber&quot;, 20, 0, 7, 0, 10,true),</span>
+<span class="nc" id="L17">    SEARING_STRIKE(&quot;Searing Strike&quot;, 22, 5, 5, 4, 11,true),</span>
+<span class="nc" id="L18">    ICE_SLASH(&quot;Ice Slash&quot;, 25, 7, 5, 5, 12,true),</span>
+<span class="nc" id="L19">    SHOCK_BLAST(&quot;Shock Blast&quot;, 30, 10, 6, 5, 14,true),</span>
+<span class="nc" id="L20">    RAGING_STORM(&quot;Raging Storm Strike&quot;, 35, 10, 7, 6, 15,true),</span>
+<span class="nc" id="L21">    EARTH_SHAKER(&quot;The Earth Shaker&quot;, 40, 10, 8, 7, 16,true),</span>
+<span class="nc" id="L22">    SMITE(&quot;Smite&quot;, 50, 10, 10, 10, 20,true),</span>
+<span class="nc" id="L23">    HELLFIRE_BLADE(&quot;Hellfire Blade&quot;, 55, 15, 10, 12, 22, true),</span>
+<span class="nc" id="L24">    TEMPEST_FURY(&quot;Tempest Fury&quot;, 60, 20, 11, 12, 23, true),</span>
+<span class="nc" id="L25">    ECLIPSE_EDGE(&quot;Eclipse Edge&quot;, 65, 25, 12, 13, 24,true),</span>
+<span class="nc" id="L26">    LIGHTNING_LASH(&quot;Lightning Lash&quot;, 70, 30, 13, 14, 25,true),</span>
+<span class="nc" id="L27">    VOID_PULSE(&quot;Void Pulse&quot;, 80, 35, 15, 15, 27,true),</span>
+<span class="nc" id="L28">    ASTRAL_AEGIS(&quot;Astral Aegis&quot;, 90, 40, 17, 16, 28,true),</span>
+<span class="nc" id="L29">    NETHER_NOVA(&quot;Nether Nova&quot;, 95, 45, 19, 18, 29,true),</span>
+<span class="nc" id="L30">    DANCE_OF_DEATH(&quot;The Dance of Death&quot;, 100, 50, 20, 10, 35,true),</span>
+    /*
+     * These are the magical attacks learned as a mage grows
+     */
+<span class="nc" id="L34">    SPARK(&quot;Spark&quot;, 0, 2, 0, 1, 1, false),</span>
+<span class="nc" id="L35">    ZAP(&quot;Zap&quot;, 0, 5, 0, 2, 2, false),</span>
+<span class="nc" id="L36">    FLASH(&quot;Flash&quot;, 0, 8, 0, 2, 3, false),</span>
+    // Elemental Spells
+<span class="nc" id="L38">    FLAME_SPIRIT(&quot;Flame Spirit&quot;, 0, 15, 0, 4, 5, false),</span>
+<span class="nc" id="L39">    WATER_WHIRL(&quot;Water Whirl&quot;, 0, 18, 0, 5, 6, false),</span>
+<span class="nc" id="L40">    EARTH_PULSE(&quot;Earth Pulse&quot;, 0, 20, 0, 6, 7, false),</span>
+<span class="nc" id="L41">    AIR_VORTEX(&quot;Air Vortex&quot;, 0, 22, 0, 7, 8, false),</span>
+<span class="nc" id="L42">    FROST_BITE(&quot;Frost Bite&quot;, 0, 25, 0, 8, 9, false),</span>
+<span class="nc" id="L43">    LIGHTNING_BOLT(&quot;Lightning Bolt&quot;, 0, 30, 0, 9, 10, false),</span>
+    // Astral Spells
+<span class="nc" id="L45">    MOON_BEAM(&quot;Moon Beam&quot;, 10, 35, 5, 10, 12, false),</span>
+<span class="nc" id="L46">    STAR_SHOWER(&quot;Star Shower&quot;, 15, 40, 7, 11, 14, false),</span>
+<span class="nc" id="L47">    GALAXY_WAVE(&quot;Galaxy Wave&quot;, 20, 45, 9, 12, 16, false),</span>
+<span class="nc" id="L48">    COMET_STRIKE(&quot;Comet Strike&quot;, 25, 50, 10, 13, 18, false),</span>
+<span class="nc" id="L49">    NEBULA_CHAIN(&quot;Nebula Chain&quot;, 30, 55, 12, 14, 20, false),</span>
+<span class="nc" id="L50">    SOLAR_NOVA(&quot;Solar Nova&quot;, 35, 60, 15, 15, 22, false),</span>
+    // Deep Spiritual Horrors
+<span class="nc" id="L52">    DARK_RITUAL(&quot;Dark Ritual&quot;, 40, 70, 15, 17, 24, false),</span>
+<span class="nc" id="L53">    ELDERS_CURSE(&quot;Elder's Curse&quot;, 45, 80, 18, 18, 26, false),</span>
+<span class="nc" id="L54">    VOID_WAIL(&quot;Void Wail&quot;, 50, 85, 20, 19, 28, false),</span>
+<span class="nc" id="L55">    ABYSSAL_TOUCH(&quot;Abyssal Touch&quot;, 55, 90, 22, 20, 30, false),</span>
+<span class="nc" id="L56">    AWAKEN_THE_ETERNAL_ONE(&quot;Awaken the Eternal One&quot;, 60,</span>
+            100, 25, 25, 35, false),
+
+    /*
+     *  Below is a little Easter egg for anyone who makes it to level 40,
+     *  Notice the damage type is not what you would expect,
+     *  just wishing death grants physical damage,
+     *  just asking someone politely to stop will cause
+     *  enough magical damage to kill them.
+     */
+<span class="nc" id="L66">    ASKING_POLITELY(&quot;Asking Politely&quot;, 0,1000,0,0,40,true),</span>
+<span class="nc" id="L67">    WISHING_DEATH(&quot;Wishing Death&quot;, 1000,0,0,0,40,false);</span>
+    private final String attackName;
+    private final double maxAttack;
+    private final double maxMagicDamage;
+    private final double staminaCost;
+    private final double manaCost;
+    private final int levelAppears;
+    private final boolean isPhysical;
+
+    /**
+     * Represents the attack available to Characters.
+     * @param attackName the attack name
+     * @param maxAttack the maximum attack available to the player
+     * @param maxMagicDamage the maximum magic available to the player
+     * @param staminaCost the cost of stamina to use the attack
+     * @param manaCost the cost of mana to use the attack
+     * @param levelAppears the level you can equip the attack
+     * @param isPhysical if the attack is physical or magical
+     */
+    Attack(String attackName, double maxAttack, double maxMagicDamage,
+           double staminaCost, double manaCost, int levelAppears,
+<span class="nc" id="L88">           boolean isPhysical) {</span>
+<span class="nc" id="L89">        this.attackName = attackName;</span>
+<span class="nc" id="L90">        this.maxAttack = maxAttack;</span>
+<span class="nc" id="L91">        this.maxMagicDamage = maxMagicDamage;</span>
+<span class="nc" id="L92">        this.staminaCost = staminaCost;</span>
+<span class="nc" id="L93">        this.manaCost = manaCost;</span>
+<span class="nc" id="L94">        this.levelAppears = levelAppears;</span>
+<span class="nc" id="L95">        this.isPhysical = isPhysical;</span>
+<span class="nc" id="L96">    }</span>
+    /**
+     * Return the maximum attack available to the player.
+     * @return the maximum attack available to the player
+     */
+    public double getMaxAttack() {
+<span class="nc" id="L102">        return maxAttack;</span>
+    }
+
+    /**
+     * Returns the maximum magic available to the player.
+     * @return the maximum magic available to the player
+     */
+    public double getMaxMagicDamage() {
+<span class="nc" id="L110">        return maxMagicDamage;</span>
+    }
+
+    /**
+     * Returns the cost of stamina to use the attack.
+     * @return the cost of stamina to use the attack
+     */
+    public double getStaminaCost() {
+<span class="nc" id="L118">        return staminaCost;</span>
+    }
+
+    /**
+     * Returns the cost of mana to use the attack.
+     * @return the cost of mana to use the attack
+     */
+    public double getManaCost() {
+<span class="nc" id="L126">        return manaCost;</span>
+    }
+    /**
+     * Returns the level you can equip the attack.
+     * @return the level you can equip the attack
+     */
+    public int getLevelAppears() {
+<span class="nc" id="L133">        return levelAppears;</span>
+    }
+
+    /**
+     * Returns the attack name.
+     * @return the attack name
+     */
+    public String getAttackName() {
+<span class="nc" id="L141">        return attackName;</span>
+    }
+
+    /**
+     * Returns if the attack is physical or magical.
+     * @return if the attack is physical or magical
+     */
+    public boolean isPhysical() {
+<span class="nc" id="L149">        return isPhysical;</span>
+    }
+
+    /**
+     * Returns the move pool for a character of a certain level and class
+     * @param characterLevel the characters level
+     * @param isPhysical the class physical or magical
+     * @return the move pool
+     */
+    public static List&lt;Attack&gt; getMovePool(double characterLevel,
+                                           boolean isPhysical) {
+<span class="nc" id="L160">        List&lt;Attack&gt; movePool = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        for (Attack attack : Attack.values()) {</span>
+<span class="nc bnc" id="L162" title="All 4 branches missed.">            if (attack.getLevelAppears() &lt;= characterLevel</span>
+                    &amp;&amp; isPhysical
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                    &amp;&amp; attack.isPhysical()) {</span>
+<span class="nc" id="L165">                movePool.add(attack);</span>
+            }
+<span class="nc bnc" id="L167" title="All 4 branches missed.">            if (attack.getLevelAppears() &lt;= characterLevel</span>
+                    &amp;&amp; !isPhysical
+<span class="nc bnc" id="L169" title="All 2 branches missed.">                    &amp;&amp; !attack.isPhysical()) {</span>
+<span class="nc" id="L170">                movePool.add(attack);</span>
+            }
+        }
+<span class="nc" id="L173">        return movePool;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

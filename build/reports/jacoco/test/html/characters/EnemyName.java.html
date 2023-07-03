@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnemyName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">EnemyName.java</span></div><h1>EnemyName.java</h1><pre class="source lang-java linenums">package characters;
+
+import java.util.List;
+import java.util.Random;
+
+<span class="nc" id="L6">public enum EnemyName {</span>
+<span class="nc" id="L7">    WARG(&quot;Warg&quot;),</span>
+<span class="nc" id="L8">    GHOUL(&quot;Ghoul&quot;),</span>
+<span class="nc" id="L9">    DEATHKNIGHT(&quot;Death Knight&quot;),</span>
+<span class="nc" id="L10">    DREADLORD(&quot;Dreadlord&quot;),</span>
+<span class="nc" id="L11">    SHADE(&quot;Shade&quot;),</span>
+<span class="nc" id="L12">    IMP(&quot;Imp&quot;),</span>
+<span class="nc" id="L13">    WITCH(&quot;Witch&quot;),</span>
+<span class="nc" id="L14">    SIREN(&quot;Siren&quot;),</span>
+<span class="nc" id="L15">    WYVERN(&quot;Wyvern&quot;),</span>
+<span class="nc" id="L16">    REVENANT(&quot;Revenant&quot;),</span>
+<span class="nc" id="L17">    WRAITH(&quot;Wraith&quot;),</span>
+<span class="nc" id="L18">    BANSHEE(&quot;Banshee&quot;),</span>
+<span class="nc" id="L19">    SHADOWMENDER(&quot;Shadowmender&quot;),</span>
+<span class="nc" id="L20">    NIGHTMARE(&quot;Nightmare&quot;),</span>
+<span class="nc" id="L21">    GARGOYLE(&quot;Gargoyle&quot;),</span>
+<span class="nc" id="L22">    DARKMAGE(&quot;Dark Mage&quot;),</span>
+<span class="nc" id="L23">    SKELETON(&quot;Skeleton&quot;),</span>
+<span class="nc" id="L24">    ZOMBIE(&quot;Zombie&quot;),</span>
+<span class="nc" id="L25">    PHANTOM(&quot;Phantom&quot;),</span>
+<span class="nc" id="L26">    SPECTER(&quot;Specter&quot;),</span>
+<span class="nc" id="L27">    LICH(&quot;Lich&quot;),</span>
+<span class="nc" id="L28">    DRAGON(&quot;Dragon&quot;),</span>
+<span class="nc" id="L29">    SERPENT(&quot;Serpent&quot;),</span>
+<span class="nc" id="L30">    CERBERUS(&quot;Cerberus&quot;),</span>
+<span class="nc" id="L31">    FALLEN_ANGEL(&quot;Fallen Angel&quot;),</span>
+<span class="nc" id="L32">    SHADOWLORD(&quot;Shadowlord&quot;),</span>
+<span class="nc" id="L33">    DIREWOLF(&quot;Direwolf&quot;),</span>
+<span class="nc" id="L34">    VAMPIRE(&quot;Vampire&quot;),</span>
+<span class="nc" id="L35">    ORC(&quot;Orc&quot;),</span>
+<span class="nc" id="L36">    GOLEM(&quot;Golem&quot;),</span>
+<span class="nc" id="L37">    CHIMERA(&quot;Chimera&quot;),</span>
+<span class="nc" id="L38">    MINOTAUR(&quot;Minotaur&quot;),</span>
+<span class="nc" id="L39">    HARPY(&quot;Harpy&quot;),</span>
+<span class="nc" id="L40">    NAGA(&quot;Naga&quot;),</span>
+<span class="nc" id="L41">    DEMON(&quot;Demon&quot;),</span>
+<span class="nc" id="L42">    TROLL(&quot;Troll&quot;),</span>
+<span class="nc" id="L43">    HYDRA(&quot;Hydra&quot;),</span>
+<span class="nc" id="L44">    GRIFFIN(&quot;Griffin&quot;),</span>
+<span class="nc" id="L45">    PHOENIX(&quot;Phoenix&quot;),</span>
+<span class="nc" id="L46">    DOPPELGANGER(&quot;Doppelganger&quot;),</span>
+<span class="nc" id="L47">    BEHEMOTH(&quot;Behemoth&quot;),</span>
+<span class="nc" id="L48">    MANTICORE(&quot;Manticore&quot;),</span>
+<span class="nc" id="L49">    CRIMSON_KNIGHT(&quot;Crimson Knight&quot;),</span>
+<span class="nc" id="L50">    RAVAGER(&quot;Ravager&quot;),</span>
+<span class="nc" id="L51">    CTHULHU(&quot;Cthulhu&quot;),</span>
+<span class="nc" id="L52">    KRAKEN(&quot;Kraken&quot;),</span>
+<span class="nc" id="L53">    ABYSSAL_LEVIATHAN(&quot;Abyssal Leviathan&quot;),</span>
+<span class="nc" id="L54">    NIGHTSHADE(&quot;Nightshade&quot;),</span>
+<span class="nc" id="L55">    WITCHDOCTOR(&quot;Witchdoctor&quot;),</span>
+<span class="nc" id="L56">    WEREWOLF(&quot;Werewolf&quot;),</span>
+<span class="nc" id="L57">    WARLOCK(&quot;Warlock&quot;),</span>
+<span class="nc" id="L58">    SHADOWHOUND(&quot;Shadowhound&quot;),</span>
+<span class="nc" id="L59">    SPECTRAL_KNIGHT(&quot;Spectral Knight&quot;);</span>
+    private final String name;
+<span class="nc" id="L61">    private static final List&lt;EnemyName&gt; VALUES = List.of(values());</span>
+<span class="nc" id="L62">    private static final int SIZE = VALUES.size();</span>
+<span class="nc" id="L63">    private static final Random RANDOM = new Random();</span>
+<span class="nc" id="L64">    EnemyName(String name) {</span>
+<span class="nc" id="L65">        this.name = name;</span>
+<span class="nc" id="L66">    }</span>
+    @Override
+    public String toString() {
+<span class="nc" id="L69">        return name;</span>
+    }
+    public static EnemyName randomEnemyName()  {
+<span class="nc" id="L72">        return VALUES.get(RANDOM.nextInt(SIZE));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

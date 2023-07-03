@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Enemy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">Enemy.java</span></div><h1>Enemy.java</h1><pre class="source lang-java linenums">package characters;
+
+import java.util.List;
+import java.util.Random;
+
+/**
+ * {@code @Author} Ryan Dinaro
+ * @version 6/30
+ * This class represents an enemy character
+ */
+public class Enemy extends CharacterBase{
+    private final String enemyName;
+    private final double experienceGiven;
+    private final double goldGiven;
+    private static final int MAXDIFFICULTY = 3;
+    private final Random rand;
+
+    /**
+     * This constructor creates an enemy's name, stats,
+     * move pool, and item pool.
+     * @param playerLevel the level of the player, must be over 1
+     * @param difficulty the level of difficulty 1 - 3
+     * @throws IllegalArgumentException when params are out of bounds
+     */
+    public Enemy(double playerLevel, double difficulty,
+                 double goldMultiplier) throws IllegalArgumentException {
+<span class="nc" id="L27">        super();</span>
+<span class="nc" id="L28">        rand = new Random();</span>
+<span class="nc" id="L29">        this.enemyName = EnemyName.randomEnemyName().toString();</span>
+<span class="nc" id="L30">        setStats(playerLevel, difficulty);</span>
+<span class="nc" id="L31">        final double experienceMultiplier = .6*10;</span>
+<span class="nc" id="L32">        experienceGiven = experienceMultiplier*this.getCharacterLevel();</span>
+<span class="nc" id="L33">        final double goldCoefficient = 100;</span>
+<span class="nc" id="L34">        goldGiven = goldCoefficient*goldMultiplier*this.getCharacterLevel();</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * Sets the level of the Enemy based on player level and difficulty.
+     * @param playerLevel the players level &gt;= 1
+     * @param difficulty the difficulty of the game 1 - 3
+     * @throws IllegalArgumentException params do not fall in the correct bounds
+     */
+    private void setStats(double playerLevel, double difficulty)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        if(difficulty&lt;=0||difficulty&gt;MAXDIFFICULTY) {</span>
+<span class="nc" id="L46">            String message = &quot;difficulty must be between 1 - 3&quot;;</span>
+<span class="nc" id="L47">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if(playerLevel&lt;=0) {</span>
+<span class="nc" id="L50">            String message = &quot;Player Level must be greater than 0&quot;;</span>
+<span class="nc" id="L51">            throw new IllegalArgumentException(message);</span>
+        }
+
+<span class="nc" id="L54">        setEnemyLevel(playerLevel, difficulty);</span>
+<span class="nc" id="L55">        setEnemyType();</span>
+<span class="nc" id="L56">        this.setStatCaps(1,1,1);</span>
+<span class="nc" id="L57">        setAttacks();</span>
+<span class="nc" id="L58">        setItems();</span>
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * Sets the level of the enemy for varying difficulty.
+     * Level 1 - 9 enemy grows slower than you ensuring you have
+     * an easier time getting use to the game.
+     * Level 10 - 19 enemy grows at a linear rate.
+     * Level 20 - 29 enemy grow at a slow exponential rate
+     * Level 30+ enemy grows at a greater exponential rate
+     * @param playerLevel the level of the player
+     * @param difficulty the difficulty ranging from 1-3
+     */
+    private void setEnemyLevel(double playerLevel, double difficulty) {
+<span class="nc" id="L72">        double enemyLevelGrowthRate = 0;</span>
+        /*
+        The coefficient of enemy level formula is variable based
+        on the difficulty level
+         */
+<span class="nc" id="L77">        final double rateOne = .03;</span>
+<span class="nc" id="L78">        final double rateTwo = 1.0 * difficulty *.25 * .8;</span>
+<span class="nc" id="L79">        final double rateThree = .03* difficulty *.75;</span>
+<span class="nc" id="L80">        final double rateFour = .025 * difficulty;</span>
+        /*
+        The level bands between each formula,
+        as the level passes the band the formula
+        switches as a piecewise formula
+         */
+<span class="nc" id="L86">        final int levelBandOne = 10;</span>
+<span class="nc" id="L87">        final int levelBandTwo = 20;</span>
+<span class="nc" id="L88">        final int levelBandThree = 30;</span>
+<span class="nc" id="L89">        final int levelBandFour = 40;</span>
+
+<span class="nc" id="L91">        final double b1HorizontalShift = 8;</span>
+<span class="nc" id="L92">        final double b1VerticalShift = -1.92;</span>
+<span class="nc" id="L93">        final double b3VerticalShift = 8;</span>
+<span class="nc" id="L94">        final double b4VerticalShift = 14;</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if(playerLevel&lt;levelBandOne) {</span>
+<span class="nc" id="L97">            enemyLevelGrowthRate = Math.ceil(rateOne * Math.pow(playerLevel</span>
+                    + b1HorizontalShift,2) + b1VerticalShift);
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        } else if(playerLevel&lt;levelBandTwo) {</span>
+<span class="nc" id="L100">            enemyLevelGrowthRate = Math.round(rateTwo * playerLevel);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        } else if(playerLevel&lt;levelBandThree) {</span>
+<span class="nc" id="L102">            enemyLevelGrowthRate = Math.round(rateThree</span>
+<span class="nc" id="L103">                    * (Math.pow(playerLevel,2))+b3VerticalShift);</span>
+        } else {
+<span class="nc" id="L105">            enemyLevelGrowthRate = Math.round(rateFour</span>
+<span class="nc" id="L106">                    *Math.pow(playerLevel,2)+b4VerticalShift);</span>
+        }
+<span class="nc" id="L108">        this.setCharacterLevel((int) enemyLevelGrowthRate);</span>
+<span class="nc" id="L109">    }</span>
+
+    /**
+     * sets the focus of the enemy - physical XOR magical.
+     */
+    private void setEnemyType(){
+<span class="nc" id="L115">        boolean physicalBased = rand.nextBoolean();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        boolean magicalBased = !physicalBased;</span>
+<span class="nc" id="L117">        this.setPhysicalType(physicalBased);</span>
+<span class="nc" id="L118">        this.setMagicType(magicalBased);</span>
+<span class="nc" id="L119">    }</span>
+    /**
+     * Sets the attacks of this enemy from the available move pool.
+     */
+    private void setAttacks() {
+<span class="nc" id="L124">        List&lt;Attack&gt; attackPool = Attack.getMovePool(this.getCharacterLevel(),</span>
+<span class="nc" id="L125">                this.isPhysicalType());</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        for(int x = 1; x&lt;=this.getAttackSlotCount(); x++) {</span>
+<span class="nc" id="L127">            this.setAttackSlot(attackPool.get(rand.nextInt(attackPool.size())),</span>
+                    x);
+        }
+<span class="nc" id="L130">    }</span>
+
+    /**
+     * Sets the items of this enemy from the available item pool.
+     *
+     */
+    private void setItems() {
+<span class="nc" id="L137">        List&lt;Item&gt; itemPool = Item.getItemPool(this.getCharacterLevel());</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        for(int x = 1; x&lt;=this.getItemSlotCount(); x++) {</span>
+<span class="nc" id="L139">            this.setItemSlot(itemPool.get(rand.nextInt(itemPool.size())), x);</span>
+        }
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * Returns the enemy's name.
+     * @return the enemy's name
+     */
+    public String getEnemyName() {
+<span class="nc" id="L148">        return enemyName;</span>
+    }
+
+    /**
+     * Returns the amount of experience given for defeat.
+     * @return the amount of experience given for defeat
+     */
+    public double getExperienceGiven() {
+<span class="nc" id="L156">        return experienceGiven;</span>
+    }
+
+    /**
+     * Returns the gold given for a defeat.
+     * @return the gold given for a defeat
+     */
+    public double getGoldGiven() {
+<span class="nc" id="L164">        return goldGiven;</span>
+    }
+
+    /**
+     * Returns the String representation of Enemy
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L172">        return this.getEnemyName();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LevelUpState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">display</a> &gt; <span class="el_source">LevelUpState.java</span></div><h1>LevelUpState.java</h1><pre class="source lang-java linenums">package display;
+
+import characters.Attack;
+import characters.Player;
+
+import javax.swing.JOptionPane;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Heals the player and adjusts the move pool
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
+public class LevelUpState extends UIStates{
+    /**
+     * This State is activated when a player levels up
+     * Heals the player and adjusts the move pool
+     * @param playerCharacter the player to level up
+     */
+<span class="nc" id="L21">    public LevelUpState(Player playerCharacter) {</span>
+<span class="nc" id="L22">        outputMessage(&quot;You leveled up&quot;);</span>
+        //This condition checks that the move pool changed in size
+        //before making the user rebuild the move pool.
+<span class="nc" id="L25">        if(Attack.getMovePool(playerCharacter.getCharacterLevel()-1,</span>
+<span class="nc" id="L26">                playerCharacter.isPhysicalType()).size()</span>
+<span class="nc" id="L27">            != Attack.getMovePool(playerCharacter.getCharacterLevel(),</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                playerCharacter.isPhysicalType()).size()) {</span>
+            //This populates the attack pool list
+<span class="nc" id="L30">            List&lt;Attack&gt; attackPool = Attack.getMovePool(</span>
+<span class="nc" id="L31">                    playerCharacter.getCharacterLevel(),</span>
+<span class="nc" id="L32">                    playerCharacter.isPhysicalType());</span>
+            //minimize the number of attack placements
+<span class="nc" id="L34">            int maxSlot = (attackPool.size()</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                    &lt; playerCharacter.getAttackSlotCount())</span>
+<span class="nc" id="L36">                    ? attackPool.size() : playerCharacter.getAttackSlotCount();</span>
+
+<span class="nc" id="L38">            Collections.reverse(attackPool); //Put strongest on top</span>
+            //solicits a move for each attack slot
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            for (int y = 0; y &lt; maxSlot; y++) {</span>
+<span class="nc" id="L41">                String message = &quot;&quot;;</span>
+<span class="nc" id="L42">                message += (&quot;Select an attack for slot #&quot; + (y + 1) +&quot;\n&quot;)</span>
+<span class="nc" id="L43">                    +getAttackPoolList(attackPool);</span>
+<span class="nc" id="L44">                Attack input = null;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                while (input==null) {</span>
+<span class="nc" id="L46">                    getAttackPoolList(attackPool);</span>
+<span class="nc" id="L47">                    Attack[] attackArr = attackPool.toArray(new Attack[0]);</span>
+<span class="nc" id="L48">                    input = (Attack) JOptionPane.showInputDialog(</span>
+                            null, message, &quot;Choose Attack&quot;,
+                            JOptionPane.QUESTION_MESSAGE, null,
+                            attackArr, attackArr[0]);
+<span class="nc" id="L52">                }</span>
+<span class="nc" id="L53">                attackPool.remove(input);</span>
+            }
+        }
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * Lists all attacks and stats behind the attacks
+     * @return all attacks and stats
+     */
+    private String getAttackPoolList(List&lt;Attack&gt; attackPool) {
+        //This lists all attacks and stats behind the attacks
+<span class="nc" id="L64">        String message = &quot;&quot;;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int x = attackPool.size() - 1; x &gt;= 0; x--) {</span>
+<span class="nc" id="L66">            message += &quot;\n&quot; +attackPool.get(x).getAttackName() + &quot; | \t&quot;</span>
+                    + &quot; Physical Attack: &quot;
+<span class="nc" id="L68">                    + (int) attackPool.get(x).getMaxAttack() + &quot;\t&quot;</span>
+                    + &quot; Magical Attack: &quot;
+<span class="nc" id="L70">                    + (int) attackPool.get(x).getMaxMagicDamage() + &quot;\t&quot;</span>
+                    + &quot; Stamina Cost: &quot;
+<span class="nc" id="L72">                    + (int) attackPool.get(x).getStaminaCost() + &quot;\t&quot;</span>
+                    + &quot; Mana Cost: &quot;
+<span class="nc" id="L74">                    + (int) attackPool.get(x).getManaCost() + &quot;\n&quot;;</span>
+        }
+<span class="nc" id="L76">        return message;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

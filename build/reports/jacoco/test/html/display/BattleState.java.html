@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BattleState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">display</a> &gt; <span class="el_source">BattleState.java</span></div><h1>BattleState.java</h1><pre class="source lang-java linenums">package display;
+
+import characters.CharacterBase;
+import characters.Attack;
+
+import java.util.ArrayList;
+
+/**
+ * This class allows the two Battle states to share a generic
+ * method.
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
+<span class="nc" id="L14">public class BattleState extends UIStates{</span>
+    /**
+     * A method to damage a character.
+     * In this method especially the decorator class gets to shine.
+     * There is no need to separate the enemy and character damage
+     * @param character the character to be damaged
+     * @param attack the attack used
+     */
+    protected double doDamage(CharacterBase character, Attack attack) {
+<span class="nc" id="L23">        character.reduceHealth(attack.getMaxMagicDamage());</span>
+<span class="nc" id="L24">        character.reduceHealth(attack.getMaxAttack());</span>
+<span class="nc" id="L25">        double damage = attack.getMaxMagicDamage() + attack.getMaxAttack();</span>
+<span class="nc" id="L26">        return damage;</span>
+    }
+
+    /**
+     * This method returns a list of attacks available for characters
+     * to use. This again allows for the Decorator Class to shine
+     * @param character The character to inquire attacks
+     * @return the array of attacks available
+     */
+    protected Attack[] getCharacterAttacks(CharacterBase character) {
+<span class="nc" id="L36">        ArrayList&lt;Attack&gt; characterAttacks = new ArrayList&lt;Attack&gt;();</span>
+        Attack[] characterArr;
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for(int x = 0; x &lt; character.getAttackSlotCount(); x++) {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if(character.getAttackSlots(x)!=null) {</span>
+<span class="nc" id="L40">                characterAttacks.add(character.getAttackSlots(x));</span>
+            }
+        }
+<span class="nc" id="L43">        characterArr = characterAttacks.toArray(new Attack[0]);</span>
+<span class="nc" id="L44">        return characterArr;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FloorState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">display</a> &gt; <span class="el_source">FloorState.java</span></div><h1>FloorState.java</h1><pre class="source lang-java linenums">package display;
+
+import characters.Enemy;
+import characters.Player;
+
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
+/**
+ * This state generates and hosts list of floor enemies
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
+public class FloorState extends UIStates{
+    private final Enemy[] enemies;
+    private static final int MAX_ENEMIES = 5;
+
+    /**
+     * Initiates the floor state of the FSM.
+     * Generates an array of enemies, displays them and
+     * solicits user to fight one.
+     * Moves to Victory state, a new Battle state, or a new floor
+     * @param playerCharacter the player character
+     */
+<span class="nc" id="L25">    public FloorState(Player playerCharacter) {</span>
+<span class="nc" id="L26">        int enemyCount = getRandomInt(MAX_ENEMIES-2) + 2;</span>
+<span class="nc" id="L27">        enemies = new Enemy[enemyCount];</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        for(int x = 0; x &lt; enemyCount; x++) {</span>
+<span class="nc" id="L29">            enemies[x] = new Enemy(playerCharacter.getCharacterLevel(),</span>
+<span class="nc" id="L30">                    playerCharacter.getPlayerDifficulty(),</span>
+<span class="nc" id="L31">                    playerCharacter.getGoldBonus());</span>
+        }
+<span class="nc" id="L33">        chooseEnemy(playerCharacter);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if(playerCharacter.getGold()&gt;GOLD_GOAL) {</span>
+<span class="nc" id="L35">            new VictoryState(playerCharacter);</span>
+        } else {
+<span class="nc" id="L37">            new FloorState(playerCharacter);</span>
+        }
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * Solicits users to select which alive enemy they want.
+     */
+    private void chooseEnemy(Player playerCharacter) {
+<span class="nc" id="L45">        int choiceNumber = 0;</span>
+<span class="nc" id="L46">        ArrayList&lt;Enemy&gt; enemyList = new ArrayList&lt;Enemy&gt;();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (Enemy enemy : enemies) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (enemy.getHealthPoints() &gt; 0) {</span>
+<span class="nc" id="L49">                enemyList.add(enemy);</span>
+            }
+        }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if(enemyList.size()==0) {</span>
+<span class="nc" id="L53">            new FloorState(playerCharacter);</span>
+        } else {
+<span class="nc" id="L55">            Enemy[] enemyArr = enemyList.toArray(new Enemy[0]);</span>
+<span class="nc" id="L56">            String message = &quot;Which do you want to face first?\n&quot;;</span>
+<span class="nc" id="L57">            message += listEnemy(playerCharacter);</span>
+
+<span class="nc" id="L59">            Enemy input = (Enemy) JOptionPane.showInputDialog(null, message,</span>
+                    &quot;Choose Class&quot;, JOptionPane.QUESTION_MESSAGE,
+                    null, enemyArr, enemyArr[0]);
+
+<span class="nc" id="L63">            new PlayerBattleState(playerCharacter, input);</span>
+<span class="nc" id="L64">            chooseEnemy(playerCharacter);</span>
+        }
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * Lists all enemies that are alive on the floor.
+     */
+    public String listEnemy(Player playerCharacter) {
+<span class="nc" id="L72">        String message = playerCharacter.getPlayerName() + &quot; Stats: \n&quot;;</span>
+<span class="nc" id="L73">        message += getPlayerInfo(playerCharacter);</span>
+<span class="nc" id="L74">        message += &quot; Gold: &quot; + (int) playerCharacter.getGold()+&quot;\n\n&quot;;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (int x = 0; x &lt; enemies.length; x++) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if(enemies[x].getHealthPoints()&gt;0) {</span>
+<span class="nc" id="L77">                message += enemies[x].getEnemyName()</span>
+<span class="nc" id="L78">                        + &quot; - Health: &quot; + (int) enemies[x].getHealthPoints()</span>
+<span class="nc" id="L79">                        + &quot; / &quot; + (int) enemies[x].getHealthCap() + &quot;\n&quot;;</span>
+            }
+        }
+<span class="nc" id="L82">        return message;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package characters;
+
+
+/**
+ * {@code @Author} Ryan Dinaro
+ * @version 6/29/2023
+ * This class represents a player.
+ */
+public class Player extends CharacterBase {
+
+
+<span class="nc" id="L12">    private int gold = 0;</span>
+<span class="nc" id="L13">    private double experiencePoints = 0;</span>
+    private boolean currentType;
+<span class="nc" id="L15">    private String playerName = &quot;&quot;;</span>
+    private final double healthBonus;
+    private final double manaBonus;
+    private final double staminaBonus;
+    private final double goldBonus;
+    private final PlayerClasses playerClass;
+    private double playerDifficulty;
+
+    /**
+     * This initializes a player with the class specification
+     *
+     * @param classes the player class
+     */
+<span class="nc" id="L28">    public Player(PlayerClasses classes) {</span>
+<span class="nc" id="L29">        this.setAttackSlot(Attack.getMovePool(1,</span>
+<span class="nc" id="L30">                this.isPhysicalType()).get(0),1);</span>
+<span class="nc" id="L31">        this.playerClass = classes;</span>
+<span class="nc" id="L32">        this.goldBonus = classes.getGoldBonus();</span>
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        if(classes.getHealthBonus()&lt;1||classes.getHealthBonus()&gt;2</span>
+<span class="nc bnc" id="L34" title="All 4 branches missed.">                ||classes.getManaBonus()&lt;1||classes.getManaBonus()&gt;2</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">                ||classes.getStaminaBonus()&lt;1||classes.getStaminaBonus()&gt;2) {</span>
+<span class="nc" id="L36">            throw new IllegalArgumentException(&quot;Invalid arguments&quot;);</span>
+        }
+<span class="nc" id="L38">        this.healthBonus = classes.getHealthBonus();</span>
+<span class="nc" id="L39">        this.manaBonus = classes.getManaBonus();</span>
+<span class="nc" id="L40">        this.staminaBonus = classes.getStaminaBonus();</span>
+<span class="nc" id="L41">    }</span>
+
+    /**
+     * Add gold to PLayers account.
+     * @param goldGained the amount gained
+     * @return the balance of player gold
+     */
+    public double addGold(double goldGained){
+<span class="nc" id="L49">        this.gold += goldGained;</span>
+<span class="nc" id="L50">        return this.gold;</span>
+    }
+
+    /**
+     * Remove gold from player account.
+     * @param goldLost the amount of gold lost
+     * @return the balance of player gold
+     */
+    public double removeGold(int goldLost){
+<span class="nc" id="L59">        this.gold -= goldLost;</span>
+<span class="nc" id="L60">        return this.gold;</span>
+    }
+
+    /**
+     * Return the gold amount of the character
+     * @return gold banked
+     */
+    public double getGold() {
+<span class="nc" id="L68">        return gold;</span>
+    }
+
+    /**
+     * Adds experience to players account.
+     *
+     * @param experiencePoints the amount of experience to be added
+     */
+    public void addExperience(double experiencePoints){
+<span class="nc" id="L77">        this.experiencePoints += experiencePoints;</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * Returns the experience needed to level up.
+     * @return the experience needed to level up
+     */
+    public double getExperienceCap() {
+<span class="nc" id="L85">        final double curvatureCoefficient = .1;</span>
+<span class="nc" id="L86">        final double verticalShift = 20;</span>
+<span class="nc" id="L87">        double experienceToLevelFormula = curvatureCoefficient</span>
+<span class="nc" id="L88">                * Math.pow(this.getCharacterLevel(),2) + verticalShift;</span>
+<span class="nc" id="L89">        return experienceToLevelFormula;</span>
+    }
+
+    /**
+     * Check if player can level up.
+     * @return if leveled up
+     */
+    public boolean levelUp() {
+<span class="nc" id="L97">        boolean flag = false;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if(getExperienceCap()&lt;=experiencePoints) {</span>
+<span class="nc" id="L99">            flag = true;</span>
+<span class="nc" id="L100">            experiencePoints-=getExperienceCap();</span>
+<span class="nc" id="L101">            setCharacterLevel(getCharacterLevel()+1);</span>
+<span class="nc" id="L102">            this.setStatCaps(healthBonus, manaBonus, staminaBonus);</span>
+        }
+        /*
+         * Swap type learned every battle to effectively randomize
+         * attack learned for mixed classes
+         */
+<span class="nc bnc" id="L108" title="All 4 branches missed.">        if(isMagicType()&amp;&amp;isPhysicalType()) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            currentType = !currentType;</span>
+        }
+<span class="nc" id="L111">        return flag;</span>
+    }
+
+    /**
+     * Sets the player name to the argument.
+     * @param playerName the player name
+     */
+    public void setPlayerName(String playerName) {
+<span class="nc" id="L119">        this.playerName = playerName;</span>
+<span class="nc" id="L120">    }</span>
+    /**
+     * Returns the players name.
+     * @return player name
+     */
+    public String getPlayerName() {
+<span class="nc" id="L126">        return this.playerName;</span>
+    }
+
+    /**
+     * Returns the gold bonus.
+     * @return the gold bonus
+     */
+    public double getGoldBonus() {
+<span class="nc" id="L134">        return goldBonus;</span>
+    }
+
+    /**
+     * Retrieves the player class.
+     * @return the player class
+     */
+    public PlayerClasses getPlayerClass() {
+<span class="nc" id="L142">        return playerClass;</span>
+    }
+
+    /**
+     * Sets the difficulty level
+     * @param difficulty the difficulty level
+     */
+    public void setDifficulty(double difficulty) {
+<span class="nc" id="L150">        this.playerDifficulty = difficulty;</span>
+<span class="nc" id="L151">    }</span>
+
+    /**
+     * Returns the player difficulty
+     * @return the player difficulty
+     */
+    public double getPlayerDifficulty() {
+<span class="nc" id="L158">        return this.playerDifficulty;</span>
+    }
+
+    /**
+     * Returns the experience points in bank
+     * @return the experience points in bank
+     */
+    public double getExperiencePoints() {
+<span class="nc" id="L166">        return experiencePoints;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

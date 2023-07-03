@@ -1,0 +1,2 @@
+C:\RPG\build\classes\java\test\CharacterBaseTest.class
+C:\RPG\build\classes\java\test\EnemyTest.class

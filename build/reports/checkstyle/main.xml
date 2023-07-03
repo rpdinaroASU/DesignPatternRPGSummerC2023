@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.42">
+<file name="C:\RPG\src\main\java\characters\Attack.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\Character.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\CharacterBase.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\Enemy.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\EnemyName.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\Player.java">
+</file>
+<file name="C:\RPG\src\main\java\characters\PlayerClasses.java">
+</file>
+<file name="C:\RPG\src\main\java\display\BattleState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\DeathState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\EnemyBattleState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\FloorState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\HealState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\IntroState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\LevelUpState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\PlayerBattleState.java">
+</file>
+<file name="C:\RPG\src\main\java\display\UIStates.java">
+</file>
+<file name="C:\RPG\src\main\java\display\VictoryState.java">
+</file>
+<file name="C:\RPG\src\main\java\util\LaunchGame.java">
+</file>
+<file name="C:\RPG\src\main\java\util\Main.java">
+</file>
+</checkstyle>

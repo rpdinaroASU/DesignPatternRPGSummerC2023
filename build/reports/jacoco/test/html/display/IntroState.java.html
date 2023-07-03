@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntroState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">display</a> &gt; <span class="el_source">IntroState.java</span></div><h1>IntroState.java</h1><pre class="source lang-java linenums">package display;
+
+import characters.Player;
+import characters.PlayerClasses;
+
+import javax.swing.JSlider;
+import javax.swing.JOptionPane;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+
+/**
+ * This is the initial state of the FSM
+ * @author Ryan Dinaro
+ * @version 7/1/2023
+ */
+public class IntroState extends UIStates{
+<span class="nc" id="L19">    private static String name = &quot;&quot;;</span>
+    private Player player;
+
+    /**
+     * Starting state of FSM
+     */
+    public IntroState() {
+<span class="nc" id="L26">        super();</span>
+<span class="nc" id="L27">        displayScene();</span>
+<span class="nc" id="L28">    }</span>
+
+    /**
+     * Displays the intro scene. Moves to Floor State after execution
+     */
+    public void displayScene() {
+<span class="nc" id="L34">        String message = &quot;You've heard tales of the dungeon \n&quot;</span>
+                + &quot;at the center of town since you were a child. \n&quot;
+                + &quot;Legends of warriors searching for a bottom,\n&quot;
+                + &quot;always to return with untold riches and relics; \n&quot;
+                + &quot;few have returned none have ever found the bottom. \n&quot;;
+<span class="nc" id="L39">        outputMessage(message);</span>
+<span class="nc" id="L40">        message = &quot;You awaken the morning expecting all to be well.\n&quot;</span>
+                + &quot;You find a knife stuck to the door with a \n&quot;
+                + &quot;a note attached.\n&quot;;
+<span class="nc" id="L43">        outputMessage(message);</span>
+<span class="nc" id="L44">        message =  &quot;\&quot;We have your mother.\nPay 1,000,000 coins\n&quot;</span>
+                + &quot;or say goodbye\&quot;\n&quot;;
+<span class="nc" id="L46">        outputMessage(message);</span>
+<span class="nc" id="L47">        message = &quot;Out of desperation your gaze turns to the dungeon. \n&quot;</span>
+                + &quot;There is no depth to your desperation.\n&quot;
+                + &quot;There is no question.\nYou will save your mom.\n&quot;;
+<span class="nc" id="L50">        outputMessage(message);</span>
+<span class="nc" id="L51">        message = &quot;A guard stands before you at the \n&quot;</span>
+                + &quot;entrance to the dungeon.\n&quot;
+                + &quot;\&quot;Halt who approaches this cursed place.\&quot;\n&quot;;
+<span class="nc" id="L54">        outputMessage(message);</span>
+<span class="nc" id="L55">        getWarriorsName();</span>
+<span class="nc" id="L56">        message = &quot;\&quot;&quot; + name + &quot; ehh. what business do \n&quot;</span>
+                +  &quot;you have in this place?\&quot; \n&quot;;
+<span class="nc" id="L58">        outputMessage(message);</span>
+<span class="nc" id="L59">        message =  &quot;You explain the predicament you found yourself in.\n&quot;</span>
+                + &quot;As you speak the shadows longed and the look on \n&quot;
+                + &quot;their face steadily deepens. \n&quot;;
+<span class="nc" id="L62">        outputMessage(message);</span>
+<span class="nc" id="L63">        message = &quot;\&quot;&quot; + name + &quot; as it stands, you have no hope.\n&quot;</span>
+                + &quot;The people who come through this dungeon do not return. \n&quot;
+                + &quot;But your situation concerns me deeply.\&quot;\n&quot;;
+<span class="nc" id="L66">        outputMessage(message);</span>
+<span class="nc" id="L67">        message = &quot;\&quot;I will let you in on a secret though.\n&quot;</span>
+                + &quot;The ones who come back commit themselves to one \n&quot;
+                + &quot;discipline.\&quot;\n&quot;;
+<span class="nc" id="L70">        outputMessage(message);</span>
+<span class="nc" id="L71">        message = &quot;\&quot;The discipline of warriors.\&quot;&quot;;</span>
+<span class="nc" id="L72">        outputMessage(message);</span>
+<span class="nc" id="L73">        message = &quot;The way of the warrior - strong in health and stamina\n&quot;</span>
+                + &quot;The way of the thief - rich and healthy\n&quot;
+                + &quot;The way of the witch - magical and intelligent\n&quot;
+                + &quot;The way of the battlemage - well rounded\n&quot;
+                + &quot;The way of the Paladin - &quot;
+                + &quot;a righteous balance between health, &quot;
+                + &quot;magic, and stamina with a touch of divine favor.\n&quot;
+                + &quot;The way of the Ranger - physically robust and a master of &quot;
+                + &quot;survival with a knack for treasure hunting.\n&quot;
+                + &quot;The way of the Necromancer - a beacon of dark magic with an&quot;
+                + &quot;uncanny sense for gold and treasures.\n&quot;
+                + &quot;The way of the Monk - a perfect blend of physical might, &quot;
+                + &quot;inner magic, and a mindful presence.&quot;;
+<span class="nc" id="L86">        getWarriorsClass(message);</span>
+<span class="nc" id="L87">        player.setPlayerName(name);</span>
+<span class="nc" id="L88">        message = &quot;\&quot;Ah, the way of the &quot;</span>
+<span class="nc" id="L89">                + player.getPlayerClass().name() + &quot;.\n&quot;</span>
+                + &quot;\nYou might have a chance. \&quot;\n&quot;;
+<span class="nc" id="L91">        outputMessage(message);</span>
+<span class="nc" id="L92">        message = &quot;\&quot;Enter now, lest your heart fails you.\&quot; They said\n&quot;</span>
+                + &quot;They opened the door and gave you a final look \n&quot;
+                + &quot;as you close the door on them.\n&quot;;
+<span class="nc" id="L95">        outputMessage(message);</span>
+<span class="nc" id="L96">        message = &quot;You are now in the dungeons.\n&quot;;</span>
+<span class="nc" id="L97">        getDifficultyLevel();</span>
+<span class="nc" id="L98">        outputMessage(message);</span>
+<span class="nc" id="L99">        new FloorState(player);</span>
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Solicits the name of the player
+     */
+    private void getWarriorsName() {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        while(name.length()==0) {</span>
+<span class="nc" id="L107">            name = inputScan(&quot;What is the name of your fighter&quot;);</span>
+        }
+<span class="nc" id="L109">    }</span>
+
+    /**
+     * Solicits and parses the difficulty level.
+     * On a scale from 1 to 10
+     */
+    private void getDifficultyLevel() {
+<span class="nc" id="L116">        String message = &quot;How difficult do you want this journey?\n&quot;</span>
+                + &quot;(1-10) 1 is a hard journey, 10 is impossible&quot;;
+<span class="nc" id="L118">        final int lowerBoundsDifficulty = 1;</span>
+<span class="nc" id="L119">        final int upperBoundsDifficulty = 10;</span>
+<span class="nc" id="L120">        int difficulty = 0;</span>
+
+<span class="nc" id="L122">        JSlider slider = new JSlider(JSlider.HORIZONTAL, lowerBoundsDifficulty,</span>
+                upperBoundsDifficulty, lowerBoundsDifficulty);
+<span class="nc" id="L124">        slider.setMajorTickSpacing(1);</span>
+<span class="nc" id="L125">        slider.setPaintTicks(true);</span>
+<span class="nc" id="L126">        slider.setPaintLabels(true);</span>
+
+<span class="nc" id="L128">        JPanel panel = new JPanel();</span>
+<span class="nc" id="L129">        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));</span>
+<span class="nc" id="L130">        panel.add(new JLabel(&quot;How difficult do you want this journey? &quot;</span>
+                + &quot;\n(1-10) 1 is a hard journey, 10 is impossible&quot;));
+<span class="nc" id="L132">        panel.add(slider);</span>
+
+<span class="nc" id="L134">        JOptionPane optionPane = new JOptionPane(panel,</span>
+                JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+<span class="nc" id="L136">        JDialog dialog = optionPane.createDialog(&quot;Choose Difficulty&quot;);</span>
+<span class="nc" id="L137">        dialog.setVisible(true);</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (optionPane.getValue() != null</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                &amp;&amp; (int) optionPane.getValue() == JOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L141">            difficulty = slider.getValue();</span>
+        } else {
+<span class="nc" id="L143">            Runtime.getRuntime().exit(0);</span>
+        }
+
+<span class="nc" id="L146">        outputMessage(&quot;So it is decided, &quot; + difficulty + &quot; difficulty&quot;);</span>
+<span class="nc" id="L147">        double scaledDifficulty = 1</span>
+                + (((double) difficulty)/upperBoundsDifficulty);
+<span class="nc" id="L149">        player.setDifficulty(scaledDifficulty);</span>
+<span class="nc" id="L150">        player.setStatCaps(player.getPlayerClass().getHealthBonus(),</span>
+<span class="nc" id="L151">                player.getPlayerClass().getManaBonus(),</span>
+<span class="nc" id="L152">                player.getPlayerClass().getStaminaBonus());</span>
+<span class="nc" id="L153">    }</span>
+
+    /**
+     * Lists and solicits the player classes
+     */
+    private void getWarriorsClass(String message) {
+<span class="nc" id="L159">        PlayerClasses[] choices = PlayerClasses.values();</span>
+
+<span class="nc" id="L161">        PlayerClasses playerClass = (PlayerClasses)</span>
+<span class="nc" id="L162">                JOptionPane.showInputDialog(null, message,</span>
+                &quot;Choose Class&quot;, JOptionPane.QUESTION_MESSAGE,
+                        null, choices, choices[0]);
+
+<span class="nc" id="L166">        player = new Player(playerClass);</span>
+<span class="nc" id="L167">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CharacterBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">CharacterBase.java</span></div><h1>CharacterBase.java</h1><pre class="source lang-java linenums">package characters;
+
+/**
+ * {@code @Author} Ryan Dinaro
+ * @version 6/30
+ * This class represents a base character archetype.
+ */
+public class CharacterBase implements Character{
+<span class="nc" id="L9">    private double healthPoints = 0;</span>
+<span class="nc" id="L10">    private double manaStored = 0;</span>
+<span class="nc" id="L11">    private double healthCap = 0;</span>
+<span class="nc" id="L12">    private double manaCap = 0;</span>
+<span class="nc" id="L13">    private double staminaCap = 0;</span>
+<span class="nc" id="L14">    private double staminaStored = 0;</span>
+<span class="nc" id="L15">    private int characterLevel = 1;</span>
+    private static final int ITEMSLOTCOUNT = 3;
+    private static final int ATTACKSLOTCOUNT = 4;
+<span class="nc" id="L18">    private final Item[] itemSlots = new Item[ITEMSLOTCOUNT];</span>
+<span class="nc" id="L19">    private final Attack[] attackSlots = new Attack[ATTACKSLOTCOUNT];</span>
+    private boolean magicType;
+    private boolean physicalType;
+
+    /**
+     * This default constructor creates an empty object to be modified.
+     */
+<span class="nc" id="L26">    public CharacterBase() {};</span>
+
+    /**
+     * This constructor initiates a CharacterBase object with stat caps.
+     * @param healthCap Maximum health a Player can have
+     * @param manaCap Maximum mana a Player can have
+     * @param staminaCap Maximum stamina a Player can have
+     */
+    public CharacterBase(double healthCap, double manaCap,
+<span class="nc" id="L35">                         double staminaCap) throws IllegalArgumentException {</span>
+<span class="nc bnc" id="L36" title="All 6 branches missed.">        if(healthCap &lt; 0 || manaCap &lt; 0 || staminaCap &lt; 0) {</span>
+<span class="nc" id="L37">            throw new IllegalArgumentException(&quot;All values must be positive&quot;);</span>
+        }
+<span class="nc" id="L39">        this.healthCap = healthCap;</span>
+<span class="nc" id="L40">        this.manaCap = manaCap;</span>
+<span class="nc" id="L41">        this.staminaCap = staminaCap;</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * reduces the health by a specified amount.
+     * @param damage the damage taken
+     * @return the current health
+     */
+    @Override
+    public double reduceHealth(double damage) throws IllegalArgumentException {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(damage&lt;0) {</span>
+<span class="nc" id="L52">            throw new IllegalArgumentException(&quot;Damage cannot be less than 0&quot;);</span>
+        }
+<span class="nc" id="L54">        healthPoints -= damage;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(healthPoints&lt;0) {</span>
+<span class="nc" id="L56">            healthPoints = 0;</span>
+        }
+<span class="nc" id="L58">        return healthPoints;</span>
+    }
+
+    /**
+     * Reduce mana by specified amount.
+     * @param actionCost the cost of the spell
+     * @return the current mana
+     */
+    @Override
+    public double reduceMana(double actionCost) {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(actionCost&lt;0) {</span>
+<span class="nc" id="L69">            String message = &quot;Mana cost cannot be less than 0&quot;;</span>
+<span class="nc" id="L70">            throw new IllegalArgumentException(message);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        } else if(actionCost&gt;manaStored) {</span>
+<span class="nc" id="L72">            String message = &quot;Mana cannot cost more than mana stored&quot;;</span>
+<span class="nc" id="L73">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L75">        manaStored -= actionCost;</span>
+<span class="nc" id="L76">        return manaStored;</span>
+    }
+
+    /**
+     * Reduce the stamina by the specified amount.
+     * @param actionCost the cost of the action
+     * @return the current stamina
+     */
+    @Override
+    public double reduceStamina(double actionCost) {
+        String message;
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if(actionCost&lt;0) {</span>
+<span class="nc" id="L88">            message = &quot;Stamina cost cannot be less than 0&quot;;</span>
+<span class="nc" id="L89">            throw new IllegalArgumentException(message);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        } else if(actionCost&gt;staminaStored) {</span>
+<span class="nc" id="L91">            message = &quot;Stamina cannot cost more than stamina stored&quot;;</span>
+<span class="nc" id="L92">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L94">        staminaStored -= actionCost;</span>
+<span class="nc" id="L95">        return staminaStored;</span>
+    }
+
+    /**
+     * Returns the item in the slot number.
+     * @param slotNumber the slot number being retrieved
+     * @return the item in the item slot
+     */
+    @Override
+    public Item getItemSlots(int slotNumber) throws IllegalArgumentException {
+<span class="nc bnc" id="L105" title="All 4 branches missed.">        if(slotNumber &gt;= ITEMSLOTCOUNT</span>
+                ||slotNumber &lt; 0) {
+<span class="nc" id="L107">            String message = &quot;You only have &quot; + ITEMSLOTCOUNT</span>
+                    + &quot; slots. Pick a number between 1 - &quot;
+                    + ITEMSLOTCOUNT + &quot;.&quot;;
+<span class="nc" id="L110">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L112">        return itemSlots[slotNumber];</span>
+    }
+
+    /**
+     * Return the attack in the attack slot.
+     * @param slotNumber the slot number being retrieved
+     * @return the attack in the attack slot
+     */
+    @Override
+    public Attack getAttackSlots(int slotNumber)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L123" title="All 4 branches missed.">        if(slotNumber &gt;= ATTACKSLOTCOUNT</span>
+            || slotNumber &lt; 0) {
+<span class="nc" id="L125">            String message = &quot;You only have &quot; + ATTACKSLOTCOUNT</span>
+                    + &quot; slots. You picked &quot; + slotNumber
+                    + &quot;Pick a number between 1 - &quot;
+                    + ATTACKSLOTCOUNT + &quot;.&quot;;
+<span class="nc" id="L129">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L131">        return attackSlots[slotNumber];</span>
+    }
+
+    /**
+     * set the slot to the item specified.
+     * @param item the item to set
+     * @param slotNumber the slot to set it too
+     */
+    @Override
+    public void setItemSlot(Item item, int slotNumber)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L142" title="All 4 branches missed.">        if(slotNumber-1 &gt;= ITEMSLOTCOUNT</span>
+        || slotNumber-1 &lt; 0) {
+<span class="nc" id="L144">            String message = &quot;You only have &quot; + ITEMSLOTCOUNT</span>
+                    + &quot; slots. Pick a number between 1 - &quot;
+                    + ITEMSLOTCOUNT + &quot;.&quot;;
+<span class="nc" id="L147">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L149">        itemSlots[slotNumber-1] = item;</span>
+<span class="nc" id="L150">    }</span>
+
+    /**
+     * set the attack slot to the attack specified.
+     * @param attack The attack being set
+     * @param slotNumber The slot the attack is to be assigned
+     */
+    @Override
+    public void setAttackSlot(Attack attack, int slotNumber)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(slotNumber-1&gt;= ATTACKSLOTCOUNT) {</span>
+<span class="nc" id="L161">            String message = &quot;You only have &quot; + ATTACKSLOTCOUNT</span>
+            + &quot; slots. Pick a number between 1 - &quot; + ATTACKSLOTCOUNT + &quot;.&quot;;
+<span class="nc" id="L163">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L165">        attackSlots[slotNumber-1] = attack;</span>
+<span class="nc" id="L166">    }</span>
+
+    /**
+     * Returns the health cap.
+     * @return the health cap of the character
+     */
+    @Override
+    public double getHealthCap() {
+<span class="nc" id="L174">        return healthCap;</span>
+    }
+
+    /**
+     * sets the characters stats based on level.
+     * Uses formulas to make a round last a few turns
+     * @throws IllegalArgumentException if level is invalid
+     */
+    @Override
+    public void setStatCaps(double healthBonus, double manaBonus,
+                            double staminaBonus)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if(characterLevel &lt; 1) {</span>
+<span class="nc" id="L187">            throw new IllegalArgumentException(&quot;Level &quot;</span>
+                    + &quot;must be greater than 0&quot;);
+        }
+<span class="nc" id="L190">        final double curvatureCoefficient = .047;</span>
+<span class="nc" id="L191">        final double shiftHorizontal = 50;</span>
+<span class="nc" id="L192">        final double exponent = 2;</span>
+<span class="nc" id="L193">        final double healthShiftVertical = 110;</span>
+<span class="nc" id="L194">        this.healthCap = Math.round(healthBonus*Math.round(curvatureCoefficient</span>
+<span class="nc" id="L195">                * Math.pow(this.getCharacterLevel()+shiftHorizontal,</span>
+                        exponent)-healthShiftVertical));
+<span class="nc" id="L197">        final double manaShiftVertical = 50;</span>
+<span class="nc" id="L198">        this.manaCap = Math.round(manaBonus*this.getCharacterLevel()</span>
+                +manaShiftVertical);
+<span class="nc" id="L200">        final double staminaShiftVertical = 50;</span>
+<span class="nc" id="L201">        this.staminaCap = Math.round(staminaBonus*this.getCharacterLevel()</span>
+                + staminaShiftVertical);
+<span class="nc" id="L203">        heal();</span>
+<span class="nc" id="L204">    }</span>
+
+
+
+    /**
+     * Heals the player to full health.
+     * Used after a floor is cleared and level ups.
+     */
+    @Override
+    public void heal() {
+<span class="nc" id="L214">        this.healthPoints = this.healthCap;</span>
+<span class="nc" id="L215">        this.manaStored = this.manaCap;</span>
+<span class="nc" id="L216">        this.staminaStored = this.staminaCap;</span>
+<span class="nc" id="L217">    }</span>
+
+    /**
+     * Returns the mana cap.
+     * @return the mana cap of the character
+     */
+    @Override
+    public double getManaCap() {
+<span class="nc" id="L225">        return manaCap;</span>
+    }
+
+
+    /**
+     * Returns the stamina cap.
+     * @return the stamina cap of the character
+     */
+    @Override
+    public double getStaminaCap() {
+<span class="nc" id="L235">        return staminaCap;</span>
+    }
+
+
+    /**
+     * The level of the character.
+     * @return the level of the character
+     */
+    @Override
+    public int getCharacterLevel() {
+<span class="nc" id="L245">        return characterLevel;</span>
+    }
+
+    /**
+     * Sets the level of the character.
+     * @param characterLevel the level of the character
+     */
+    @Override
+    public void setCharacterLevel(int characterLevel)
+            throws IllegalArgumentException {
+<span class="nc bnc" id="L255" title="All 2 branches missed.">        if(characterLevel &lt;= 0) {</span>
+<span class="nc" id="L256">            String message = &quot;Character's level is too low, must be over 0&quot;;</span>
+<span class="nc" id="L257">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L259">        this.characterLevel = characterLevel;</span>
+<span class="nc" id="L260">    }</span>
+
+    /**
+     * Returns true if physical type.
+     * @return if physical type
+     */
+    @Override
+    public boolean isPhysicalType(){
+<span class="nc" id="L268">        return physicalType;</span>
+    }
+
+    /**
+     * Returns true if magic type.
+     * @return if magic type
+     */
+    @Override
+    public boolean isMagicType() {
+<span class="nc" id="L277">        return magicType;</span>
+    }
+
+    /**
+     * Sets the magic type.
+     * @param magicType the magic type
+     */
+    @Override
+    public void setMagicType(boolean magicType) {
+<span class="nc" id="L286">        this.magicType = magicType;</span>
+<span class="nc" id="L287">    }</span>
+
+    /**
+     * Sets physical type.
+     * @param physicalType the physical type
+     */
+    @Override
+    public void setPhysicalType(boolean physicalType) {
+<span class="nc" id="L295">        this.physicalType = physicalType;</span>
+<span class="nc" id="L296">    }</span>
+
+    /**
+     * Returns the number of item slots.
+     * @return the number of item slots
+     */
+    @Override
+    public int getItemSlotCount() {
+<span class="nc" id="L304">        return ITEMSLOTCOUNT;</span>
+    }
+
+    /**
+     * Returns the number of attack slots.
+     * @return Returns the number of attack slots
+     */
+    @Override
+    public int getAttackSlotCount() {
+<span class="nc" id="L313">        return ATTACKSLOTCOUNT;</span>
+    }
+
+    /**
+     * Returns the current health
+     * @return the current health
+     */
+    @Override
+    public double getHealthPoints() {
+<span class="nc" id="L322">        return healthPoints;</span>
+    }
+
+    /**
+     * Sets the current health
+     * @param healthPoints the current health
+     */
+    @Override
+    public void setHealthPoints(double healthPoints) {
+<span class="nc" id="L331">        this.healthPoints = healthPoints;</span>
+<span class="nc" id="L332">    }</span>
+
+    /**
+     * Returns the current mana
+     * @return the current mana
+     */
+    @Override
+    public double getManaPoints() {
+<span class="nc" id="L340">        return manaStored;</span>
+    }
+
+    /**
+     * Sets the current health
+     * @param manaPoints the current health
+     */
+    @Override
+    public void setManaPoints(double manaPoints) {
+<span class="nc" id="L349">        this.manaStored = manaPoints;</span>
+<span class="nc" id="L350">    }</span>
+    /**
+     * Returns the current stamina
+     * @return the current stamina
+     */
+    @Override
+    public double getStaminaPoints() {
+<span class="nc" id="L357">        return staminaStored;</span>
+    }
+
+    /**
+     * Sets the current stamina
+     * @param staminaPoints the current stamina
+     */
+    @Override
+    public void setStaminaPoints(double staminaPoints) {
+<span class="nc" id="L366">        this.staminaStored = staminaPoints;</span>
+<span class="nc" id="L367">    }</span>
+
+    /**
+     * Returns how many attacks are in the slot
+     * @return how many attacks are in the slot
+     */
+    public int getMoveCount() {
+<span class="nc" id="L374">        int moveCount = 0;</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">        for(int x = 0; x &lt; ATTACKSLOTCOUNT; x++) {</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">            if(this.getAttackSlots(x) !=null) {</span>
+<span class="nc" id="L377">                moveCount++;</span>
+            }
+        }
+<span class="nc" id="L380">        return moveCount;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

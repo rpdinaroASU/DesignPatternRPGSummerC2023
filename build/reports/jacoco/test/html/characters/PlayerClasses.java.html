@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerClasses.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RPG</a> &gt; <a href="index.source.html" class="el_package">characters</a> &gt; <span class="el_source">PlayerClasses.java</span></div><h1>PlayerClasses.java</h1><pre class="source lang-java linenums">package characters;
+
+<span class="nc" id="L3">public enum PlayerClasses {</span>
+<span class="nc" id="L4">    Warrior(1.5,1,1.5,1, true, false),</span>
+<span class="nc" id="L5">    Thief(1.5,1,1,1.5, true, false),</span>
+<span class="nc" id="L6">    Witch(1.5,1.5,1,1, false, true),</span>
+<span class="nc" id="L7">    Battlemage(1.25,1.25,1.25,1.25, true, true),</span>
+<span class="nc" id="L8">    Paladin(1.35,1.1,1.4,1.15, true, true),</span>
+<span class="nc" id="L9">    Ranger(1.4,1.05,1.35,1.2, true, false),</span>
+<span class="nc" id="L10">    Necromancer(1.1,1.5,1.15,1.25, false, true),</span>
+<span class="nc" id="L11">    Monk(1.3,1.2,1.35,1.15, true, false);</span>
+    private final double healthBonus;
+    private final double manaBonus;
+    private final double staminaBonus;
+    private final double goldBonus;
+    private final boolean isPhysical;
+    private final boolean isMagical;
+
+    /**
+     * A player class
+     * @param healthBonus the bonus of health
+     * @param manaBonus the bonus of mana
+     * @param staminaBonus the bonus of stamina
+     * @param goldBonus the bonus of gold
+     * @param isPhysical if a physical class
+     * @param isMagical if a magical class
+     */
+    PlayerClasses(double healthBonus, double manaBonus, double staminaBonus,
+<span class="nc" id="L29">                  double goldBonus, boolean isPhysical, boolean isMagical) {</span>
+
+<span class="nc" id="L31">        this.healthBonus = healthBonus;</span>
+<span class="nc" id="L32">        this.manaBonus = manaBonus;</span>
+<span class="nc" id="L33">        this.staminaBonus = staminaBonus;</span>
+<span class="nc" id="L34">        this.goldBonus = goldBonus;</span>
+<span class="nc" id="L35">        this.isPhysical = isPhysical;</span>
+<span class="nc" id="L36">        this.isMagical = isMagical;</span>
+<span class="nc" id="L37">    }</span>
+
+    /**
+     * Returns the health bonus
+     * @return the health bonus
+     */
+    public double getHealthBonus() {
+<span class="nc" id="L44">        return healthBonus;</span>
+    }
+
+    /**
+     * Returns the mana bonus
+     * @return the mana bonus
+     */
+    public double getManaBonus() {
+<span class="nc" id="L52">        return manaBonus;</span>
+    }
+
+    /**
+     * Returns the stamina bonus
+     * @return the stamina bonus
+     */
+    public double getStaminaBonus() {
+<span class="nc" id="L60">        return staminaBonus;</span>
+    }
+
+    /**
+     * Returns the gold bonus
+     * @return the gold bonus
+     */
+    public double getGoldBonus() {
+<span class="nc" id="L68">        return goldBonus;</span>
+    }
+
+    /**
+     * Returns true if physical class
+     * @return true if physical class
+     */
+    public boolean isPhysical() {
+<span class="nc" id="L76">        return isPhysical;</span>
+    }
+
+    /**
+     * Returns true if magical class
+     * @return true if magical class
+     */
+    public boolean isMagical() {
+<span class="nc" id="L84">        return isMagical;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
